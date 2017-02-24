@@ -1,0 +1,11 @@
+# Maven
+**/log/
+**/target/
+
+# Eclipse
+**/.settings/
+**/.project
+**/.classpath
+
+# Californium
+**/Californium.properties

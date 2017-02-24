@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.thk.rdw</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>endpoint-server-osgi</artifactId>
+	<packaging>bundle</packaging>
+
+	<name>RDW Endpoint Server OSGi Bundle</name>
+	<description>Server that registers device resources in a resource directory and provides access to the device driver</description>
+
+	<properties>
+		<bundle.activator>de.thk.rdw.endpoint.server.osgi.EndpointServerActivator</bundle.activator>
+	</properties>
+
+	<dependencies>
+		<!-- ENDPOINT-DEVICE-OSGI -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>endpoint-device-osgi</artifactId>
+		</dependency>
+		<!-- CALIFORNIUM-OSGI -->
+		<dependency>
+			<groupId>org.eclipse.californium</groupId>
+			<artifactId>californium-osgi</artifactId>
+		</dependency>
+		<!-- ORG.ECLIPSE.OSGI -->
+		<dependency>
+			<groupId>org.eclipse.osgi</groupId>
+			<artifactId>org.eclipse.osgi</artifactId>
+		</dependency>
+		<!-- JUNIT -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- MAVEN-BUNDLE-PLUGIN -->
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<configuration>
+					<instructions>
+						<Bundle-Activator>${bundle.activator}</Bundle-Activator>
+					</instructions>
+				</configuration>
+			</plugin>
+			<!-- MAVEN-DEPENDENCY-PLUGIN -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

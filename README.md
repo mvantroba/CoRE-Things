@@ -1,1 +1,1 @@
-# resource-directory-workbench
+# Resource Directory Workbench

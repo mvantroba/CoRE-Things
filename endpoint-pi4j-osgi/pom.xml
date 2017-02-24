@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.thk.rdw</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>endpoint-pi4j-osgi</artifactId>
+	<packaging>bundle</packaging>
+
+	<name>RDW Endpoint Pi4J OSGi Bundle</name>
+	<description>Driver that operates sensors and actuators on a Raspberry Pi using Pi4J</description>
+
+	<properties>
+		<bundle.activator>de.thk.rdw.endpoint.pi4j.osgi.EndpointPi4jActivator</bundle.activator>
+	</properties>
+
+	<dependencies>
+		<!-- ENDPOINT-DEVICE-OSGI -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>endpoint-device-osgi</artifactId>
+		</dependency>
+		<!-- ORG.ECLIPSE.OSGI -->
+		<dependency>
+			<groupId>org.eclipse.osgi</groupId>
+			<artifactId>org.eclipse.osgi</artifactId>
+		</dependency>
+		<!-- PI4J-CORE -->
+		<dependency>
+			<groupId>com.pi4j</groupId>
+			<artifactId>pi4j-core</artifactId>
+		</dependency>
+		<!-- JUNIT -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- MAVEN-BUNDLE-PLUGIN -->
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<configuration>
+					<instructions>
+						<Bundle-Activator>${bundle.activator}</Bundle-Activator>
+					</instructions>
+				</configuration>
+			</plugin>
+			<!-- MAVEN-DEPENDENCY-PLUGIN -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

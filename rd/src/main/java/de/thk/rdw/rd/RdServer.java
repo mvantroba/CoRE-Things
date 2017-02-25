@@ -1,18 +1,21 @@
 package de.thk.rdw.rd;
 
-import org.eclipse.californium.core.CoapResource;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+
 import org.eclipse.californium.core.CoapServer;
-import org.eclipse.californium.core.server.resources.CoapExchange;
+import org.eclipse.californium.core.coap.CoAP;
+import org.eclipse.californium.core.network.CoapEndpoint;
+import org.eclipse.californium.core.network.EndpointManager;
 
 public class RdServer extends CoapServer {
 
 	public RdServer() {
-		add(new CoapResource("test") {
-
-			@Override
-			public void handleGET(CoapExchange exchange) {
-				exchange.respond("Hello World!");
+		// Bind endpoints to each network interface.
+		for (InetAddress address : EndpointManager.getEndpointManager().getNetworkInterfaces()) {
+			if (!address.isLinkLocalAddress()) {
+				this.addEndpoint(new CoapEndpoint(new InetSocketAddress(address, CoAP.DEFAULT_COAP_PORT)));
 			}
-		});
+		}
 	}
 }

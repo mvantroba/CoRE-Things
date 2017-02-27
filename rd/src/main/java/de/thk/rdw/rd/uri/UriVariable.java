@@ -1,5 +1,8 @@
 package de.thk.rdw.rd.uri;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.eclipse.californium.core.coap.CoAP;
 import org.eclipse.californium.core.coap.LinkFormat;
 
@@ -37,7 +40,12 @@ public enum UriVariable {
 
 		@Override
 		public void validate(String value) {
-			// TODO Auto-generated method stub
+			int maxLength = 63;
+			int length = value.getBytes(CoAP.UTF8_CHARSET).length;
+			if (length > maxLength) {
+				throw new IllegalArgumentException(String.format(
+						"Endpoint type too long. Max length: %d bytes. Received: %d bytes.", maxLength, length));
+			}
 		}
 	}), LIFE_TIME(LinkFormat.LIFE_TIME, new UriVariableValidator() {
 
@@ -59,7 +67,11 @@ public enum UriVariable {
 
 		@Override
 		public void validate(String value) {
-			// TODO Auto-generated method stub
+			try {
+				new URI(value);
+			} catch (URISyntaxException e) {
+				throw new IllegalArgumentException(String.format("Context has invalid syntax. Received: %s.", value));
+			}
 		}
 	});
 

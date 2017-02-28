@@ -1,6 +1,8 @@
 package de.thk.rdw.rd.resources;
 
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.californium.core.CoapResource;
 
@@ -8,16 +10,29 @@ import de.thk.rdw.rd.uri.UriVariable;
 
 public class EndpointResource extends CoapResource {
 
-	private String domain;
+	private static final Logger LOGGER = Logger.getLogger(EndpointResource.class.getName());
+
+	private String domain = "local";
 	private String endpointType;
-	private Long lifetime;
+	private Long lifetime = 86400L; // 24 Hours
 	private String context;
 
 	public EndpointResource(Map<UriVariable, String> variables) {
 		super(variables.get(UriVariable.END_POINT));
-		this.domain = variables.get(UriVariable.DOMAIN);
+		if (variables.get(UriVariable.DOMAIN) != null) {
+			this.domain = variables.get(UriVariable.DOMAIN);
+		}
+		updateVariables(variables);
+	}
+
+	public void updateVariables(Map<UriVariable, String> variables) {
+		try {
+			this.lifetime = Long.parseLong(variables.get(UriVariable.LIFE_TIME));
+		} catch (NumberFormatException e) {
+			LOGGER.log(Level.WARNING, "Could not parse lifetime value \"{0}\" to Long. Enforcing default value: {1}.",
+					new Object[] { variables.get(UriVariable.LIFE_TIME), lifetime });
+		}
 		this.endpointType = variables.get(UriVariable.END_POINT_TYPE);
-		this.lifetime = Long.parseLong(variables.get(UriVariable.LIFE_TIME));
 		this.context = variables.get(UriVariable.CONTEXT);
 	}
 
@@ -31,31 +46,15 @@ public class EndpointResource extends CoapResource {
 		return domain;
 	}
 
-	public void setDomain(String domain) {
-		this.domain = domain;
-	}
-
 	public String getEndpointType() {
 		return endpointType;
-	}
-
-	public void setEndpointType(String endpointType) {
-		this.endpointType = endpointType;
 	}
 
 	public Long getLifetime() {
 		return lifetime;
 	}
 
-	public void setLifetime(Long lifetime) {
-		this.lifetime = lifetime;
-	}
-
 	public String getContext() {
 		return context;
-	}
-
-	public void setContext(String context) {
-		this.context = context;
 	}
 }

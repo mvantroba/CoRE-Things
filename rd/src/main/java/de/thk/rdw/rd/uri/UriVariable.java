@@ -8,13 +8,7 @@ import org.eclipse.californium.core.coap.LinkFormat;
 
 public enum UriVariable {
 
-	RD("rd", new UriVariableValidator() {
-
-		@Override
-		public void validate(String value) {
-			// TODO Auto-generated method stub
-		}
-	}), END_POINT(LinkFormat.END_POINT, new UriVariableValidator() {
+	END_POINT(LinkFormat.END_POINT, new UriVariableValidator() {
 
 		@Override
 		public void validate(String value) {

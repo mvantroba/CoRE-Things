@@ -23,9 +23,8 @@ public class RdResource extends CoapResource {
 	private static final Logger LOGGER = Logger.getLogger(RdResource.class.getName());
 
 	public RdResource() {
-		super(UriVariable.RD.getName());
-		// TODO Research if it is necessary to add "core.rd" resource type to
-		// this resource.
+		super("rd");
+		getAttributes().addResourceType("core.rd");
 	}
 
 	@Override
@@ -100,6 +99,7 @@ public class RdResource extends CoapResource {
 		URI uri;
 		if (context != null) {
 			try {
+				// Uri at which the server is available.
 				uri = new URI(context);
 				scheme = uri.getScheme();
 				host = uri.getHost();
@@ -108,6 +108,8 @@ public class RdResource extends CoapResource {
 				LOGGER.log(Level.WARNING, e.getMessage());
 			}
 		}
+		// If the context parameter is not in the request, source scheme, host
+		// and port are assumed.
 		scheme = scheme != null ? scheme : getSchemeFromRequest(request);
 		host = host != null ? host : request.getSource().getHostAddress();
 		port = port > 0 ? port : request.getSourcePort();

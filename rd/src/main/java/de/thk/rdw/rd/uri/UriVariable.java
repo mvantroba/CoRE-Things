@@ -85,7 +85,7 @@ public enum UriVariable {
 	public static UriVariable getByName(String name) {
 		UriVariable result = null;
 		for (UriVariable variable : UriVariable.values()) {
-			if (variable.getName().equals(name)) {
+			if (variable.getName().equalsIgnoreCase(name)) {
 				result = variable;
 			}
 		}

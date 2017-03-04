@@ -67,6 +67,17 @@ public enum UriVariable {
 				throw new IllegalArgumentException(String.format("Context has invalid syntax. Received: %s.", value));
 			}
 		}
+	}), GROUP("gp", new UriVariableValidator() {
+
+		@Override
+		public void validate(String value) {
+			int maxLength = 63;
+			int length = value.getBytes(CoAP.UTF8_CHARSET).length;
+			if (length > maxLength) {
+				throw new IllegalArgumentException(String
+						.format("Group name too long. Max length: %d bytes. Received: %d bytes.", maxLength, length));
+			}
+		}
 	});
 
 	private String name;

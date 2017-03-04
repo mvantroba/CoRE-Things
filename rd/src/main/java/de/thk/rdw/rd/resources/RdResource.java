@@ -46,11 +46,13 @@ public class RdResource extends CoapResource {
 			// Check if the endpoint is already registered.
 			if (existingEndpoint == null) {
 				add(newEndpoint);
+				newEndpoint.updateResources(exchange.advanced().getRequest().getPayloadString());
 				response = new Response(ResponseCode.CREATED);
 				exchange.setLocationPath(newEndpoint.getURI());
 				LOGGER.log(Level.INFO, "Added new endpoint: {0}.", new Object[] { newEndpoint.toString() });
 			} else {
 				existingEndpoint.updateVariables(variables);
+				existingEndpoint.updateResources(exchange.advanced().getRequest().getPayloadString());
 				response = new Response(ResponseCode.CHANGED);
 				exchange.setLocationPath(existingEndpoint.getURI());
 				LOGGER.log(Level.INFO, "Updated endpoint: {0}.", new Object[] { existingEndpoint.toString() });
@@ -70,7 +72,9 @@ public class RdResource extends CoapResource {
 		String endpointType = variables.get(UriVariable.END_POINT_TYPE);
 		String lifetime = variables.get(UriVariable.LIFE_TIME);
 		String context = variables.get(UriVariable.CONTEXT);
-		result.put(UriVariable.END_POINT, validateVariable(UriVariable.END_POINT, endpoint));
+		if (endpoint != null) {
+			result.put(UriVariable.END_POINT, validateVariable(UriVariable.END_POINT, endpoint));
+		}
 		result.put(UriVariable.DOMAIN, validateVariable(UriVariable.DOMAIN, domain));
 		result.put(UriVariable.END_POINT_TYPE, validateVariable(UriVariable.END_POINT_TYPE, endpointType));
 		result.put(UriVariable.LIFE_TIME, validateVariable(UriVariable.LIFE_TIME, lifetime));

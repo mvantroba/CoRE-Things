@@ -1,6 +1,8 @@
 package de.thk.rdw.rd.resources;
 
 import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -9,8 +11,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.californium.core.CoapResource;
+import org.eclipse.californium.core.WebLink;
 import org.eclipse.californium.core.coap.CoAP.ResponseCode;
+import org.eclipse.californium.core.coap.LinkFormat;
 import org.eclipse.californium.core.server.resources.CoapExchange;
+import org.eclipse.californium.core.server.resources.Resource;
 
 import de.thk.rdw.rd.uri.UriVariable;
 
@@ -33,6 +38,30 @@ public class EndpointResource extends CoapResource {
 		}
 		this.endpointType = variables.get(UriVariable.END_POINT_TYPE);
 		updateVariables(variables);
+	}
+
+	@Override
+	public void handleGET(CoapExchange exchange) {
+		// TODO Dont include rd and this resource in the payload.
+		String payload = LinkFormat.serializeTree(this);
+		exchange.respond(payload);
+	}
+
+	@Override
+	public void handleDELETE(CoapExchange exchange) {
+		delete();
+		exchange.respond(ResponseCode.DELETED);
+	}
+
+	@Override
+	public synchronized void delete() {
+		// Cancel scheduled deletion which would be triggered after the lifetime
+		// expires.
+		if (scheduledFuture != null) {
+			scheduledFuture.cancel(true);
+		}
+		super.delete();
+		LOGGER.log(Level.INFO, "Deleted endpoint: {0}.", new Object[] { this.toString() });
 	}
 
 	/**
@@ -59,30 +88,49 @@ public class EndpointResource extends CoapResource {
 		this.context = variables.get(UriVariable.CONTEXT);
 	}
 
+	public void updateResources(String linkFormat) {
+		Set<WebLink> links = LinkFormat.parse(linkFormat);
+		String resourceName;
+		String uri;
+		Scanner uriScanner = null;
+		CoapResource resource = this;
+		CoapResource childResource = null;
+		for (WebLink link : links) {
+			uri = link.getURI();
+			uriScanner = new Scanner(uri).useDelimiter("/");
+			while (uriScanner.hasNext()) {
+				resourceName = uriScanner.next();
+				for (Resource existingChildResource : resource.getChildren()) {
+					if (existingChildResource.getName().equals(resourceName)) {
+						childResource = (CoapResource) existingChildResource;
+					}
+				}
+				if (childResource == null) {
+					childResource = new CoapResource(resourceName);
+					resource.add(childResource);
+				}
+				resource = childResource;
+				childResource = null;
+			}
+			for (String attr : link.getAttributes().getAttributeKeySet()) {
+				for (String value : link.getAttributes().getAttributeValues(attr)) {
+					resource.getAttributes().addAttribute(attr, value);
+				}
+			}
+			resource = this;
+		}
+		if (uriScanner != null) {
+			uriScanner.close();
+		}
+	}
+
 	@Override
 	public String toString() {
 		return " [name=" + getName() + ", domain=" + domain + ", endpointType=" + endpointType + ", lifetime="
 				+ lifetime + ", context=" + context + "]";
 	}
 
-	@Override
-	public void handleDELETE(CoapExchange exchange) {
-		delete();
-		exchange.respond(ResponseCode.DELETED);
-	}
-
-	@Override
-	public synchronized void delete() {
-		// Cancel scheduled deletion which would be triggered after the lifetime
-		// expires.
-		if (scheduledFuture != null) {
-			scheduledFuture.cancel(true);
-		}
-		super.delete();
-		LOGGER.log(Level.INFO, "Deleted endpoint: {0}.", new Object[] { this.toString() });
-	}
-
-	public void updateLifetime(Long lifetime) {
+	private void updateLifetime(Long lifetime) {
 		if (lifetime != null) {
 			this.lifetime = lifetime;
 			if (scheduledFuture != null) {

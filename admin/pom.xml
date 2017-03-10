@@ -23,6 +23,16 @@
 	</properties>
 
 	<dependencies>
+		<!-- CALIFORNIUM-CORE -->
+		<dependency>
+			<groupId>org.eclipse.californium</groupId>
+			<artifactId>californium-core</artifactId>
+		</dependency>
+		<!-- CONTROLSFX -->
+		<dependency>
+			<groupId>org.controlsfx</groupId>
+			<artifactId>controlsfx</artifactId>
+		</dependency>
 		<!-- JUNIT -->
 		<dependency>
 			<groupId>junit</groupId>

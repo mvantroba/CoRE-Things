@@ -16,7 +16,7 @@ public class AdminApplication extends Application {
 
 	private static final Logger LOGGER = Logger.getLogger(AdminApplication.class.getName());
 
-	private static final String BUNDLE_BASE_NAME = "bundle";
+	private static final String BUNDLE_BASE_NAME = "i18n/bundle";
 
 	private Stage primaryStage;
 	private BorderPane rootLayout;

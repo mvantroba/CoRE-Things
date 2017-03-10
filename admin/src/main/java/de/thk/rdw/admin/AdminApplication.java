@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.thk.rdw.admin.controller.ManageController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -52,8 +53,10 @@ public class AdminApplication extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(AdminApplication.class.getResource("/fxml/Manage.fxml"));
 			loader.setResources(ResourceBundle.getBundle(BUNDLE_BASE_NAME));
-			VBox resourceDirectory = loader.load();
-			rootLayout.setCenter(resourceDirectory);
+			VBox manageLayout = loader.load();
+			ManageController controller = loader.getController();
+			controller.setPrimaryStage(primaryStage);
+			rootLayout.setCenter(manageLayout);
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, e.getMessage(), e);
 		}

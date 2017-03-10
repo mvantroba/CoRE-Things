@@ -53,3 +53,9 @@
 	-fx-background-color: #bdbdbd;
 	-fx-padding: 4.0px 16.0px;
 }
+
+.text-field-error {
+	-fx-control-inner-background: #ffebee;
+	-fx-text-box-border: red ;
+	-fx-focus-color: red ;
+}

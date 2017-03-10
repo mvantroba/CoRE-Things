@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -10,14 +11,32 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox styleClass="container-sub" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<VBox styleClass="container-sub" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.ManageController">
 	<children>
 		<HBox styleClass="target" VBox.vgrow="NEVER">
 			<children>
-				<TextField HBox.hgrow="ALWAYS" />
+            <ChoiceBox fx:id="scheme" prefWidth="64.0" HBox.hgrow="NEVER" />
+            <Label text="://">
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
+            </Label>
+            <TextField fx:id="host" prefWidth="256.0" promptText="%field.prompt.host" />
+            <Label text=":">
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
+            </Label>
+            <TextField fx:id="port" prefHeight="25.0" prefWidth="63.0" promptText="%field.prompt.port" />
+            <Label text="/">
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
+            </Label>
+				<TextField fx:id="variables" promptText="%field.prompt.variables" HBox.hgrow="ALWAYS" />
 				<ButtonBar HBox.hgrow="NEVER">
 					<buttons>
-						<Button defaultButton="true" mnemonicParsing="false" text="%button.discover" />
+						<Button defaultButton="true" mnemonicParsing="false" onAction="#onActionDiscover" text="%button.discover" />
 						<Button mnemonicParsing="false" text="%button.ping" />
 					</buttons>
 				</ButtonBar>

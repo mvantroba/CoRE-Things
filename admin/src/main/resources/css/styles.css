@@ -2,7 +2,11 @@
 	/* Color definitions */
 	color-primary: #ff9800;
 	
+	/* Global styles */
 	-fx-background: #e0e0e0;
+	-fx-default-button: color-primary;
+	-fx-focus-color: color-primary;
+	-fx-faint-focus-color: #ff980022; /* color-primary with low alpha */
 }
 
 .container-main {
@@ -17,12 +21,12 @@
 
 .menu-bar {
 	-fx-background-color: color-primary;
-	-fx-pref-height: 40.0px;
+	-fx-font-size: 14.0px;
 }
 
 .target {
 	-fx-background-color: #bdbdbd;
-	-fx-min-height: 40.0px;
+	-fx-padding: 8.0px 16.0px;
 }
 
 .card {
@@ -46,7 +50,6 @@
 }
 
 .footer {
-	-fx-pref-height: 24.0px;
-	-fx-background-color: #9e9e9e;
-	-fx-padding: 0.0px 16.0px 0.0px 16.0px;
+	-fx-background-color: #bdbdbd;
+	-fx-padding: 4.0px 16.0px;
 }

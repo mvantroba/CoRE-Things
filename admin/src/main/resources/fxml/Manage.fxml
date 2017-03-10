@@ -17,7 +17,7 @@
 				<TextField HBox.hgrow="ALWAYS" />
 				<ButtonBar HBox.hgrow="NEVER">
 					<buttons>
-						<Button mnemonicParsing="false" text="%button.discover" />
+						<Button defaultButton="true" mnemonicParsing="false" text="%button.discover" />
 						<Button mnemonicParsing="false" text="%button.ping" />
 					</buttons>
 				</ButtonBar>
@@ -65,6 +65,9 @@
                         <Button mnemonicParsing="false" text="%button.put" />
                         <Button mnemonicParsing="false" text="%button.delete" />
                     </buttons>
+                     <VBox.margin>
+                        <Insets bottom="8.0" top="8.0" />
+                     </VBox.margin>
                   </ButtonBar>
                   <VBox styleClass="card" VBox.vgrow="ALWAYS">
                      <children>
@@ -84,7 +87,6 @@
 		</HBox>
 		<VBox styleClass="card" VBox.vgrow="ALWAYS">
 			<children>
-				<Label styleClass="card-heading" text="%card.title.log" />
 				<TextArea VBox.vgrow="ALWAYS" />
 			</children>
          <VBox.margin>

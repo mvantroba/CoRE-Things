@@ -1,0 +1,52 @@
+.root {
+	/* Color definitions */
+	color-primary: #ff9800;
+	
+	-fx-background: #e0e0e0;
+}
+
+.container-main {
+	-fx-pref-width: 1024.0px;
+	-fx-pref-height: 576.0px;
+}
+
+.container-sub {
+	-fx-pref-width: 1024.0px;
+	-fx-pref-height: 514.0px;
+}
+
+.menu-bar {
+	-fx-background-color: color-primary;
+	-fx-pref-height: 40.0px;
+}
+
+.target {
+	-fx-background-color: #bdbdbd;
+	-fx-min-height: 40.0px;
+}
+
+.card {
+	-fx-background-color: #ffffff;
+}
+
+.card > .card-heading {
+	-fx-padding: 8.0px 0.0px 0.0px 8.0px;
+}
+
+.card > .text-area {
+	-fx-padding: 8.0px;
+	-fx-border-insets: 8.0px;
+	-fx-background-insets: 8.0px;
+}
+
+.card > .tree-view {
+	-fx-padding: 8.0px;
+	-fx-border-insets: 8.0px;
+	-fx-background-insets: 8.0px;
+}
+
+.footer {
+	-fx-pref-height: 24.0px;
+	-fx-background-color: #9e9e9e;
+	-fx-padding: 0.0px 16.0px 0.0px 16.0px;
+}

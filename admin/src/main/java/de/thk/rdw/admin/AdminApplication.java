@@ -1,19 +1,25 @@
 package de.thk.rdw.admin;
 
+import java.io.IOException;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class AdminApplication extends Application {
 
 	private static final Logger LOGGER = Logger.getLogger(AdminApplication.class.getName());
+
+	private static final String BUNDLE_BASE_NAME = "bundle";
+
+	private Stage primaryStage;
+	private BorderPane rootLayout;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -21,19 +27,35 @@ public class AdminApplication extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle("Resource Directory Admin");
-		Button button = new Button();
-		button.setText("Test Logger");
-		button.setOnAction(new EventHandler<ActionEvent>() {
+		this.primaryStage = primaryStage;
+		this.primaryStage.setTitle("Resource Directory Admin");
+		initRootLayout();
+		showManage();
+	}
 
-			@Override
-			public void handle(ActionEvent event) {
-				LOGGER.log(Level.INFO, "This is \"{0}\".", new Object[] { AdminApplication.class.getSimpleName() });
-			}
-		});
-		StackPane rootPane = new StackPane();
-		rootPane.getChildren().add(button);
-		primaryStage.setScene(new Scene(rootPane, 320, 180));
-		primaryStage.show();
+	private void initRootLayout() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(AdminApplication.class.getResource("view/Root.fxml"));
+			loader.setResources(ResourceBundle.getBundle(BUNDLE_BASE_NAME));
+			rootLayout = loader.load();
+			Scene scene = new Scene(rootLayout);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch (IOException e) {
+			LOGGER.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+
+	private void showManage() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(AdminApplication.class.getResource("view/Manage.fxml"));
+			loader.setResources(ResourceBundle.getBundle(BUNDLE_BASE_NAME));
+			VBox resourceDirectory = loader.load();
+			rootLayout.setCenter(resourceDirectory);
+		} catch (IOException e) {
+			LOGGER.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 }

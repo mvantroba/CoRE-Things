@@ -36,7 +36,7 @@ public class AdminApplication extends Application {
 	private void initRootLayout() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(AdminApplication.class.getResource("view/Root.fxml"));
+			loader.setLocation(AdminApplication.class.getResource("/fxml/Root.fxml"));
 			loader.setResources(ResourceBundle.getBundle(BUNDLE_BASE_NAME));
 			rootLayout = loader.load();
 			Scene scene = new Scene(rootLayout);
@@ -50,7 +50,7 @@ public class AdminApplication extends Application {
 	private void showManage() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(AdminApplication.class.getResource("view/Manage.fxml"));
+			loader.setLocation(AdminApplication.class.getResource("/fxml/Manage.fxml"));
 			loader.setResources(ResourceBundle.getBundle(BUNDLE_BASE_NAME));
 			VBox resourceDirectory = loader.load();
 			rootLayout.setCenter(resourceDirectory);

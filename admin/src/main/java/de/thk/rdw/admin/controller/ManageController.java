@@ -8,10 +8,13 @@ import org.eclipse.californium.core.coap.MessageObserverAdapter;
 import org.eclipse.californium.core.coap.Request;
 import org.eclipse.californium.core.coap.Response;
 
+import de.thk.rdw.admin.model.TreeItemResource;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
 
 public class ManageController {
@@ -30,6 +33,8 @@ public class ManageController {
 	private TextField port;
 	@FXML
 	private TextField variables;
+	@FXML
+	private TreeView<TreeItemResource> resourceTree;
 
 	@FXML
 	private void initialize() {
@@ -46,7 +51,14 @@ public class ManageController {
 
 			@Override
 			public void onResponse(Response response) {
-				LOGGER.log(Level.INFO, "Received response: \"{0}\".", response.toString());
+				LOGGER.log(Level.INFO, "Received response: \"{0}\".", response.getPayloadString());
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						populateTree(response);
+					}
+				});
 			}
 		});
 		LOGGER.log(Level.INFO, "Sending GET request to \"{0}\".", uri);
@@ -55,5 +67,9 @@ public class ManageController {
 
 	public void setPrimaryStage(Stage primaryStage) {
 		this.primaryStage = primaryStage;
+	}
+
+	private void populateTree(Response response) {
+		this.resourceTree.setRoot(TreeUtils.parseResources(response, false, true));
 	}
 }

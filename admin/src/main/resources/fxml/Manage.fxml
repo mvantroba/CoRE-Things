@@ -50,7 +50,7 @@
 				<VBox styleClass="card" HBox.hgrow="ALWAYS">
 					<children>
 						<Label styleClass="card-heading" text="%card.title.resources" VBox.vgrow="NEVER" />
-						<TreeView VBox.vgrow="ALWAYS" />
+						<TreeView fx:id="resourceTree" VBox.vgrow="ALWAYS" />
 					</children>
                <HBox.margin>
                   <Insets right="8.0" />

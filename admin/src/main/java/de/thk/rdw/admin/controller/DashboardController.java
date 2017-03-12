@@ -23,9 +23,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class ManageController {
+public class DashboardController {
 
-	private static final Logger LOGGER = Logger.getLogger(ManageController.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DashboardController.class.getName());
 
 	private static final String CLASS_FIELD_ERROR = "text-field-error";
 

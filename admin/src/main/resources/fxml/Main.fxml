@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox styleClass="container-main" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<VBox styleClass="container-main" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.MainController">
    <children>
       <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
         <tabs>
-          <Tab text="%menu.dashboard">
+          <Tab fx:id="dashboard" text="%menu.dashboard">
             <content>
               <AnchorPane />
             </content>

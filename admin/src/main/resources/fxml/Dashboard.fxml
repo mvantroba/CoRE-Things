@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox styleClass="container-sub" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.ManageController">
+<VBox styleClass="container-sub" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.DashboardController">
 	<children>
 		<HBox styleClass="target" VBox.vgrow="NEVER">
 			<children>

@@ -11,7 +11,11 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="%menu.manage">
+          <Menu mnemonicParsing="false" text="%menu.management">
+          </Menu>
+          <Menu mnemonicParsing="false" text="%menu.resourceDirectories">
+          </Menu>
+          <Menu mnemonicParsing="false" text="%menu.settings">
           </Menu>
           <Menu mnemonicParsing="false" text="%menu.help">
           </Menu>

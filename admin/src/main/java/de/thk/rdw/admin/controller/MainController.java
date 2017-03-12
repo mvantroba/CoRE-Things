@@ -16,6 +16,8 @@ public class MainController {
 	private static final Logger LOGGER = Logger.getLogger(MainController.class.getName());
 
 	@FXML
+	private ResourceBundle resources;
+	@FXML
 	private Tab dashboard;
 
 	@FXML
@@ -26,7 +28,7 @@ public class MainController {
 		try {
 			loader = new FXMLLoader();
 			loader.setLocation(MainController.class.getResource(path));
-			loader.setResources(ResourceBundle.getBundle(AdminApplication.BUNDLE_BASE_NAME));
+			loader.setResources(resources);
 			dashboardLayout = loader.load();
 			dashboard.setContent(dashboardLayout);
 		} catch (IOException e) {

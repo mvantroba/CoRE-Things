@@ -1,5 +1,7 @@
 package de.thk.rdw.admin.controller;
 
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,17 +22,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class DashboardController {
 
 	private static final Logger LOGGER = Logger.getLogger(DashboardController.class.getName());
 
-	private static final String CLASS_FIELD_ERROR = "text-field-error";
-
-	private Stage primaryStage;
-
+	@FXML
+	private ResourceBundle resources;
 	@FXML
 	private ChoiceBox<String> scheme;
 	@FXML
@@ -62,7 +61,6 @@ public class DashboardController {
 
 	@FXML
 	private void onActionDiscover() {
-		progress("Discovering resources...");
 		Request request = new Request(CoAP.Code.GET);
 		String uri = String.format("%s://%s:%s/.well-known/core", scheme.getValue(), host.getText(), port.getText());
 		request.setURI(uri);
@@ -75,18 +73,15 @@ public class DashboardController {
 
 					@Override
 					public void run() {
-						success("Discovery was successful.");
+						success("notification.discovery.success");
 						populateTree(response);
 					}
 				});
 			}
 		});
-		LOGGER.log(Level.INFO, "Sending GET request to \"{0}\".", uri);
+		LOGGER.log(Level.INFO, "Sending GET request to \"{0}\"...", uri);
 		request.send();
-	}
-
-	public void setPrimaryStage(Stage primaryStage) {
-		this.primaryStage = primaryStage;
+		spinner(resources.getString("notification.discovery.requestSent"));
 	}
 
 	@FXML
@@ -101,12 +96,12 @@ public class DashboardController {
 		notificationMessage.setText(message);
 	}
 
-	private void success(String message) {
+	private void success(String key) {
 		fadeIn.setNode(notificationArea);
 		fadeIn.playFromStart();
 		notificationArea.getStyleClass().set(2, "notification-success");
 		notificationIcon.getChildren().set(0, Icon.CHECK_CIRCLE_GREEN_36.getImageView());
-		notificationMessage.setText(message);
+		notificationMessage.setText(resources.getString(key));
 	}
 
 	private void error(String message) {
@@ -117,7 +112,11 @@ public class DashboardController {
 		notificationMessage.setText(message);
 	}
 
-	private void progress(String message) {
+	private void spinner(String pattern, Object... arguments) {
+		spinner(MessageFormat.format(pattern, arguments));
+	}
+
+	private void spinner(String message) {
 		fadeIn.setNode(notificationArea);
 		fadeIn.playFromStart();
 		notificationArea.getStyleClass().set(2, "notification-info");

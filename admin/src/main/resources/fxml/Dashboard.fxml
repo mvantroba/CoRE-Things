@@ -66,7 +66,7 @@
 						<Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
 					</HBox.margin>
 				</Pane>
-				<Label fx:id="notificationMessage" text="%notification.info.welcome">
+				<Label fx:id="notificationMessage" text="%notification.general.welcome">
 					<HBox.margin>
 						<Insets bottom="14.0" top="14.0" />
 					</HBox.margin></Label>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
@@ -8,7 +9,10 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox styleClass="container-sub" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.ManageController">
@@ -37,7 +41,7 @@
 				<ButtonBar HBox.hgrow="NEVER">
 					<buttons>
 						<Button defaultButton="true" mnemonicParsing="false" onAction="#onActionDiscover" text="%button.discover" />
-						<Button mnemonicParsing="false" text="%button.ping" />
+						<Button mnemonicParsing="false" onAction="#onActionPing" text="%button.ping" />
 					</buttons>
 				</ButtonBar>
 			</children>
@@ -45,6 +49,33 @@
             <Insets bottom="8.0" />
          </VBox.margin>
 		</HBox>
+		<HBox fx:id="notificationArea" VBox.vgrow="NEVER">
+         <VBox.margin>
+            <Insets left="16.0" right="16.0" />
+         </VBox.margin>
+         <children>
+            <Pane fx:id="notificationIcon">
+               <children>
+                  <ImageView pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/ic_info_blue_36x36.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
+               </HBox.margin>
+            </Pane>
+            <Label fx:id="notificationMessage" text="%notification.info.welcome">
+               <HBox.margin>
+                  <Insets bottom="14.0" top="14.0" />
+               </HBox.margin></Label>
+         </children>
+         <styleClass>
+            <String fx:value="notification" />
+            <String fx:value="notification-info" />
+         </styleClass>
+      </HBox>
 		<HBox VBox.vgrow="ALWAYS">
 			<children>
 				<VBox styleClass="card" HBox.hgrow="ALWAYS">
@@ -101,16 +132,8 @@
             </VBox>
 			</children>
          <VBox.margin>
-            <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
-         </VBox.margin>
-		</HBox>
-		<VBox styleClass="card" VBox.vgrow="ALWAYS">
-			<children>
-				<TextArea VBox.vgrow="ALWAYS" />
-			</children>
-         <VBox.margin>
             <Insets bottom="16.0" left="16.0" right="16.0" top="8.0" />
          </VBox.margin>
-		</VBox>
+		</HBox>
 	</children>
 </VBox>

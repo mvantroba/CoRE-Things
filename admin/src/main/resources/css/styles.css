@@ -59,3 +59,20 @@
 	-fx-text-box-border: red ;
 	-fx-focus-color: red ;
 }
+
+.notification {
+	-fx-background-color: #ffffff;
+	-fx-border-width: 2.0px 0.0px 0.0px 0.0px;
+}
+
+.notification-info {
+	-fx-border-color:  #2196f3; 
+}
+
+.notification-success {
+	-fx-border-color: #4caf50; 
+}
+
+.notification-error {
+	-fx-border-color: #f44336; 
+}

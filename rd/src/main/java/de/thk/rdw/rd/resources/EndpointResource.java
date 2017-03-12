@@ -37,6 +37,9 @@ public class EndpointResource extends CoapResource {
 			this.domain = variables.get(UriVariable.DOMAIN);
 		}
 		this.endpointType = variables.get(UriVariable.END_POINT_TYPE);
+		if (endpointType != null) {
+			getAttributes().addAttribute("et", endpointType);
+		}
 		updateVariables(variables);
 	}
 

@@ -7,7 +7,8 @@ import javafx.scene.image.ImageView;
 
 public enum Icon {
 
-	HOME_GREEN_LARGE("ic_home_green_96x96.png");
+	HOME_GREEN_24("ic_home_green_24x24.png"), INFO_BLUE_36("ic_info_blue_36x36.png"), CHECK_CIRCLE_GREEN_36(
+			"ic_check_circle_green_36x36.png"), ERROR_RED_36("ic_error_red_36x36.png");
 
 	private static final String DIRECTORY = "img";
 
@@ -24,19 +25,6 @@ public enum Icon {
 			result = new ImageView(new Image(inputStream));
 		}
 		return result;
-	}
-
-	public ImageView getImageView(double width, double height) {
-		ImageView result = getImageView();
-		if (result != null) {
-			result.setFitWidth(width);
-			result.setFitHeight(height);
-		}
-		return result;
-	}
-
-	public ImageView getImageView(double size) {
-		return getImageView(size, size);
 	}
 
 	private String getPath() {

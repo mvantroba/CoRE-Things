@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane styleClass="container-main" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="%menu.management">
-          </Menu>
-          <Menu mnemonicParsing="false" text="%menu.resourceDirectories">
-          </Menu>
-          <Menu mnemonicParsing="false" text="%menu.settings">
-          </Menu>
-          <Menu mnemonicParsing="false" text="%menu.help">
-          </Menu>
-        </menus>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-      </MenuBar>
-   </top>
-   <bottom>
-      <StackPane styleClass="footer" BorderPane.alignment="CENTER">
+<VBox styleClass="container-main" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+        <tabs>
+          <Tab text="%menu.dashboard">
+            <content>
+              <AnchorPane />
+            </content>
+          </Tab>
+          <Tab text="%menu.advanced">
+            <content>
+              <AnchorPane />
+            </content>
+          </Tab>
+          <Tab text="%menu.servers">
+            <content>
+              <AnchorPane />
+            </content>
+          </Tab>
+          <Tab text="%menu.settings">
+            <content>
+              <AnchorPane />
+            </content>
+          </Tab>
+          <Tab text="%menu.help">
+            <content>
+              <AnchorPane />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <StackPane styleClass="footer" VBox.vgrow="NEVER">
          <children>
-            <Label text="%organization.name" StackPane.alignment="CENTER_LEFT" />
+            <Label text="%project.organization.name" StackPane.alignment="CENTER_LEFT" />
             <Label text="%project.version" StackPane.alignment="CENTER_RIGHT" />
          </children>
       </StackPane>
-   </bottom>
-</BorderPane>
+   </children>
+</VBox>

@@ -19,9 +19,12 @@
 	-fx-pref-height: 514.0px;
 }
 
-.menu-bar {
+.tab-pane > .tab-header-area > .tab-header-background {
 	-fx-background-color: color-primary;
-	-fx-font-size: 14.0px;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
+    -fx-font-size: 14.0px;
 }
 
 .target {

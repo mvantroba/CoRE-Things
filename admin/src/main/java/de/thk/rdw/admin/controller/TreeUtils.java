@@ -8,7 +8,9 @@ import org.eclipse.californium.core.coap.LinkFormat;
 import org.eclipse.californium.core.coap.Response;
 
 import de.thk.rdw.admin.model.TreeItemResource;
+import javafx.scene.Node;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.ImageView;
 
 public class TreeUtils {
 
@@ -39,6 +41,12 @@ public class TreeUtils {
 				if (resource == null) {
 					resource = new TreeItem<>(new TreeItemResource(resourceName));
 					resource.setExpanded(true);
+					if (showIcons) {
+						resource.setGraphic(getGraphic(parent, link, resourceName));
+					}
+					if (parent.getValue().getName().equals("rd")) {
+						resource.setExpanded(false);
+					}
 					parent.getChildren().add(resource);
 				}
 				parent = resource;
@@ -46,6 +54,34 @@ public class TreeUtils {
 			parent = rootItem;
 			scanner.close();
 		}
+	}
+
+	// TODO Define resource types with icons globally and optimize this method.
+	private static Node getGraphic(TreeItem<TreeItemResource> parent, WebLink link, String resourceName) {
+		ImageView result = null;
+		if (link.getAttributes().containsAttribute("rt")
+				&& link.getAttributes().getAttributeValues("rt").contains("core.rd")) {
+			result = Icon.FOLDER_AMBER_24.getImageView();
+		} else if (link.getAttributes().containsAttribute("rt")
+				&& link.getAttributes().getAttributeValues("rt").contains("core.rd-group")) {
+			result = Icon.GROUP_WORK_GREY_24.getImageView();
+		} else if (link.getAttributes().containsAttribute("rt")
+				&& link.getAttributes().getAttributeValues("rt").contains("core.rd-lookup")) {
+			result = Icon.PAGEVIEW_GREY_24.getImageView();
+		} else if (resourceName.equals(".well-known")) {
+			result = Icon.PUBLIC_BLUE_24.getImageView();
+		} else if (parent.getValue().getName().equals("rd")) {
+			if (link.getAttributes().containsAttribute("et")
+					&& link.getAttributes().getAttributeValues("et").contains("raspberrypi")) {
+				result = Icon.RASPBERRY_24.getImageView();
+			} else if (link.getAttributes().containsAttribute("et")
+					&& link.getAttributes().getAttributeValues("et").contains("openhab")) {
+				result = Icon.OPENHAB_24.getImageView();
+			} else {
+				result = Icon.ENDPOINT_GREY_24.getImageView();
+			}
+		}
+		return result;
 	}
 
 	private static TreeItem<TreeItemResource> findChildResource(TreeItem<TreeItemResource> parent,

@@ -31,6 +31,7 @@
 
 .card {
 	-fx-background-color: #ffffff;
+	-fx-effect: dropshadow(two-pass-box , rgba(0.0, 0.0, 0.0, 0.2), 5.0, 0.1 , 0.0, 0.0);
 }
 
 .card > .card-heading {
@@ -58,6 +59,14 @@
 	-fx-control-inner-background: #ffebee;
 	-fx-text-box-border: red ;
 	-fx-focus-color: red ;
+}
+
+.tree-cell {
+	-fx-indent: 40.0;
+}
+
+.tree-cell > .tree-disclosure-node {
+	-fx-padding: 8.0px;
 }
 
 .notification {

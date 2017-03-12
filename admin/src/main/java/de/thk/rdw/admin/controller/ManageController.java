@@ -96,7 +96,7 @@ public class ManageController {
 	private void info(String message) {
 		fadeIn.setNode(notificationArea);
 		fadeIn.playFromStart();
-		notificationArea.getStyleClass().set(1, "notification-info");
+		notificationArea.getStyleClass().set(2, "notification-info");
 		notificationIcon.getChildren().set(0, Icon.INFO_BLUE_36.getImageView());
 		notificationMessage.setText(message);
 	}
@@ -104,7 +104,7 @@ public class ManageController {
 	private void success(String message) {
 		fadeIn.setNode(notificationArea);
 		fadeIn.playFromStart();
-		notificationArea.getStyleClass().set(1, "notification-success");
+		notificationArea.getStyleClass().set(2, "notification-success");
 		notificationIcon.getChildren().set(0, Icon.CHECK_CIRCLE_GREEN_36.getImageView());
 		notificationMessage.setText(message);
 	}
@@ -112,7 +112,7 @@ public class ManageController {
 	private void error(String message) {
 		fadeIn.setNode(notificationArea);
 		fadeIn.playFromStart();
-		notificationArea.getStyleClass().set(1, "notification-error");
+		notificationArea.getStyleClass().set(2, "notification-error");
 		notificationIcon.getChildren().set(0, Icon.ERROR_RED_36.getImageView());
 		notificationMessage.setText(message);
 	}
@@ -120,7 +120,7 @@ public class ManageController {
 	private void progress(String message) {
 		fadeIn.setNode(notificationArea);
 		fadeIn.playFromStart();
-		notificationArea.getStyleClass().set(1, "notification-info");
+		notificationArea.getStyleClass().set(2, "notification-info");
 		ProgressIndicator indicator = new ProgressIndicator();
 		indicator.setMaxWidth(notificationIcon.getWidth());
 		indicator.setMaxHeight(notificationIcon.getHeight());

@@ -7,42 +7,44 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox styleClass="container-main" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.MainController">
-   <children>
-      <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-        <tabs>
-          <Tab fx:id="dashboard" text="%menu.dashboard">
-            <content>
-              <AnchorPane />
-            </content>
-          </Tab>
-          <Tab text="%menu.advanced">
-            <content>
-              <AnchorPane />
-            </content>
-          </Tab>
-          <Tab text="%menu.servers">
-            <content>
-              <AnchorPane />
-            </content>
-          </Tab>
-          <Tab text="%menu.settings">
-            <content>
-              <AnchorPane />
-            </content>
-          </Tab>
-          <Tab text="%menu.help">
-            <content>
-              <AnchorPane />
-            </content>
-          </Tab>
-        </tabs>
-      </TabPane>
-      <StackPane styleClass="footer" VBox.vgrow="NEVER">
-         <children>
-            <Label text="%project.organization.name" StackPane.alignment="CENTER_LEFT" />
-            <Label text="%project.version" StackPane.alignment="CENTER_RIGHT" />
-         </children>
-      </StackPane>
-   </children>
+<VBox styleClass="container-main" stylesheets="@../css/styles.css"
+	xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="de.thk.rdw.admin.controller.MainController">
+	<children>
+		<TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+			<tabs>
+				<Tab fx:id="dashboard" text="%menu.dashboard">
+					<content>
+						<AnchorPane />
+					</content>
+				</Tab>
+				<Tab text="%menu.advanced">
+					<content>
+						<AnchorPane />
+					</content>
+				</Tab>
+				<Tab text="%menu.servers">
+					<content>
+						<AnchorPane />
+					</content>
+				</Tab>
+				<Tab text="%menu.settings">
+					<content>
+						<AnchorPane />
+					</content>
+				</Tab>
+				<Tab text="%menu.help">
+					<content>
+						<AnchorPane />
+					</content>
+				</Tab>
+			</tabs>
+		</TabPane>
+		<StackPane styleClass="footer" VBox.vgrow="NEVER">
+			<children>
+				<Label text="%project.organization.name" StackPane.alignment="CENTER_LEFT" />
+				<Label text="%project.version" StackPane.alignment="CENTER_RIGHT" />
+			</children>
+		</StackPane>
+	</children>
 </VBox>

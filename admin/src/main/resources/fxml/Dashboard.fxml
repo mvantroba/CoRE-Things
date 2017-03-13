@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -9,35 +7,24 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox styleClass="container-sub" xmlns="http://javafx.com/javafx/8.0.65"
-	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.DashboardController">
+<VBox xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="de.thk.rdw.admin.controller.DashboardController">
 	<children>
 		<HBox styleClass="target" VBox.vgrow="NEVER">
 			<children>
-				<ChoiceBox fx:id="scheme" prefWidth="64.0" HBox.hgrow="NEVER" />
-				<Label text="://">
-					<padding>
-						<Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
-					</padding>
+				<ChoiceBox fx:id="scheme" styleClass="scheme" HBox.hgrow="NEVER" />
+				<Label styleClass="separator" text="://">
 				</Label>
-				<TextField fx:id="host" prefWidth="256.0" promptText="%field.prompt.host" />
-				<Label text=":">
-					<padding>
-						<Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
-					</padding>
+				<TextField fx:id="host" promptText="%field.prompt.host"
+					styleClass="host" />
+				<Label styleClass="separator" text=":">
 				</Label>
-				<TextField fx:id="port" prefHeight="25.0" prefWidth="63.0"
-					promptText="%field.prompt.port" />
-				<Label text="/">
-					<padding>
-						<Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
-					</padding>
+				<TextField fx:id="port" promptText="%field.prompt.port"
+					styleClass="port" />
+				<Label styleClass="separator" text="/">
 				</Label>
 				<TextField fx:id="variables" promptText="%field.prompt.variables"
 					HBox.hgrow="ALWAYS" />
@@ -50,102 +37,57 @@
 					</buttons>
 				</ButtonBar>
 			</children>
-			<VBox.margin>
-				<Insets bottom="8.0" />
-			</VBox.margin>
 		</HBox>
-		<HBox fx:id="notificationArea" VBox.vgrow="NEVER">
-			<VBox.margin>
-				<Insets left="16.0" right="16.0" />
-			</VBox.margin>
+		<VBox styleClass="container-sub" VBox.vgrow="ALWAYS">
 			<children>
-				<Pane fx:id="notificationIcon">
+				<HBox fx:id="notificationContainer" VBox.vgrow="NEVER" />
+				<HBox VBox.vgrow="ALWAYS">
 					<children>
-						<ImageView pickOnBounds="true" preserveRatio="true">
-							<image>
-								<Image url="@../img/ic_info_blue_36x36.png" />
-							</image>
-						</ImageView>
-					</children>
-					<HBox.margin>
-						<Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
-					</HBox.margin>
-				</Pane>
-				<Label fx:id="notificationMessage" text="%notification.general.welcome">
-					<HBox.margin>
-						<Insets bottom="14.0" top="14.0" />
-					</HBox.margin>
-				</Label>
-			</children>
-			<styleClass>
-				<String fx:value="card" />
-				<String fx:value="notification" />
-				<String fx:value="notification-info" />
-			</styleClass>
-		</HBox>
-		<HBox VBox.vgrow="ALWAYS">
-			<children>
-				<VBox prefWidth="450.0" styleClass="card" HBox.hgrow="ALWAYS">
-					<children>
-						<Label styleClass="card-heading" text="%card.title.resources"
-							VBox.vgrow="NEVER" />
-						<TreeView fx:id="resourceTree" VBox.vgrow="ALWAYS" />
-					</children>
-					<HBox.margin>
-						<Insets right="8.0" />
-					</HBox.margin>
-				</VBox>
-				<VBox styleClass="card" HBox.hgrow="ALWAYS">
-					<children>
-						<Label styleClass="card-heading" text="%card.title.details"
-							VBox.vgrow="NEVER">
-						</Label>
-						<TextArea VBox.vgrow="ALWAYS">
-							<VBox.margin>
-								<Insets />
-							</VBox.margin>
-						</TextArea>
-					</children>
-					<HBox.margin>
-						<Insets left="8.0" right="8.0" />
-					</HBox.margin>
-				</VBox>
-				<VBox HBox.hgrow="ALWAYS">
-					<children>
-						<VBox styleClass="card" VBox.vgrow="ALWAYS">
+						<VBox styleClass="card" HBox.hgrow="ALWAYS">
 							<children>
-								<Label styleClass="card-heading" text="%card.title.request"
+								<Label styleClass="card-heading" text="%card.title.resources"
 									VBox.vgrow="NEVER" />
-								<TextArea VBox.vgrow="ALWAYS" />
+								<TreeView fx:id="resourceTree" VBox.vgrow="ALWAYS" />
 							</children>
 						</VBox>
-						<ButtonBar VBox.vgrow="NEVER">
-							<buttons>
-								<Button mnemonicParsing="false" text="%button.get" />
-								<Button mnemonicParsing="false" text="%button.post" />
-								<Button mnemonicParsing="false" text="%button.put" />
-								<Button mnemonicParsing="false" text="%button.delete" />
-							</buttons>
-							<VBox.margin>
-								<Insets bottom="8.0" top="8.0" />
-							</VBox.margin>
-						</ButtonBar>
-						<VBox styleClass="card" VBox.vgrow="ALWAYS">
+						<VBox styleClass="card" HBox.hgrow="ALWAYS">
 							<children>
-								<Label styleClass="card-heading" text="%card.title.response"
-									VBox.vgrow="NEVER" />
-								<TextArea VBox.vgrow="ALWAYS" />
+								<Label styleClass="card-heading" text="%card.title.details"
+									VBox.vgrow="NEVER">
+								</Label>
+								<TextArea VBox.vgrow="ALWAYS">
+								</TextArea>
+							</children>
+						</VBox>
+						<VBox HBox.hgrow="ALWAYS">
+							<children>
+								<VBox styleClass="card" VBox.vgrow="ALWAYS">
+									<children>
+										<Label styleClass="card-heading" text="%card.title.request"
+											VBox.vgrow="NEVER" />
+										<TextArea VBox.vgrow="ALWAYS" />
+									</children>
+								</VBox>
+								<ButtonBar VBox.vgrow="NEVER">
+									<buttons>
+										<Button mnemonicParsing="false" text="%button.get" />
+										<Button mnemonicParsing="false" text="%button.post" />
+										<Button mnemonicParsing="false" text="%button.put" />
+										<Button mnemonicParsing="false" text="%button.delete" />
+									</buttons>
+								</ButtonBar>
+								<VBox styleClass="card" VBox.vgrow="ALWAYS">
+									<children>
+										<Label styleClass="card-heading" text="%card.title.response"
+											VBox.vgrow="NEVER" />
+										<TextArea VBox.vgrow="ALWAYS" />
+									</children>
+								</VBox>
 							</children>
 						</VBox>
 					</children>
-					<HBox.margin>
-						<Insets left="8.0" />
-					</HBox.margin>
-				</VBox>
+				</HBox>
 			</children>
-			<VBox.margin>
-				<Insets bottom="16.0" left="16.0" right="16.0" top="8.0" />
-			</VBox.margin>
-		</HBox>
+		</VBox>
 	</children>
 </VBox>

@@ -1,77 +1,54 @@
+/********** ROOT **********/
 .root {
 	/* Color definitions */
 	color-primary: #ff9800;
-	
 	/* Global styles */
 	-fx-background: #e0e0e0;
-	-fx-default-button: color-primary;
-	-fx-focus-color: color-primary;
-	-fx-faint-focus-color: #ff980022; /* color-primary with low alpha */
 }
 
+/********** CONTAINERS **********/
 .container-main {
 	-fx-pref-width: 1024.0px;
 	-fx-pref-height: 576.0px;
 }
 
 .container-sub {
-	-fx-pref-width: 1024.0px;
-	-fx-pref-height: 514.0px;
-}
-
-.tab-pane > .tab-header-area > .tab-header-background {
-	-fx-background-color: color-primary;
-}
-
-.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
-    -fx-font-size: 14.0px;
-}
-
-.target {
-	-fx-background-color: #bdbdbd;
 	-fx-padding: 8.0px 16.0px;
 }
 
 .card {
 	-fx-background-color: #ffffff;
-	-fx-effect: dropshadow(two-pass-box , rgba(0.0, 0.0, 0.0, 0.2), 5.0, 0.1 , 0.0, 0.0);
+	-fx-effect: dropshadow(two-pass-box, rgba(0.0, 0.0, 0.0, 0.25), 5.0, 0.1, 0.0, 1.0);
 }
 
-.card > .card-heading {
-	-fx-padding: 8.0px 0.0px 0.0px 8.0px;
+.card-top {
+	-fx-border-insets: 0px 0px 8.0px 0px;
+	-fx-background-insets: 0px 0px 8.0px 0px;
 }
 
-.card > .text-area {
-	-fx-padding: 8.0px;
-	-fx-border-insets: 8.0px;
-	-fx-background-insets: 8.0px;
-}
-
-.card > .tree-view {
-	-fx-padding: 8.0px;
-	-fx-border-insets: 8.0px;
-	-fx-background-insets: 8.0px;
-}
-
-.footer {
+/********** TARGET **********/
+.target {
 	-fx-background-color: #bdbdbd;
-	-fx-padding: 4.0px 16.0px;
+	-fx-padding: 8.0px 16.0px;
 }
 
-.text-field-error {
-	-fx-control-inner-background: #ffebee;
-	-fx-text-box-border: red ;
-	-fx-focus-color: red ;
+.target > .scheme {
+	-fx-pref-width: 64.0px;
 }
 
-.tree-cell {
-	-fx-indent: 40.0;
+.target > .host {
+	-fx-pref-width: 256.0px;
 }
 
-.tree-cell > .tree-disclosure-node {
-	-fx-padding: 8.0px;
+.target > .port {
+	-fx-pref-width: 64.0px;
 }
 
+.target > .separator {
+	-fx-padding: 4.0px;
+}
+
+/********** NOTIFICATION **********/
 .notification {
 	-fx-background-color: #ffffff;
 	-fx-border-width: 2.0px 0.0px 0.0px 0.0px;
@@ -88,3 +65,25 @@
 .notification-error {
 	-fx-border-color: #f44336; 
 }
+
+.tab-pane > .tab-header-area > .tab-header-background {
+	-fx-background-color: color-primary;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
+	-fx-font-size: 14.0px;
+}
+
+.footer {
+	-fx-background-color: #bdbdbd;
+	-fx-padding: 4.0px 16.0px;
+}
+
+.tree-cell {
+	-fx-indent: 40.0;
+}
+
+.tree-cell > .tree-disclosure-node {
+	-fx-padding: 8.0px;
+}
+

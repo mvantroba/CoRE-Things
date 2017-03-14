@@ -40,7 +40,7 @@
 		</HBox>
 		<VBox styleClass="container-sub" VBox.vgrow="ALWAYS">
 			<children>
-				<HBox fx:id="notificationContainer" VBox.vgrow="NEVER" />
+				<fx:include fx:id="notification" source="Notification.fxml" />
 				<HBox VBox.vgrow="ALWAYS">
 					<children>
 						<VBox styleClass="card" HBox.hgrow="ALWAYS">

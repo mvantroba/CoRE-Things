@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane style="-fx-background-color: #eeeeee;" xmlns:fx="http://javafx.com/fxml/1"
+	xmlns="http://javafx.com/javafx/8.0.65">
+	<children>
+		<Label text="PROJECT.NAME" StackPane.alignment="CENTER_LEFT">
+			<StackPane.margin>
+				<Insets left="16.0" />
+			</StackPane.margin>
+		</Label>
+		<ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true"
+			preserveRatio="true" StackPane.alignment="CENTER">
+			<image>
+				<Image url="@../img/ic_thk_64x64.png" />
+			</image>
+			<StackPane.margin>
+				<Insets bottom="4.0" top="4.0" />
+			</StackPane.margin>
+		</ImageView>
+		<Label text="Administrator" StackPane.alignment="CENTER_RIGHT">
+			<StackPane.margin>
+				<Insets right="44.0" />
+			</StackPane.margin>
+		</Label>
+		<ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
+			preserveRatio="true" StackPane.alignment="CENTER_RIGHT">
+			<StackPane.margin>
+				<Insets right="16.0" />
+			</StackPane.margin>
+			<image>
+				<Image url="@../img/ic_person_black_24x24.png" />
+			</image>
+		</ImageView>
+	</children>
+</StackPane>

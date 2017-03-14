@@ -11,6 +11,7 @@
 	xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.thk.rdw.admin.controller.MainController">
 	<children>
+		<fx:include source="Header.fxml" />
 		<TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
 			<tabs>
 				<Tab fx:id="dashboard" text="%menu.dashboard">

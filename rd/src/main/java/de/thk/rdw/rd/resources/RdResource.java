@@ -1,5 +1,6 @@
 package de.thk.rdw.rd.resources;
 
+import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.EnumMap;
@@ -10,8 +11,11 @@ import java.util.logging.Logger;
 import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.coap.CoAP;
 import org.eclipse.californium.core.coap.CoAP.ResponseCode;
+import org.eclipse.californium.core.coap.LinkFormat;
 import org.eclipse.californium.core.coap.Request;
 import org.eclipse.californium.core.coap.Response;
+import org.eclipse.californium.core.observe.ObserveRelation;
+import org.eclipse.californium.core.observe.ObservingEndpoint;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.core.server.resources.Resource;
 
@@ -25,6 +29,7 @@ public class RdResource extends CoapResource {
 	public RdResource() {
 		super("rd");
 		getAttributes().addResourceType("core.rd");
+		setObservable(true);
 	}
 
 	@Override
@@ -32,6 +37,19 @@ public class RdResource extends CoapResource {
 		LOGGER.log(Level.INFO, "Registration request from {0}:{1}.",
 				new Object[] { exchange.getSourceAddress().getHostAddress(), exchange.getSourcePort() });
 		exchange.respond(preparePostResponse(exchange));
+		changed();
+	}
+
+	@Override
+	public void handleGET(CoapExchange exchange) {
+		Response response = new Response(ResponseCode.CONTENT);
+		response.setPayload(LinkFormat.serializeTree(this));
+		exchange.respond(response);
+		if (exchange.getRequestOptions().hasObserve()) {
+			addObserveRelation(new ObserveRelation(
+					new ObservingEndpoint(new InetSocketAddress(exchange.getSourceAddress(), exchange.getSourcePort())),
+					this, exchange.advanced()));
+		}
 	}
 
 	private Response preparePostResponse(CoapExchange exchange) {

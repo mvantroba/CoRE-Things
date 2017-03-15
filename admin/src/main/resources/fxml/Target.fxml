@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox fx:controller="de.thk.rdw.admin.controller.TargetController"
+	styleClass="target" VBox.vgrow="NEVER" xmlns="http://javafx.com/javafx/8.0.65"
+	xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<ChoiceBox fx:id="scheme" styleClass="scheme" HBox.hgrow="NEVER" />
+		<Label styleClass="separator" text="://">
+		</Label>
+		<TextField fx:id="host" promptText="%field.prompt.host"
+			styleClass="host" />
+		<Label styleClass="separator" text=":">
+		</Label>
+		<TextField fx:id="port" promptText="%field.prompt.port"
+			styleClass="port" />
+		<Label styleClass="separator" text="/">
+		</Label>
+		<TextField fx:id="variables" promptText="%field.prompt.variables"
+			HBox.hgrow="ALWAYS" />
+		<ButtonBar HBox.hgrow="NEVER">
+			<buttons>
+				<Button defaultButton="true" mnemonicParsing="false"
+					onAction="#onActionDiscover" text="%button.discover" />
+				<Button mnemonicParsing="false" onAction="#onActionPing"
+					text="%button.ping" />
+			</buttons>
+		</ButtonBar>
+	</children>
+</HBox>

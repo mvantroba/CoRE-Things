@@ -12,6 +12,7 @@
 	xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
 		<fx:include fx:id="header" source="Header.fxml" />
+		<fx:include fx:id="target" source="Target.fxml" />
 		<fx:include fx:id="notification" source="Notification.fxml" />
 		<TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
 			<tabs>

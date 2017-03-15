@@ -13,31 +13,6 @@
 <VBox xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.thk.rdw.admin.controller.DashboardController">
 	<children>
-		<HBox styleClass="target" VBox.vgrow="NEVER">
-			<children>
-				<ChoiceBox fx:id="scheme" styleClass="scheme" HBox.hgrow="NEVER" />
-				<Label styleClass="separator" text="://">
-				</Label>
-				<TextField fx:id="host" promptText="%field.prompt.host"
-					styleClass="host" />
-				<Label styleClass="separator" text=":">
-				</Label>
-				<TextField fx:id="port" promptText="%field.prompt.port"
-					styleClass="port" />
-				<Label styleClass="separator" text="/">
-				</Label>
-				<TextField fx:id="variables" promptText="%field.prompt.variables"
-					HBox.hgrow="ALWAYS" />
-				<ButtonBar HBox.hgrow="NEVER">
-					<buttons>
-						<Button defaultButton="true" mnemonicParsing="false"
-							onAction="#onActionDiscover" text="%button.discover" />
-						<Button mnemonicParsing="false" onAction="#onActionPing"
-							text="%button.ping" />
-					</buttons>
-				</ButtonBar>
-			</children>
-		</HBox>
 		<VBox styleClass="container-sub" VBox.vgrow="ALWAYS">
 			<children>
 				<HBox VBox.vgrow="ALWAYS">

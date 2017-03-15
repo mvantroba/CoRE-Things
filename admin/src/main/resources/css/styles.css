@@ -1,9 +1,6 @@
 /********** ROOT **********/
 .root {
-	/* Color definitions */
 	color-primary: #ff9800;
-	/* Global styles */
-	-fx-background: #e0e0e0;
 }
 
 /********** CONTAINERS **********/
@@ -28,7 +25,7 @@
 
 /********** TARGET **********/
 .target {
-	-fx-background-color: #bdbdbd;
+	-fx-background-color: color-primary;
 	-fx-padding: 8.0px 16.0px;
 }
 
@@ -69,14 +66,6 @@
 	-fx-border-color: #f44336; 
 }
 
-.tab-pane > .tab-header-area > .tab-header-background {
-	-fx-background-color: color-primary;
-}
-
-.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
-	-fx-font-size: 14.0px;
-}
-
 .footer {
 	-fx-background-color: #bdbdbd;
 	-fx-padding: 4.0px 16.0px;
@@ -89,4 +78,3 @@
 .tree-cell > .tree-disclosure-node {
 	-fx-padding: 8.0px;
 }
-

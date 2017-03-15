@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.StackPane?>
 
 <StackPane fx:controller="de.thk.rdw.admin.controller.HeaderController"
-	style="-fx-background-color: #eeeeee;" xmlns:fx="http://javafx.com/fxml/1"
-	xmlns="http://javafx.com/javafx/8.0.65">
+	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65">
 	<children>
 		<Label text="PROJECT.NAME" StackPane.alignment="CENTER_LEFT">
 			<StackPane.margin>

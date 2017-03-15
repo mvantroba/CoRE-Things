@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:controller="de.thk.rdw.admin.controller.MainController"
-	styleClass="container-main" stylesheets="@../css/styles.css"
-	xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<VBox styleClass="container-main" stylesheets="@../css/styles.css"
+	xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="de.thk.rdw.admin.controller.MainController">
 	<children>
 		<fx:include fx:id="header" source="Header.fxml" />
 		<fx:include fx:id="target" source="Target.fxml" />
@@ -43,11 +41,6 @@
 				</Tab>
 			</tabs>
 		</TabPane>
-		<StackPane styleClass="footer" VBox.vgrow="NEVER">
-			<children>
-				<Label text="%project.organization.name" StackPane.alignment="CENTER_LEFT" />
-				<Label text="%project.version" StackPane.alignment="CENTER_RIGHT" />
-			</children>
-		</StackPane>
+		<fx:include fx:id="footer" source="Footer.fxml" />
 	</children>
 </VBox>

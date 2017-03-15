@@ -7,6 +7,7 @@ import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -15,7 +16,7 @@ public class NotificationController {
 	@FXML
 	private ResourceBundle resources;
 	@FXML
-	private Pane pane;
+	private HBox box;
 	@FXML
 	private Pane icon;
 	@FXML
@@ -25,28 +26,28 @@ public class NotificationController {
 
 	@FXML
 	private void initialize() {
-		fadeIn = new FadeTransition(Duration.millis(500.0), pane);
+		fadeIn = new FadeTransition(Duration.millis(500.0), box);
 		fadeIn.setFromValue(0.0);
 		fadeIn.setToValue(1.0);
 	}
 
 	public void info(String message) {
 		fadeIn.playFromStart();
-		pane.getStyleClass().set(2, "notification-info");
+		box.getStyleClass().set(2, "notification-info");
 		icon.getChildren().set(0, Icon.INFO_BLUE_36.getImageView());
 		this.message.setText(message);
 	}
 
 	public void success(String message) {
 		fadeIn.playFromStart();
-		pane.getStyleClass().set(2, "notification-success");
+		box.getStyleClass().set(2, "notification-success");
 		icon.getChildren().set(0, Icon.CHECK_CIRCLE_GREEN_36.getImageView());
 		this.message.setText(message);
 	}
 
 	public void error(String message) {
 		fadeIn.playFromStart();
-		pane.getStyleClass().set(2, "notification-error");
+		box.getStyleClass().set(2, "notification-error");
 		icon.getChildren().set(0, Icon.ERROR_RED_36.getImageView());
 		this.message.setText(message);
 	}
@@ -57,7 +58,7 @@ public class NotificationController {
 
 	public void spinner(String message) {
 		fadeIn.playFromStart();
-		pane.getStyleClass().set(2, "notification-info");
+		box.getStyleClass().set(2, "notification-info");
 		ProgressIndicator indicator = new ProgressIndicator();
 		indicator.setMaxWidth(icon.getWidth());
 		indicator.setMaxHeight(icon.getHeight());

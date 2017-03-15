@@ -22,8 +22,8 @@
 }
 
 .card-top {
-	-fx-border-insets: 0px 0px 8.0px 0px;
-	-fx-background-insets: 0px 0px 8.0px 0px;
+	-fx-border-insets: 0.0px 0.0px 8.0px 0.0px;
+	-fx-background-insets: 0.0px 0.0px 8.0px 0.0px;
 }
 
 /********** TARGET **********/
@@ -52,6 +52,9 @@
 .notification {
 	-fx-background-color: #ffffff;
 	-fx-border-width: 2.0px 0.0px 0.0px 0.0px;
+	-fx-padding: 4.0px, 8.0px;
+	-fx-border-insets: 8.0px 16.0px;
+	-fx-background-insets: 8.0px 16.0px;
 }
 
 .notification-info {

@@ -21,6 +21,8 @@ public class DashboardController {
 
 	private static final Logger LOGGER = Logger.getLogger(DashboardController.class.getName());
 
+	private MainController mainController;
+
 	@FXML
 	private ResourceBundle resources;
 	@FXML
@@ -33,8 +35,6 @@ public class DashboardController {
 	private TextField variables;
 	@FXML
 	private TreeView<TreeItemResource> resourceTree;
-	@FXML
-	private NotificationController notificationController;
 
 	@FXML
 	private void initialize() {
@@ -56,7 +56,7 @@ public class DashboardController {
 
 					@Override
 					public void run() {
-						notificationController.success("notification.discovery.success");
+						mainController.success(resources.getString("notification.discovery.success"));
 						populateTree(response);
 					}
 				});
@@ -64,7 +64,7 @@ public class DashboardController {
 		});
 		LOGGER.log(Level.INFO, "Sending GET request to \"{0}\"...", uri);
 		request.send();
-		notificationController.spinner(resources.getString("notification.discovery.requestSent"));
+		mainController.spinner(resources.getString("notification.discovery.requestSent"));
 	}
 
 	@FXML
@@ -73,5 +73,9 @@ public class DashboardController {
 
 	private void populateTree(Response response) {
 		this.resourceTree.setRoot(TreeUtils.parseResources(response, false, true));
+	}
+
+	public void setMainController(MainController mainController) {
+		this.mainController = mainController;
 	}
 }

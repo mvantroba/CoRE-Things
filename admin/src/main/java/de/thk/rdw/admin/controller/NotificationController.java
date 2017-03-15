@@ -37,11 +37,11 @@ public class NotificationController {
 		this.message.setText(message);
 	}
 
-	public void success(String key) {
+	public void success(String message) {
 		fadeIn.playFromStart();
 		pane.getStyleClass().set(2, "notification-success");
 		icon.getChildren().set(0, Icon.CHECK_CIRCLE_GREEN_36.getImageView());
-		this.message.setText(resources.getString(key));
+		this.message.setText(message);
 	}
 
 	public void error(String message) {

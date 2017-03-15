@@ -1,22 +1,21 @@
-package de.thk.rdw.admin.controller;
+package de.thk.rdw.admin.controller.tabs;
 
-import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 import org.eclipse.californium.core.coap.Response;
 
+import de.thk.rdw.admin.controller.MainController;
+import de.thk.rdw.admin.controller.TreeUtils;
 import de.thk.rdw.admin.model.TreeItemResource;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeView;
 
-public class DashboardController {
+public class AdvancedController {
 
-	private static final Logger LOGGER = Logger.getLogger(DashboardController.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(AdvancedController.class.getName());
 
 	private MainController mainController;
 
-	@FXML
-	private ResourceBundle resources;
 	@FXML
 	private TreeView<TreeItemResource> resourceTree;
 

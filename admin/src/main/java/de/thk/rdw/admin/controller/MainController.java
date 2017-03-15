@@ -5,6 +5,8 @@ import java.util.logging.Logger;
 
 import org.eclipse.californium.core.coap.Response;
 
+import de.thk.rdw.admin.controller.tabs.AdvancedController;
+import de.thk.rdw.admin.controller.tabs.DashboardController;
 import javafx.fxml.FXML;
 
 public class MainController {
@@ -23,15 +25,19 @@ public class MainController {
 	private NotificationController notificationController;
 	@FXML
 	private DashboardController dashboardController;
+	@FXML
+	private AdvancedController advancedController;
 
 	@FXML
 	private void initialize() {
-		dashboardController.setMainController(this);
 		targetController.setMainController(this);
+		dashboardController.setMainController(this);
+		advancedController.setMainController(this);
 	}
 
 	public void populateTree(Response response) {
 		dashboardController.populateTree(response);
+		advancedController.populateTree(response);
 	}
 
 	public void success(String key) {

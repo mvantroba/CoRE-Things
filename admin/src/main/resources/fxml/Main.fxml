@@ -16,12 +16,12 @@
 			<tabs>
 				<Tab text="%menu.dashboard">
 					<content>
-						<fx:include fx:id="dashboard" source="Dashboard.fxml" />
+						<fx:include fx:id="dashboard" source="tabs/Dashboard.fxml" />
 					</content>
 				</Tab>
 				<Tab text="%menu.advanced">
 					<content>
-						<AnchorPane />
+						<fx:include fx:id="advanced" source="tabs/Advanced.fxml" />
 					</content>
 				</Tab>
 				<Tab text="%menu.servers">

@@ -16,8 +16,6 @@ public class MainController {
 	@FXML
 	private ResourceBundle resources;
 	@FXML
-	private FooterController footerController;
-	@FXML
 	private HeaderController headerController;
 	@FXML
 	private TargetController targetController;

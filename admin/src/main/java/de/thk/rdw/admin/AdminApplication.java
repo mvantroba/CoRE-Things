@@ -23,7 +23,7 @@ public class AdminApplication extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		ResourceBundle bundle = ResourceBundle.getBundle("i18n/bundle");
 		Scene scene = new Scene(loadMainLayout(bundle));
-		primaryStage.setTitle(bundle.getString("project.name"));
+		primaryStage.setTitle(getImplementationTitle());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -38,6 +38,15 @@ public class AdminApplication extends Application {
 			result = loader.load();
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, e.getMessage(), e);
+		}
+		return result;
+	}
+
+	private String getImplementationTitle() {
+		// Read from manifest file.
+		String result = getClass().getPackage().getImplementationTitle();
+		if (result == null) {
+			result = "implementationTitle";
 		}
 		return result;
 	}

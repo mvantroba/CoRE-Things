@@ -19,20 +19,18 @@
 	-fx-pref-height: 576.0px;
 }
 
-.container-sub {
-	-fx-padding: 8.0px 16.0px;
-}
-
 .card {
+	-fx-padding: 8.0px;
 	-fx-background-color: color-card;
 	-fx-effect: dropshadow(two-pass-box, rgba(0.0, 0.0, 0.0, 0.25), 5.0, 0.1, 0.0, 1.0);
 }
 
-.card-top {
-	-fx-border-insets: 0.0px 0.0px 8.0px 0.0px;
-	-fx-background-insets: 0.0px 0.0px 8.0px 0.0px;
+.card-content {
+	-fx-border-width: 2.0px 0.0px 0.0px 0.0px;
+	-fx-border-color: color-primary;
 }
 
+/********** HEADER **********/
 .header {
 	-fx-background-color: color-header;
 }

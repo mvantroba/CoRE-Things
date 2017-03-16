@@ -15,7 +15,11 @@
 			<children>
 				<VBox HBox.hgrow="ALWAYS">
 					<children>
-						<Label text="%card.title.resources" VBox.vgrow="NEVER" />
+						<Label text="%card.title.resources" VBox.vgrow="NEVER">
+							<VBox.margin>
+								<Insets bottom="8.0" />
+							</VBox.margin>
+						</Label>
 						<TreeView fx:id="resourceTree" VBox.vgrow="ALWAYS" />
 					</children>
 					<HBox.margin>
@@ -29,6 +33,9 @@
 				<VBox HBox.hgrow="ALWAYS">
 					<children>
 						<Label text="%card.title.details" VBox.vgrow="NEVER">
+							<VBox.margin>
+								<Insets bottom="8.0" />
+							</VBox.margin>
 						</Label>
 						<TextArea VBox.vgrow="ALWAYS">
 						</TextArea>

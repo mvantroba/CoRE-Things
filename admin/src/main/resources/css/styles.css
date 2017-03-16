@@ -87,9 +87,5 @@
 }
 
 .tree-cell {
-	-fx-indent: 40.0;
-}
-
-.tree-cell > .tree-disclosure-node {
-	-fx-padding: 8.0px;
+	-fx-indent: 32.0;
 }

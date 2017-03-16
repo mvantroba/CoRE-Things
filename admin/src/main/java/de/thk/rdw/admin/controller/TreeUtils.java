@@ -19,7 +19,7 @@ public class TreeUtils {
 		TreeItemResource home = new TreeItemResource(
 				String.format("%s:%s", response.getSource().getHostAddress(), response.getSourcePort()));
 		if (showIcons) {
-			result = new TreeItem<>(home, Icon.HOME_GREEN_24.getImageView());
+			result = new TreeItem<>(home, Icon.HOME_GREEN_16.getImageView());
 		} else {
 			result = new TreeItem<>(home);
 		}
@@ -61,24 +61,24 @@ public class TreeUtils {
 		ImageView result = null;
 		if (link.getAttributes().containsAttribute("rt")
 				&& link.getAttributes().getAttributeValues("rt").contains("core.rd")) {
-			result = Icon.FOLDER_AMBER_24.getImageView();
+			result = Icon.FOLDER_AMBER_16.getImageView();
 		} else if (link.getAttributes().containsAttribute("rt")
 				&& link.getAttributes().getAttributeValues("rt").contains("core.rd-group")) {
-			result = Icon.GROUP_WORK_GREY_24.getImageView();
+			result = Icon.GROUP_WORK_GREY_16.getImageView();
 		} else if (link.getAttributes().containsAttribute("rt")
 				&& link.getAttributes().getAttributeValues("rt").contains("core.rd-lookup")) {
-			result = Icon.PAGEVIEW_GREY_24.getImageView();
+			result = Icon.PAGEVIEW_GREY_16.getImageView();
 		} else if (resourceName.equals(".well-known")) {
-			result = Icon.PUBLIC_BLUE_24.getImageView();
+			result = Icon.PUBLIC_BLUE_16.getImageView();
 		} else if (parent.getValue().getName().equals("rd")) {
 			if (link.getAttributes().containsAttribute("et")
 					&& link.getAttributes().getAttributeValues("et").contains("raspberrypi")) {
-				result = Icon.RASPBERRY_24.getImageView();
+				result = Icon.RASPBERRY_16.getImageView();
 			} else if (link.getAttributes().containsAttribute("et")
 					&& link.getAttributes().getAttributeValues("et").contains("openhab")) {
-				result = Icon.OPENHAB_24.getImageView();
+				result = Icon.OPENHAB_16.getImageView();
 			} else {
-				result = Icon.ENDPOINT_GREY_24.getImageView();
+				result = Icon.ENDPOINT_GREY_16.getImageView();
 			}
 		}
 		return result;

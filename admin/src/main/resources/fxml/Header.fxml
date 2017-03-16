@@ -14,10 +14,10 @@
 				<Insets left="16.0" />
 			</StackPane.margin>
 		</Label>
-		<ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true"
+		<ImageView fitHeight="36.0" fitWidth="67.0" pickOnBounds="true"
 			preserveRatio="true" StackPane.alignment="CENTER">
 			<image>
-				<Image url="@../img/ic_thk_64x64.png" />
+				<Image url="@../img/ic_thk_67x36.png" />
 			</image>
 			<StackPane.margin>
 				<Insets bottom="4.0" top="4.0" />
@@ -34,7 +34,7 @@
 				<Insets right="16.0" />
 			</StackPane.margin>
 			<image>
-				<Image url="@../img/ic_person_black_24x24.png" />
+				<Image url="@../img/ic_person_black_24px.png" />
 			</image>
 		</ImageView>
 	</children>

@@ -1,13 +1,14 @@
 package de.thk.rdw.admin.controller;
 
-import de.thk.rdw.admin.model.GuiCoapResource;
+import org.eclipse.californium.core.CoapResource;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeCell;
 
-public class CoapResourceCell extends TreeCell<GuiCoapResource> {
+public class CoapResourceCell extends TreeCell<CoapResource> {
 
 	private ContextMenu menu = new ContextMenu();
 
@@ -26,7 +27,7 @@ public class CoapResourceCell extends TreeCell<GuiCoapResource> {
 	}
 
 	@Override
-	protected void updateItem(GuiCoapResource item, boolean empty) {
+	protected void updateItem(CoapResource item, boolean empty) {
 		super.updateItem(item, empty);
 		if (empty || item == null) {
 			setText(null);

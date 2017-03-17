@@ -2,11 +2,11 @@ package de.thk.rdw.admin.controller.tabs;
 
 import java.util.logging.Logger;
 
+import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.coap.Response;
 
 import de.thk.rdw.admin.controller.MainController;
 import de.thk.rdw.admin.controller.TreeUtils;
-import de.thk.rdw.admin.model.GuiCoapResource;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeView;
 
@@ -17,7 +17,7 @@ public class AdvancedController {
 	private MainController mainController;
 
 	@FXML
-	private TreeView<GuiCoapResource> resourceTree;
+	private TreeView<CoapResource> resourceTree;
 
 	@FXML
 	private void initialize() {

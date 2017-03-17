@@ -25,7 +25,15 @@ public class TreeUtils {
 	private static void addResources(TreeItem<CoapResource> rootItem, String payloadString, boolean onlyRd) {
 		Set<WebLink> links = LinkFormat.parse(payloadString);
 		TreeItem<CoapResource> parent = rootItem;
+		boolean resourceIsRd = false;
 		for (WebLink link : links) {
+			if (link.getURI().equals("/rd") || link.getURI().startsWith("/rd/")) {
+				resourceIsRd = true;
+			}
+			if (onlyRd && !resourceIsRd) {
+				continue;
+			}
+			resourceIsRd = false;
 			Scanner scanner = new Scanner(link.getURI());
 			scanner.useDelimiter("/");
 			while (scanner.hasNext()) {

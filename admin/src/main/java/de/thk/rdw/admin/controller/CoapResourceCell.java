@@ -14,7 +14,7 @@ import javafx.scene.image.ImageView;
 
 public class CoapResourceCell extends TreeCell<CoapResource> {
 
-	private static final ImageView ROOT_ICON = Icon.HOME_GREEN_16.getImageView();
+	private static final Icon ROOT_ICON = Icon.HOME_GREEN_16;
 
 	private ContextMenu menu = new ContextMenu();
 
@@ -54,7 +54,7 @@ public class CoapResourceCell extends TreeCell<CoapResource> {
 		} else if (getItem().getParent() != null && getItem().getParent().getName().equals("rd")) {
 			result = EndpointTypeIcon.get(getItem().getAttributes().getAttributeValues("et"));
 		} else if (getItem().getParent() == null) {
-			result = ROOT_ICON;
+			result = ROOT_ICON.getImageView();
 		}
 		if (result == null) {
 			result = Icon.RESOURCE_GREY_16.getImageView();

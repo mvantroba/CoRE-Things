@@ -7,7 +7,9 @@ import org.eclipse.californium.core.WebLink;
 import org.eclipse.californium.core.coap.LinkFormat;
 import org.eclipse.californium.core.coap.Response;
 
+import de.thk.rdw.admin.model.EndpointTypeIcon;
 import de.thk.rdw.admin.model.GuiCoapResource;
+import de.thk.rdw.admin.model.ResourceTypeIcon;
 import javafx.scene.Node;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
@@ -56,30 +58,14 @@ public class TreeUtils {
 		}
 	}
 
-	// TODO Define resource types with icons globally and optimize this method.
 	private static Node getGraphic(TreeItem<GuiCoapResource> parent, WebLink link, String resourceName) {
 		ImageView result = null;
-		if (link.getAttributes().containsAttribute("rt")
-				&& link.getAttributes().getAttributeValues("rt").contains("core.rd")) {
-			result = Icon.FOLDER_AMBER_16.getImageView();
-		} else if (link.getAttributes().containsAttribute("rt")
-				&& link.getAttributes().getAttributeValues("rt").contains("core.rd-group")) {
-			result = Icon.GROUP_WORK_GREY_16.getImageView();
-		} else if (link.getAttributes().containsAttribute("rt")
-				&& link.getAttributes().getAttributeValues("rt").contains("core.rd-lookup")) {
-			result = Icon.PAGEVIEW_GREY_16.getImageView();
+		if (link.getAttributes().containsAttribute("rt")) {
+			result = ResourceTypeIcon.get(link.getAttributes().getAttributeValues("rt"));
 		} else if (resourceName.equals(".well-known")) {
 			result = Icon.PUBLIC_BLUE_16.getImageView();
 		} else if (parent.getValue().getName().equals("rd")) {
-			if (link.getAttributes().containsAttribute("et")
-					&& link.getAttributes().getAttributeValues("et").contains("raspberrypi")) {
-				result = Icon.RASPBERRY_16.getImageView();
-			} else if (link.getAttributes().containsAttribute("et")
-					&& link.getAttributes().getAttributeValues("et").contains("openhab")) {
-				result = Icon.OPENHAB_16.getImageView();
-			} else {
-				result = Icon.ENDPOINT_GREY_16.getImageView();
-			}
+			result = EndpointTypeIcon.get(link.getAttributes().getAttributeValues("et"));
 		}
 		if (result == null) {
 			result = Icon.RESOURCE_GREY_16.getImageView();
@@ -96,5 +82,4 @@ public class TreeUtils {
 		}
 		return result;
 	}
-
 }

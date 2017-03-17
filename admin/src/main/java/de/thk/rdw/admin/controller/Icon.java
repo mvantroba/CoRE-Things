@@ -18,7 +18,8 @@ public enum Icon {
 	OPENHAB_16("ic_openhab_16px.png"), //
 	PAGEVIEW_GREY_16("ic_pageview_grey_16px.png"), //
 	PUBLIC_BLUE_16("ic_public_blue_16px.png"), //
-	RASPBERRY_16("ic_raspberry_16px.png");
+	RASPBERRY_16("ic_raspberry_16px.png"), //
+	RESOURCE_GREY_16("ic_resource_grey_16px.png");
 
 	private static final Logger LOGGER = Logger.getLogger(Icon.class.getName());
 	private static final String DIRECTORY = "img";

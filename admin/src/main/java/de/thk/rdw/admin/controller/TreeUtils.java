@@ -81,6 +81,9 @@ public class TreeUtils {
 				result = Icon.ENDPOINT_GREY_16.getImageView();
 			}
 		}
+		if (result == null) {
+			result = Icon.RESOURCE_GREY_16.getImageView();
+		}
 		return result;
 	}
 

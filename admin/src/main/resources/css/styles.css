@@ -85,7 +85,3 @@
 	-fx-background-color: color-footer;
 	-fx-padding: 4.0px 16.0px;
 }
-
-.tree-cell {
-	-fx-indent: 32.0;
-}

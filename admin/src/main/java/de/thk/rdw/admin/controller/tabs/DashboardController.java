@@ -5,11 +5,14 @@ import java.util.logging.Logger;
 
 import org.eclipse.californium.core.coap.Response;
 
+import de.thk.rdw.admin.controller.CoapResourceCell;
 import de.thk.rdw.admin.controller.MainController;
 import de.thk.rdw.admin.controller.TreeUtils;
-import de.thk.rdw.admin.model.TreeItemResource;
+import de.thk.rdw.admin.model.GuiCoapResource;
 import javafx.fxml.FXML;
+import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeView;
+import javafx.util.Callback;
 
 public class DashboardController {
 
@@ -20,13 +23,20 @@ public class DashboardController {
 	@FXML
 	private ResourceBundle resources;
 	@FXML
-	private TreeView<TreeItemResource> resourceTree;
+	private TreeView<GuiCoapResource> resourceTree;
 
 	@FXML
 	private void initialize() {
 	}
 
 	public void populateTree(Response response) {
+		resourceTree.setCellFactory(new Callback<TreeView<GuiCoapResource>, TreeCell<GuiCoapResource>>() {
+
+			@Override
+			public TreeCell<GuiCoapResource> call(TreeView<GuiCoapResource> param) {
+				return new CoapResourceCell();
+			}
+		});
 		this.resourceTree.setRoot(TreeUtils.parseResources(response, false, true));
 	}
 

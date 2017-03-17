@@ -6,7 +6,7 @@ import org.eclipse.californium.core.coap.Response;
 
 import de.thk.rdw.admin.controller.MainController;
 import de.thk.rdw.admin.controller.TreeUtils;
-import de.thk.rdw.admin.model.TreeItemResource;
+import de.thk.rdw.admin.model.GuiCoapResource;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeView;
 
@@ -17,7 +17,7 @@ public class AdvancedController {
 	private MainController mainController;
 
 	@FXML
-	private TreeView<TreeItemResource> resourceTree;
+	private TreeView<GuiCoapResource> resourceTree;
 
 	@FXML
 	private void initialize() {

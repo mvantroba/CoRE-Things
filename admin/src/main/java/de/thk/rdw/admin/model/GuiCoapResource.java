@@ -2,9 +2,9 @@ package de.thk.rdw.admin.model;
 
 import org.eclipse.californium.core.CoapResource;
 
-public class TreeItemResource extends CoapResource {
+public class GuiCoapResource extends CoapResource {
 
-	public TreeItemResource(String name) {
+	public GuiCoapResource(String name) {
 		super(name);
 	}
 

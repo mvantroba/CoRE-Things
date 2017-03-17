@@ -24,7 +24,7 @@ public class AdvancedController {
 	}
 
 	public void populateTree(Response response) {
-		this.resourceTree.setRoot(TreeUtils.parseResources(response, false, true));
+		this.resourceTree.setRoot(TreeUtils.parseResources(response, false));
 	}
 
 	public void setMainController(MainController mainController) {

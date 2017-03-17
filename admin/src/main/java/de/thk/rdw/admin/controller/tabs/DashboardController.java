@@ -37,7 +37,7 @@ public class DashboardController {
 				return new CoapResourceCell();
 			}
 		});
-		this.resourceTree.setRoot(TreeUtils.parseResources(response, false, true));
+		this.resourceTree.setRoot(TreeUtils.parseResources(response, true));
 	}
 
 	public void setMainController(MainController mainController) {

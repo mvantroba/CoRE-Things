@@ -3,7 +3,6 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -23,31 +22,14 @@
 						<TreeView fx:id="resourceTree" VBox.vgrow="ALWAYS" />
 					</children>
 					<HBox.margin>
-						<Insets right="4.0" />
+						<Insets right="8.0" />
 					</HBox.margin>
 					<styleClass>
 						<String fx:value="card" />
 						<String fx:value="card-content" />
 					</styleClass>
 				</VBox>
-				<VBox HBox.hgrow="ALWAYS">
-					<children>
-						<Label text="%card.title.details" VBox.vgrow="NEVER">
-							<VBox.margin>
-								<Insets bottom="8.0" />
-							</VBox.margin>
-						</Label>
-						<TextArea VBox.vgrow="ALWAYS">
-						</TextArea>
-					</children>
-					<HBox.margin>
-						<Insets left="4.0" />
-					</HBox.margin>
-					<styleClass>
-						<String fx:value="card" />
-						<String fx:value="card-content" />
-					</styleClass>
-				</VBox>
+				<fx:include source="EndpointPanel.fxml" />
 			</children>
 			<VBox.margin>
 				<Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />

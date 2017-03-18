@@ -5,12 +5,14 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:controller="de.thk.rdw.admin.controller.TargetController"
-	styleClass="target" VBox.vgrow="NEVER" xmlns="http://javafx.com/javafx/8.0.65"
-	xmlns:fx="http://javafx.com/fxml/1">
+<HBox styleClass="target" VBox.vgrow="NEVER"
+	xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="de.thk.rdw.admin.controller.TargetController">
 	<children>
 		<ChoiceBox fx:id="scheme" styleClass="scheme" HBox.hgrow="NEVER" />
 		<Label styleClass="separator" text="://">
@@ -28,7 +30,16 @@
 		<ButtonBar HBox.hgrow="NEVER">
 			<buttons>
 				<Button defaultButton="true" mnemonicParsing="false"
-					onAction="#onActionDiscover" text="%button.discover" />
+					onAction="#onActionDiscover" text="%button.discover">
+					<graphic>
+						<ImageView fitHeight="16.0" fitWidth="16.0"
+							pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="@../img/ic_public_blue_16px.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</Button>
 				<Button mnemonicParsing="false" onAction="#onActionPing"
 					text="%button.ping" />
 			</buttons>

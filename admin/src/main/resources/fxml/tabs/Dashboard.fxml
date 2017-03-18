@@ -29,7 +29,7 @@
 						<String fx:value="card-content" />
 					</styleClass>
 				</VBox>
-				<fx:include source="EndpointPanel.fxml" />
+				<fx:include fx:id="endpointPanel" source="EndpointPanel.fxml" />
 			</children>
 			<VBox.margin>
 				<Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />

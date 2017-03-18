@@ -3,12 +3,12 @@ package de.thk.rdw.admin.controller.tabs;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
-import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.coap.Response;
 
 import de.thk.rdw.admin.controller.CoapResourceCell;
 import de.thk.rdw.admin.controller.MainController;
 import de.thk.rdw.admin.controller.TreeUtils;
+import de.thk.rdw.admin.model.GuiCoapResource;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeView;
@@ -23,18 +23,26 @@ public class DashboardController {
 	@FXML
 	private ResourceBundle resources;
 	@FXML
-	private TreeView<CoapResource> resourceTree;
+	private TreeView<GuiCoapResource> resourceTree;
+	@FXML
+	private EndpointPanelController endpointPanelController;
 
 	@FXML
 	private void initialize() {
 	}
 
 	public void populateTree(Response response) {
-		resourceTree.setCellFactory(new Callback<TreeView<CoapResource>, TreeCell<CoapResource>>() {
+		resourceTree.setCellFactory(new Callback<TreeView<GuiCoapResource>, TreeCell<GuiCoapResource>>() {
 
 			@Override
-			public TreeCell<CoapResource> call(TreeView<CoapResource> param) {
-				return new CoapResourceCell();
+			public TreeCell<GuiCoapResource> call(TreeView<GuiCoapResource> param) {
+				return new CoapResourceCell() {
+
+					@Override
+					protected void onShowAction(GuiCoapResource guiCoapResource) {
+						endpointPanelController.setGuiCoapResource(guiCoapResource);
+					}
+				};
 			}
 		});
 		this.resourceTree.setRoot(TreeUtils.parseResources(response, true));

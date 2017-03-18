@@ -1,8 +1,7 @@
 package de.thk.rdw.admin.controller;
 
-import org.eclipse.californium.core.CoapResource;
-
 import de.thk.rdw.admin.model.EndpointTypeIcon;
+import de.thk.rdw.admin.model.GuiCoapResource;
 import de.thk.rdw.admin.model.ResourceTypeIcon;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,7 +11,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeCell;
 import javafx.scene.image.ImageView;
 
-public class CoapResourceCell extends TreeCell<CoapResource> {
+public abstract class CoapResourceCell extends TreeCell<GuiCoapResource> {
 
 	private static final Icon ROOT_ICON = Icon.HOME_GREEN_16;
 
@@ -20,20 +19,21 @@ public class CoapResourceCell extends TreeCell<CoapResource> {
 
 	public CoapResourceCell() {
 		// TODO Read text from bundle.
-		MenuItem connect = new MenuItem("Connect");
-		connect.setOnAction(new EventHandler<ActionEvent>() {
+		MenuItem show = new MenuItem("Show");
+		show.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
-				System.out.println("Pressed \"Connect\" on resource \"" + getItem().getName() + "\".");
+				onShowAction(getItem());
 			}
 		});
-		menu.getItems().add(connect);
+		menu.getItems().add(show);
 	}
 
+	protected abstract void onShowAction(GuiCoapResource guiCoapResource);
+
 	@Override
-	protected void updateItem(CoapResource item, boolean empty) {
+	protected void updateItem(GuiCoapResource item, boolean empty) {
 		super.updateItem(item, empty);
 		if (empty || item == null) {
 			setText(null);

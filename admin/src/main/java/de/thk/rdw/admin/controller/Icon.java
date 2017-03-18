@@ -8,13 +8,13 @@ import javafx.scene.image.ImageView;
 
 public enum Icon {
 
-	CHECK_CIRCLE_GREEN_36("ic_check_circle_green_36px.png"), //
+	CHECK_CIRCLE_GREEN_32("ic_check_circle_green_32px.png"), //
 	ENDPOINT_GREY_16("ic_endpoint_grey_16px.png"), //
-	ERROR_RED_36("ic_error_red_36px.png"), //
+	ERROR_RED_32("ic_error_red_32px.png"), //
 	FOLDER_AMBER_16("ic_folder_amber_16px.png"), //
 	GROUP_WORK_GREY_16("ic_group_work_grey_16px.png"), //
 	HOME_GREEN_16("ic_home_green_16px.png"), //
-	INFO_BLUE_36("ic_info_blue_36px.png"), //
+	INFO_BLUE_32("ic_info_blue_32px.png"), //
 	OPENHAB_16("ic_openhab_16px.png"), //
 	PAGEVIEW_GREY_16("ic_pageview_grey_16px.png"), //
 	PUBLIC_BLUE_16("ic_public_blue_16px.png"), //

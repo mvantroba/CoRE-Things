@@ -13,13 +13,16 @@
 	<children>
 		<Pane fx:id="icon" HBox.hgrow="NEVER">
 			<children>
-				<ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true"
+				<ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true"
 					preserveRatio="true">
 					<image>
-						<Image url="@../img/ic_info_blue_36px.png" />
+						<Image url="@../img/ic_info_blue_32px.png" />
 					</image>
 				</ImageView>
 			</children>
+			<HBox.margin>
+				<Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+			</HBox.margin>
 		</Pane>
 		<Label fx:id="message" text="%notification.general.welcome"
 			HBox.hgrow="ALWAYS">

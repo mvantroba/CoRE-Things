@@ -34,21 +34,21 @@ public class NotificationController {
 	public void info(String message) {
 		fadeIn.playFromStart();
 		box.getStyleClass().set(2, "notification-info");
-		icon.getChildren().set(0, Icon.INFO_BLUE_36.getImageView());
+		icon.getChildren().set(0, Icon.INFO_BLUE_32.getImageView());
 		this.message.setText(message);
 	}
 
 	public void success(String message) {
 		fadeIn.playFromStart();
 		box.getStyleClass().set(2, "notification-success");
-		icon.getChildren().set(0, Icon.CHECK_CIRCLE_GREEN_36.getImageView());
+		icon.getChildren().set(0, Icon.CHECK_CIRCLE_GREEN_32.getImageView());
 		this.message.setText(message);
 	}
 
 	public void error(String message) {
 		fadeIn.playFromStart();
 		box.getStyleClass().set(2, "notification-error");
-		icon.getChildren().set(0, Icon.ERROR_RED_36.getImageView());
+		icon.getChildren().set(0, Icon.ERROR_RED_32.getImageView());
 		this.message.setText(message);
 	}
 

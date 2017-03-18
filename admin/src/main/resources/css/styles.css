@@ -96,3 +96,7 @@
 	-fx-background-color: color-footer;
 	-fx-padding: 4.0px 16.0px;
 }
+
+.label-uri {
+	-fx-text-fill: color-info;
+}

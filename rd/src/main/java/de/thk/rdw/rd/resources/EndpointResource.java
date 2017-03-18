@@ -35,6 +35,8 @@ public class EndpointResource extends CoapResource {
 		super(variables.get(UriVariable.END_POINT));
 		if (variables.get(UriVariable.DOMAIN) != null) {
 			this.domain = variables.get(UriVariable.DOMAIN);
+			// TODO Define attribute names globally.
+			getAttributes().addAttribute("d", domain);
 		}
 		this.endpointType = variables.get(UriVariable.END_POINT_TYPE);
 		if (endpointType != null) {
@@ -83,12 +85,14 @@ public class EndpointResource extends CoapResource {
 	public void updateVariables(Map<UriVariable, String> variables) {
 		try {
 			this.lifetime = Long.parseLong(variables.get(UriVariable.LIFE_TIME));
+			getAttributes().addAttribute("lt", String.valueOf(lifetime));
 		} catch (NumberFormatException e) {
 			LOGGER.log(Level.WARNING, "Could not parse lifetime value \"{0}\" to Long. Enforcing default value: {1}.",
 					new Object[] { variables.get(UriVariable.LIFE_TIME), lifetime });
 		}
 		updateLifetime(lifetime);
 		this.context = variables.get(UriVariable.CONTEXT);
+		getAttributes().addAttribute("con", context);
 	}
 
 	public void updateResources(String linkFormat) {

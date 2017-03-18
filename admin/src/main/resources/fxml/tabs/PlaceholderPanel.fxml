@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox styleClass="card-placeholder" xmlns="http://javafx.com/javafx/8.0.65"
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.tabs.PlaceholderPanelController">
+	<children>
+		<StackPane VBox.vgrow="ALWAYS">
+			<children>
+				<Label styleClass="label-placeholder" text="Panel A"
+					textAlignment="CENTER" StackPane.alignment="BOTTOM_CENTER">
+					<font>
+						<Font size="36.0" />
+					</font>
+				</Label>
+			</children>
+		</StackPane>
+		<StackPane VBox.vgrow="ALWAYS">
+			<children>
+				<Label maxWidth="256.0" styleClass="label-placeholder"
+					text="Right-click on an endpoint in resource tree and select &quot;Show on Panel A&quot;"
+					textAlignment="CENTER" wrapText="true" StackPane.alignment="TOP_CENTER" />
+			</children>
+		</StackPane>
+	</children>
+</VBox>

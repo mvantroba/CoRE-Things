@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
@@ -21,15 +22,17 @@
 						</Label>
 						<TreeView fx:id="resourceTree" VBox.vgrow="ALWAYS" />
 					</children>
-					<HBox.margin>
-						<Insets right="8.0" />
-					</HBox.margin>
 					<styleClass>
 						<String fx:value="card" />
 						<String fx:value="card-content" />
 					</styleClass>
 				</VBox>
-				<fx:include fx:id="endpointPanel" source="EndpointPanel.fxml" />
+				<Pane prefWidth="16.0" HBox.hgrow="NEVER" />
+				<fx:include fx:id="endpointPanel" source="EndpointPanel.fxml"
+					HBox.hgrow="ALWAYS" />
+				<Pane prefWidth="16.0" HBox.hgrow="NEVER" />
+				<fx:include fx:id="placeholderPanel" source="PlaceholderPanel.fxml"
+					HBox.hgrow="ALWAYS" />
 			</children>
 			<VBox.margin>
 				<Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />

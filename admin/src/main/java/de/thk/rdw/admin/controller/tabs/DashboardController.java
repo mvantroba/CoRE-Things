@@ -26,6 +26,8 @@ public class DashboardController {
 	private TreeView<GuiCoapResource> resourceTree;
 	@FXML
 	private EndpointPanelController endpointPanelController;
+	@FXML
+	private PlaceholderPanelController placeholderPanelController;
 
 	@FXML
 	private void initialize() {

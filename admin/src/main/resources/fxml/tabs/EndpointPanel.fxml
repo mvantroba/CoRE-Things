@@ -21,7 +21,7 @@
 	<children>
 		<StackPane>
 			<children>
-				<Label fx:id="context" styleClass="label-uri" text="context"
+				<Label fx:id="context" styleClass="label-uri"
 					StackPane.alignment="CENTER_LEFT">
 					<font>
 						<Font name="System Bold" size="12.0" />
@@ -52,6 +52,9 @@
 					</graphic>
 				</Button>
 			</children>
+			<VBox.margin>
+				<Insets bottom="4.0" />
+			</VBox.margin>
 		</StackPane>
 		<HBox>
 			<children>
@@ -66,7 +69,7 @@
 						<HBox>
 							<children>
 								<Label minWidth="56.0" text="Name:" />
-								<Label fx:id="endpointName" text="endpointName">
+								<Label fx:id="endpointName">
 									<font>
 										<Font name="System Bold" size="12.0" />
 									</font>
@@ -76,7 +79,7 @@
 						<HBox>
 							<children>
 								<Label minWidth="56.0" text="Domain:" />
-								<Label fx:id="domain" text="domain">
+								<Label fx:id="domain">
 									<font>
 										<Font name="System Bold" size="12.0" />
 									</font>
@@ -86,7 +89,7 @@
 						<HBox>
 							<children>
 								<Label minWidth="56.0" text="Type:" />
-								<Label fx:id="endpointType" text="endpointType">
+								<Label fx:id="endpointType">
 									<font>
 										<Font name="System Bold" size="12.0" />
 									</font>
@@ -96,7 +99,7 @@
 						<HBox>
 							<children>
 								<Label minWidth="56.0" text="Lifetime:" />
-								<Label fx:id="lifetime" text="lifetime">
+								<Label fx:id="lifetime">
 									<font>
 										<Font name="System Bold" size="12.0" />
 									</font>
@@ -109,6 +112,9 @@
 					</HBox.margin>
 				</VBox>
 			</children>
+			<VBox.margin>
+				<Insets bottom="4.0" />
+			</VBox.margin>
 		</HBox>
 		<ListView VBox.vgrow="ALWAYS" />
 	</children>

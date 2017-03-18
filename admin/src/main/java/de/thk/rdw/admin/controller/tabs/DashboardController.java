@@ -27,10 +27,16 @@ public class DashboardController {
 	@FXML
 	private EndpointPanelController endpointPanelController;
 	@FXML
-	private PlaceholderPanelController placeholderPanelController;
+	private PlaceholderPanelController placeholderPanelAController;
+	@FXML
+	private PlaceholderPanelController placeholderPanelBController;
 
 	@FXML
 	private void initialize() {
+		placeholderPanelAController.setTitle(resources.getString("placeholder.panelA.title"));
+		placeholderPanelAController.setDescription(resources.getString("placeholder.panelA.description"));
+		placeholderPanelBController.setTitle(resources.getString("placeholder.panelB.title"));
+		placeholderPanelBController.setDescription(resources.getString("placeholder.panelB.description"));
 	}
 
 	public void populateTree(Response response) {

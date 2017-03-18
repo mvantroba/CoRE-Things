@@ -10,7 +10,7 @@
 	<children>
 		<StackPane VBox.vgrow="ALWAYS">
 			<children>
-				<Label styleClass="label-placeholder" text="Panel A"
+				<Label fx:id="title" styleClass="label-placeholder"
 					textAlignment="CENTER" StackPane.alignment="BOTTOM_CENTER">
 					<font>
 						<Font size="36.0" />
@@ -20,8 +20,7 @@
 		</StackPane>
 		<StackPane VBox.vgrow="ALWAYS">
 			<children>
-				<Label maxWidth="256.0" styleClass="label-placeholder"
-					text="Right-click on an endpoint in resource tree and select &quot;Show on Panel A&quot;"
+				<Label fx:id="description" maxWidth="256.0" styleClass="label-placeholder"
 					textAlignment="CENTER" wrapText="true" StackPane.alignment="TOP_CENTER" />
 			</children>
 		</StackPane>

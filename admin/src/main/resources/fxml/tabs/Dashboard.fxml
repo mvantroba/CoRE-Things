@@ -28,10 +28,10 @@
 					</styleClass>
 				</VBox>
 				<Pane prefWidth="16.0" HBox.hgrow="NEVER" />
-				<fx:include fx:id="endpointPanel" source="EndpointPanel.fxml"
+				<fx:include fx:id="placeholderPanelA" source="PlaceholderPanel.fxml"
 					HBox.hgrow="ALWAYS" />
 				<Pane prefWidth="16.0" HBox.hgrow="NEVER" />
-				<fx:include fx:id="placeholderPanel" source="PlaceholderPanel.fxml"
+				<fx:include fx:id="placeholderPanelB" source="PlaceholderPanel.fxml"
 					HBox.hgrow="ALWAYS" />
 			</children>
 			<VBox.margin>

@@ -1,48 +1,47 @@
-package de.thk.rdw.admin.model;
+package de.thk.rdw.admin.icon;
 
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import de.thk.rdw.admin.controller.Icon;
-import javafx.scene.image.ImageView;
+import de.thk.rdw.admin.model.EndpointType;
 
 public class EndpointTypeIcon {
 
-	private static final Icon DEFAULT_ICON = Icon.ENDPOINT_GREY_16;
+	private static final Icon DEFAULT_ICON = Icon.ENDPOINT_GREY;
 	private static final Map<EndpointType, Icon> ENDPOINT_TYPE_ICONS = new EnumMap<>(EndpointType.class);
 
 	static {
-		ENDPOINT_TYPE_ICONS.put(EndpointType.RASPBERRY_PI, Icon.RASPBERRY_16);
-		ENDPOINT_TYPE_ICONS.put(EndpointType.OPENHAB, Icon.OPENHAB_16);
+		ENDPOINT_TYPE_ICONS.put(EndpointType.RASPBERRY_PI, Icon.RASPBERRY);
+		ENDPOINT_TYPE_ICONS.put(EndpointType.OPENHAB, Icon.OPENHAB);
 	}
 
-	public static ImageView get(EndpointType endpointType) {
-		ImageView result;
+	public static Icon get(EndpointType endpointType) {
+		Icon result;
 		if (ENDPOINT_TYPE_ICONS.containsKey(endpointType)) {
-			result = ENDPOINT_TYPE_ICONS.get(endpointType).getImageView();
+			result = ENDPOINT_TYPE_ICONS.get(endpointType);
 		} else {
-			result = DEFAULT_ICON.getImageView();
+			result = DEFAULT_ICON;
 		}
 		return result;
 	}
 
-	public static ImageView get(List<String> endpointTypes) {
-		ImageView result;
+	public static Icon get(List<String> endpointTypes) {
+		Icon result;
 		if (endpointTypes == null) {
-			result = DEFAULT_ICON.getImageView();
+			result = DEFAULT_ICON;
 		} else {
 			result = findFirst(endpointTypes);
 			if (result == null) {
-				result = DEFAULT_ICON.getImageView();
+				result = DEFAULT_ICON;
 			}
 		}
 		return result;
 	}
 
-	private static ImageView findFirst(List<String> endpointTypes) {
-		ImageView result = null;
+	private static Icon findFirst(List<String> endpointTypes) {
+		Icon result = null;
 		boolean found = false;
 		for (String endpointType : endpointTypes) {
 			for (Entry<EndpointType, Icon> entry : ENDPOINT_TYPE_ICONS.entrySet()) {

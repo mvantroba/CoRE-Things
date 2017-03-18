@@ -55,8 +55,8 @@
 		</StackPane>
 		<HBox>
 			<children>
-				<ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true"
-					preserveRatio="true">
+				<ImageView fx:id="endpointImage" fitHeight="48.0"
+					fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
 					<HBox.margin>
 						<Insets bottom="10.0" top="10.0" />
 					</HBox.margin>

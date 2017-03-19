@@ -12,8 +12,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="de.thk.rdw.admin.controller.tabs.EndpointPanelController">
+<VBox HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx/8.0.65"
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.tabs.EndpointPanelController">
 	<styleClass>
 		<String fx:value="card" />
 		<String fx:value="card-content" />
@@ -41,7 +41,8 @@
 						<Insets right="36.0" />
 					</StackPane.margin>
 				</Button>
-				<Button mnemonicParsing="false" StackPane.alignment="CENTER_RIGHT">
+				<Button fx:id="close" mnemonicParsing="false"
+					StackPane.alignment="CENTER_RIGHT">
 					<graphic>
 						<ImageView fitHeight="16.0" fitWidth="16.0"
 							pickOnBounds="true" preserveRatio="true">

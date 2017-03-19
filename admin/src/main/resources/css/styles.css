@@ -20,6 +20,10 @@
 	-fx-pref-height: 576.0px;
 }
 
+.container-sub {
+	-fx-padding: 16.0px;
+}
+
 .card {
 	-fx-padding: 8.0px;
 	-fx-background-color: color-card;

@@ -8,35 +8,28 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="de.thk.rdw.admin.controller.tabs.DashboardController">
+<HBox fx:id="root" styleClass="container-sub" xmlns="http://javafx.com/javafx/8.0.65"
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.tabs.DashboardController">
 	<children>
-		<HBox VBox.vgrow="ALWAYS">
+		<VBox HBox.hgrow="ALWAYS">
 			<children>
-				<VBox HBox.hgrow="ALWAYS">
-					<children>
-						<Label text="%card.title.resources" VBox.vgrow="NEVER">
-							<VBox.margin>
-								<Insets bottom="8.0" />
-							</VBox.margin>
-						</Label>
-						<TreeView fx:id="resourceTree" VBox.vgrow="ALWAYS" />
-					</children>
-					<styleClass>
-						<String fx:value="card" />
-						<String fx:value="card-content" />
-					</styleClass>
-				</VBox>
-				<Pane prefWidth="16.0" HBox.hgrow="NEVER" />
-				<fx:include fx:id="placeholderPanelA" source="PlaceholderPanel.fxml"
-					HBox.hgrow="ALWAYS" />
-				<Pane prefWidth="16.0" HBox.hgrow="NEVER" />
-				<fx:include fx:id="placeholderPanelB" source="PlaceholderPanel.fxml"
-					HBox.hgrow="ALWAYS" />
+				<Label text="%card.title.resources" VBox.vgrow="NEVER">
+					<VBox.margin>
+						<Insets bottom="8.0" />
+					</VBox.margin>
+				</Label>
+				<TreeView fx:id="resourceTree" VBox.vgrow="ALWAYS" />
 			</children>
-			<VBox.margin>
-				<Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
-			</VBox.margin>
-		</HBox>
+			<styleClass>
+				<String fx:value="card" />
+				<String fx:value="card-content" />
+			</styleClass>
+		</VBox>
+		<Pane prefWidth="16.0" HBox.hgrow="NEVER" />
+		<fx:include fx:id="placeholderPanelA" source="PlaceholderPanel.fxml"
+			HBox.hgrow="ALWAYS" />
+		<Pane prefWidth="16.0" HBox.hgrow="NEVER" />
+		<fx:include fx:id="placeholderPanelB" source="PlaceholderPanel.fxml"
+			HBox.hgrow="ALWAYS" />
 	</children>
-</VBox>
+</HBox>

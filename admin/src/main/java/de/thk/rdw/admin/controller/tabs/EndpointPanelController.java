@@ -7,12 +7,15 @@ import de.thk.rdw.admin.icon.EndpointTypeIcon;
 import de.thk.rdw.admin.icon.Icon;
 import de.thk.rdw.admin.icon.IconSize;
 import de.thk.rdw.admin.model.GuiCoapResource;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 
 public class EndpointPanelController implements Initializable {
@@ -31,10 +34,12 @@ public class EndpointPanelController implements Initializable {
 	private Label context;
 	@FXML
 	private Button close;
+	@FXML
+	private ListView<GuiCoapResource> endpointResources;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		endpointResources.setCellFactory(param -> new EndpointResourceCell());
 	}
 
 	public void setOnCloseEventHandler(EventHandler<ActionEvent> eventHandler) {
@@ -50,5 +55,8 @@ public class EndpointPanelController implements Initializable {
 		endpointType.setText(guiCoapResource.getAttributeValues("et"));
 		lifetime.setText(guiCoapResource.getAttributeValues("lt"));
 		context.setText(guiCoapResource.getAttributeValues("con"));
+		ObservableList<GuiCoapResource> items = FXCollections.observableArrayList(guiCoapResource.getLeafNodes());
+		endpointResources.getItems().clear();
+		endpointResources.setItems(items);
 	}
 }

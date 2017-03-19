@@ -1,8 +1,10 @@
 package de.thk.rdw.admin.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.californium.core.CoapResource;
+import org.eclipse.californium.core.server.resources.Resource;
 
 import de.thk.rdw.admin.icon.EndpointTypeIcon;
 import de.thk.rdw.admin.icon.Icon;
@@ -45,6 +47,21 @@ public class GuiCoapResource extends CoapResource {
 
 	public boolean isResourceDirectory() {
 		return getAttributes().containsAttribute("rt") && getAttributes().getAttributeValues("rt").contains("core.rd");
+	}
+
+	// TODO Endpoints are appearing in list view when they have no children.
+	public List<GuiCoapResource> getLeafNodes() {
+		List<GuiCoapResource> result = new ArrayList<>();
+		if (getChildren().isEmpty()) {
+			result.add(this);
+		} else {
+			for (Resource child : getChildren()) {
+				// TODO Remove this cast.
+				GuiCoapResource guiChild = (GuiCoapResource) child;
+				result.addAll(guiChild.getLeafNodes());
+			}
+		}
+		return result;
 	}
 
 	public Node getIcon(IconSize iconSize) {

@@ -117,6 +117,6 @@
 				<Insets bottom="4.0" />
 			</VBox.margin>
 		</HBox>
-		<ListView VBox.vgrow="ALWAYS" />
+		<ListView fx:id="endpointResources" VBox.vgrow="ALWAYS" />
 	</children>
 </VBox>

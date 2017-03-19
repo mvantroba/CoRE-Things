@@ -5,10 +5,10 @@ import java.util.logging.Logger;
 
 import org.eclipse.californium.core.coap.Response;
 
-import de.thk.rdw.admin.controller.CoapResourceCell;
 import de.thk.rdw.admin.controller.MainController;
-import de.thk.rdw.admin.controller.TreeUtils;
 import de.thk.rdw.admin.model.GuiCoapResource;
+import de.thk.rdw.admin.tree.DashboardTreeCell;
+import de.thk.rdw.admin.tree.TreeUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeView;
@@ -44,11 +44,16 @@ public class DashboardController {
 
 			@Override
 			public TreeCell<GuiCoapResource> call(TreeView<GuiCoapResource> param) {
-				return new CoapResourceCell() {
+				return new DashboardTreeCell(resources) {
 
 					@Override
-					protected void onShowAction(GuiCoapResource guiCoapResource) {
+					protected void onShowOnPanelA(GuiCoapResource guiCoapResource) {
 						endpointPanelController.setGuiCoapResource(guiCoapResource);
+					}
+
+					@Override
+					protected void onShowOnPanelB(GuiCoapResource guiCoapResource) {
+						// TODO Auto-generated method stub
 					}
 				};
 			}

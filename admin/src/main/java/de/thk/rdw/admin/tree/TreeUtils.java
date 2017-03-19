@@ -1,4 +1,4 @@
-package de.thk.rdw.admin.controller;
+package de.thk.rdw.admin.tree;
 
 import java.util.Scanner;
 import java.util.Set;
@@ -47,11 +47,10 @@ public class TreeUtils {
 						}
 					}
 					childItem = new TreeItem<>(guiCoapResource);
-					childItem.setExpanded(true);
-					parentItem.getValue().add(guiCoapResource);
-					if (parentItem.getValue().getName().equals("rd")) {
-						childItem.setExpanded(false);
+					if (guiCoapResource.isResourceDirectory()) {
+						childItem.setExpanded(true);
 					}
+					parentItem.getValue().add(guiCoapResource);
 					parentItem.getChildren().add(childItem);
 				}
 				parentItem = childItem;

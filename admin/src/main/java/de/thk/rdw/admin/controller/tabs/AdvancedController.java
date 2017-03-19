@@ -1,13 +1,14 @@
 package de.thk.rdw.admin.controller.tabs;
 
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 import org.eclipse.californium.core.coap.Response;
 
-import de.thk.rdw.admin.controller.CoapResourceCell;
 import de.thk.rdw.admin.controller.MainController;
-import de.thk.rdw.admin.controller.TreeUtils;
 import de.thk.rdw.admin.model.GuiCoapResource;
+import de.thk.rdw.admin.tree.AdvancedTreeCell;
+import de.thk.rdw.admin.tree.TreeUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeView;
@@ -20,6 +21,8 @@ public class AdvancedController {
 	private MainController mainController;
 
 	@FXML
+	private ResourceBundle resources;
+	@FXML
 	private TreeView<GuiCoapResource> resourceTree;
 
 	@FXML
@@ -31,13 +34,7 @@ public class AdvancedController {
 
 			@Override
 			public TreeCell<GuiCoapResource> call(TreeView<GuiCoapResource> param) {
-				return new CoapResourceCell() {
-
-					@Override
-					protected void onShowAction(GuiCoapResource guiCoapResource) {
-						// TODO Auto-generated method stub
-					}
-				};
+				return new AdvancedTreeCell();
 			}
 		});
 		this.resourceTree.setRoot(TreeUtils.parseResources(response, false));

@@ -40,12 +40,11 @@ public class GuiCoapResource extends CoapResource {
 	}
 
 	public boolean isEndpoint() {
-		boolean result = false;
-		// TODO Define endpoint attributes globally.
-		if (getAttributes().containsAttribute("con")) {
-			result = true;
-		}
-		return result;
+		return getAttributes().containsAttribute("con");
+	}
+
+	public boolean isResourceDirectory() {
+		return getAttributes().containsAttribute("rt") && getAttributes().getAttributeValues("rt").contains("core.rd");
 	}
 
 	public Node getIcon(IconSize iconSize) {

@@ -89,9 +89,12 @@ public class EndpointResource extends CoapResource {
 			LOGGER.log(Level.WARNING, "Could not parse lifetime value \"{0}\" to Long. Enforcing default value: {1}.",
 					new Object[] { variables.get(UriVariable.LIFE_TIME), lifetime });
 		}
+		// Remove previous entry to prevent having multiple values.
+		getAttributes().clearAttribute("lt");
 		getAttributes().addAttribute("lt", String.valueOf(lifetime));
 		updateLifetime(lifetime);
 		this.context = variables.get(UriVariable.CONTEXT);
+		getAttributes().clearAttribute("con");
 		getAttributes().addAttribute("con", context);
 	}
 

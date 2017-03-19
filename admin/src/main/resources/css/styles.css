@@ -43,6 +43,7 @@
 
 /********** HEADER **********/
 .header {
+	-fx-padding: 4.0px 16.0px;
 	-fx-background-color: color-header;
 }
 

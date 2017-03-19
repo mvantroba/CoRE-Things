@@ -1,41 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
 <StackPane styleClass="header" xmlns="http://javafx.com/javafx/8.0.65"
 	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.HeaderController">
 	<children>
-		<Label fx:id="title" StackPane.alignment="CENTER_LEFT">
-			<StackPane.margin>
-				<Insets left="16.0" />
-			</StackPane.margin>
-		</Label>
-		<ImageView fitHeight="36.0" fitWidth="67.0" pickOnBounds="true"
-			preserveRatio="true" StackPane.alignment="CENTER">
+		<Label fx:id="title" StackPane.alignment="CENTER_LEFT" />
+		<ImageView pickOnBounds="true" preserveRatio="true"
+			StackPane.alignment="CENTER">
 			<image>
 				<Image url="@../img/ic_thk_67x36.png" />
 			</image>
-			<StackPane.margin>
-				<Insets bottom="4.0" top="4.0" />
-			</StackPane.margin>
 		</ImageView>
-		<Label text="Administrator" StackPane.alignment="CENTER_RIGHT">
-			<StackPane.margin>
-				<Insets right="44.0" />
-			</StackPane.margin>
-		</Label>
-		<ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-			preserveRatio="true" StackPane.alignment="CENTER_RIGHT">
-			<StackPane.margin>
-				<Insets right="16.0" />
-			</StackPane.margin>
-			<image>
-				<Image url="@../img/ic_person_black_24px.png" />
-			</image>
-		</ImageView>
+		<HBox alignment="CENTER_RIGHT" StackPane.alignment="CENTER_RIGHT">
+			<children>
+				<Label text="Administrator" />
+				<ImageView pickOnBounds="true" preserveRatio="true">
+					<image>
+						<Image url="@../img/ic_person_black_24px.png" />
+					</image>
+				</ImageView>
+			</children>
+		</HBox>
 	</children>
 </StackPane>

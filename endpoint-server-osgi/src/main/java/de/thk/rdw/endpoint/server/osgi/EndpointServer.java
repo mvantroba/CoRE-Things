@@ -19,6 +19,13 @@ public class EndpointServer extends CoapServer {
 				this.addEndpoint(new CoapEndpoint(new InetSocketAddress(address, CoAP.DEFAULT_COAP_PORT)));
 			}
 		}
-		add(new CoapResource("light"));
+
+		CoapResource actuators = new CoapResource("a");
+		CoapResource actuator1 = new CoapResource("1");
+		CoapResource led = new CoapResource("led");
+
+		actuator1.add(led);
+		actuators.add(actuator1);
+		add(actuators);
 	}
 }

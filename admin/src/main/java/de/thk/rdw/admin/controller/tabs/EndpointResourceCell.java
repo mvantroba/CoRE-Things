@@ -11,7 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class EndpointResourceCell extends ListCell<GuiCoapResource> {
+public abstract class EndpointResourceCell extends ListCell<GuiCoapResource> {
 
 	private final StackPane root = new StackPane();
 	private final ImageView imageView = new ImageView();
@@ -26,7 +26,10 @@ public class EndpointResourceCell extends ListCell<GuiCoapResource> {
 		StackPane.setAlignment(hBox, Pos.CENTER_LEFT);
 		StackPane.setAlignment(button, Pos.CENTER_RIGHT);
 		root.getChildren().addAll(hBox, button);
+		button.setOnAction(event -> onToggle(getItem()));
 	}
+
+	public abstract void onToggle(GuiCoapResource item);
 
 	@Override
 	protected void updateItem(GuiCoapResource item, boolean empty) {

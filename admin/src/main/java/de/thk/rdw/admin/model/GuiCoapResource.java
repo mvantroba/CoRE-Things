@@ -67,9 +67,20 @@ public class GuiCoapResource extends CoapResource {
 		StringBuilder result = new StringBuilder();
 		if (!isEndpoint()) {
 			result.insert(0, "/" + getName());
+			// TODO Remove this cast.
 			result.insert(0, ((GuiCoapResource) getParent()).getRelativePath());
 		}
 		return result.toString();
+	}
+
+	// TODO Use method getEndpoints().
+	public String getEndpointUri() {
+		if (getAttributes().containsAttribute("con")) {
+			return getAttributes().getAttributeValues("con").get(0);
+		} else {
+			// TODO Remove this cast.
+			return ((GuiCoapResource) getParent()).getEndpointUri();
+		}
 	}
 
 	public Image getImage(IconSize iconSize) {

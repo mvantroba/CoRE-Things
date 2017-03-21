@@ -2,6 +2,13 @@ package de.thk.rdw.admin.controller.tabs;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.eclipse.californium.core.coap.CoAP;
+import org.eclipse.californium.core.coap.MessageObserverAdapter;
+import org.eclipse.californium.core.coap.Request;
+import org.eclipse.californium.core.coap.Response;
 
 import de.thk.rdw.admin.icon.EndpointTypeIcon;
 import de.thk.rdw.admin.icon.Icon;
@@ -19,6 +26,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 
 public class EndpointPanelController implements Initializable {
+
+	private static final Logger LOGGER = Logger.getLogger(EndpointPanelController.class.getName());
 
 	@FXML
 	private Label endpointName;
@@ -39,7 +48,25 @@ public class EndpointPanelController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		endpointResources.setCellFactory(param -> new EndpointResourceCell());
+		endpointResources.setCellFactory(param -> new EndpointResourceCell() {
+
+			@Override
+			public void onToggle(GuiCoapResource item) {
+				// TODO Use CoapClient class to send requests.
+				Request request = new Request(CoAP.Code.GET);
+				String uri = String.format("%s%s", item.getEndpointUri(), item.getRelativePath());
+				request.setURI(uri);
+				request.addMessageObserver(new MessageObserverAdapter() {
+
+					@Override
+					public void onResponse(Response response) {
+						LOGGER.log(Level.INFO, "Received response: \"{0}\".", response.getPayloadString());
+					}
+				});
+				LOGGER.log(Level.INFO, "Sending GET request to \"{0}\"...", uri);
+				request.send();
+			}
+		});
 	}
 
 	public void setOnCloseEventHandler(EventHandler<ActionEvent> eventHandler) {

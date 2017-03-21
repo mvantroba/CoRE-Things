@@ -19,6 +19,7 @@ public enum Icon {
 	LED_LIGHT_LAMP("ic_led_light_lamp"), //
 	OPENHAB("ic_openhab"), //
 	PAGEVIEW_GREY("ic_pageview_grey"), //
+	POWER_SETTINGS_NEW_GREY("ic_power_settings_new_grey"), //
 	PUBLIC_BLUE("ic_public_blue"), //
 	RASPBERRY("ic_raspberry"), //
 	RESOURCE_GREY("ic_resource_grey");

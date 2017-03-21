@@ -1,5 +1,6 @@
 package de.thk.rdw.admin.controller.tabs;
 
+import de.thk.rdw.admin.icon.Icon;
 import de.thk.rdw.admin.icon.IconSize;
 import de.thk.rdw.admin.model.GuiCoapResource;
 import javafx.geometry.Pos;
@@ -25,8 +26,9 @@ public abstract class EndpointResourceCell extends ListCell<GuiCoapResource> {
 		HBox hBox = new HBox(8.0, imageView, vBox);
 		StackPane.setAlignment(hBox, Pos.CENTER_LEFT);
 		StackPane.setAlignment(button, Pos.CENTER_RIGHT);
-		root.getChildren().addAll(hBox, button);
+		button.setGraphic(new ImageView(Icon.POWER_SETTINGS_NEW_GREY.getImage(IconSize.SMALL)));
 		button.setOnAction(event -> onToggle(getItem()));
+		root.getChildren().addAll(hBox, button);
 	}
 
 	public abstract void onToggle(GuiCoapResource item);

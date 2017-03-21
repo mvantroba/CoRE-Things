@@ -9,6 +9,7 @@ import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -36,21 +37,21 @@ public class NotificationController {
 	public void info(String message) {
 		fadeIn.playFromStart();
 		box.getStyleClass().set(2, "notification-info");
-		icon.getChildren().set(0, Icon.INFO_BLUE.getImageView(IconSize.MEDIUM));
+		icon.getChildren().set(0, new ImageView(Icon.INFO_BLUE.getImage(IconSize.MEDIUM)));
 		this.message.setText(message);
 	}
 
 	public void success(String message) {
 		fadeIn.playFromStart();
 		box.getStyleClass().set(2, "notification-success");
-		icon.getChildren().set(0, Icon.CHECK_CIRCLE_GREEN.getImageView(IconSize.MEDIUM));
+		icon.getChildren().set(0, new ImageView(Icon.CHECK_CIRCLE_GREEN.getImage(IconSize.MEDIUM)));
 		this.message.setText(message);
 	}
 
 	public void error(String message) {
 		fadeIn.playFromStart();
 		box.getStyleClass().set(2, "notification-error");
-		icon.getChildren().set(0, Icon.ERROR_RED.getImageView(IconSize.MEDIUM));
+		icon.getChildren().set(0, new ImageView(Icon.ERROR_RED.getImage(IconSize.MEDIUM)));
 		this.message.setText(message);
 	}
 

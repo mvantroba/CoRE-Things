@@ -16,6 +16,7 @@ public class ResourceTypeIcon {
 		RESOURCE_TYPE_ICONS.put(ResourceType.CORE_RD, Icon.FOLDER_AMBER);
 		RESOURCE_TYPE_ICONS.put(ResourceType.CORE_RD_GROUP, Icon.GROUP_WORK_GREY);
 		RESOURCE_TYPE_ICONS.put(ResourceType.CORE_RD_LOOKUP, Icon.PAGEVIEW_GREY);
+		RESOURCE_TYPE_ICONS.put(ResourceType.LED, Icon.LED_LIGHT_LAMP);
 	}
 
 	public static Icon get(ResourceType resourceType) {

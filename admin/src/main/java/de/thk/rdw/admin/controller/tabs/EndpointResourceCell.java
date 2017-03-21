@@ -1,26 +1,29 @@
 package de.thk.rdw.admin.controller.tabs;
 
+import de.thk.rdw.admin.icon.IconSize;
 import de.thk.rdw.admin.model.GuiCoapResource;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class EndpointResourceCell extends ListCell<GuiCoapResource> {
 
-	private final StackPane root;
-	private final Label label;
-	private final Button button;
+	private final StackPane root = new StackPane();
+	private final ImageView imageView = new ImageView();
+	private final Label label = new Label();
+	private final Button button = new Button();
 
 	public EndpointResourceCell() {
-		root = new StackPane();
-		// TODO Localize messages.
-		label = new Label("empty");
-		StackPane.setAlignment(label, Pos.CENTER_LEFT);
-		button = new Button("toggle");
+		VBox vBox = new VBox(label);
+		HBox hBox = new HBox(8.0, imageView, vBox);
+		StackPane.setAlignment(hBox, Pos.CENTER_LEFT);
 		StackPane.setAlignment(button, Pos.CENTER_RIGHT);
-		root.getChildren().addAll(label, button);
+		root.getChildren().addAll(hBox, button);
 	}
 
 	@Override
@@ -30,6 +33,7 @@ public class EndpointResourceCell extends ListCell<GuiCoapResource> {
 		if (item == null || empty) {
 			setGraphic(null);
 		} else {
+			imageView.setImage(item.getImage(IconSize.MEDIUM));
 			label.setText(item.getName());
 			setGraphic(root);
 		}

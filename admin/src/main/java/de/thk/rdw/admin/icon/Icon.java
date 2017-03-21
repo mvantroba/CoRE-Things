@@ -6,7 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public enum Icon {
 
@@ -17,6 +16,7 @@ public enum Icon {
 	GROUP_WORK_GREY("ic_group_work_grey"), //
 	HOME_GREEN("ic_home_green"), //
 	INFO_BLUE("ic_info_blue"), //
+	LED_LIGHT_LAMP("ic_led_light_lamp"), //
 	OPENHAB("ic_openhab"), //
 	PAGEVIEW_GREY("ic_pageview_grey"), //
 	PUBLIC_BLUE("ic_public_blue"), //
@@ -46,15 +46,6 @@ public enum Icon {
 			} catch (IllegalArgumentException e) {
 				LOGGER.log(Level.INFO, "Could not load icon \"{0}\".", new Object[] { url });
 			}
-		}
-		return result;
-	}
-
-	public ImageView getImageView(IconSize iconSize) {
-		ImageView result = null;
-		Image image = getImage(iconSize);
-		if (image != null) {
-			result = new ImageView(image);
 		}
 		return result;
 	}

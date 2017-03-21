@@ -10,8 +10,7 @@ import de.thk.rdw.admin.icon.EndpointTypeIcon;
 import de.thk.rdw.admin.icon.Icon;
 import de.thk.rdw.admin.icon.IconSize;
 import de.thk.rdw.admin.icon.ResourceTypeIcon;
-import javafx.scene.Node;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 
 public class GuiCoapResource extends CoapResource {
 
@@ -64,20 +63,20 @@ public class GuiCoapResource extends CoapResource {
 		return result;
 	}
 
-	public Node getIcon(IconSize iconSize) {
-		ImageView result = null;
+	public Image getImage(IconSize iconSize) {
+		Image result = null;
 		// TODO Define resource attributes globally.
 		if (getAttributes().containsAttribute("rt")) {
-			result = ResourceTypeIcon.get(getAttributes().getAttributeValues("rt")).getImageView(iconSize);
+			result = ResourceTypeIcon.get(getAttributes().getAttributeValues("rt")).getImage(iconSize);
 		} else if (getName().equals(".well-known")) {
-			result = Icon.PUBLIC_BLUE.getImageView(iconSize);
+			result = Icon.PUBLIC_BLUE.getImage(iconSize);
 		} else if (isEndpoint()) {
-			result = EndpointTypeIcon.get(getAttributes().getAttributeValues("et")).getImageView(iconSize);
+			result = EndpointTypeIcon.get(getAttributes().getAttributeValues("et")).getImage(iconSize);
 		} else if (isRoot()) {
-			result = Icon.HOME_GREEN.getImageView(iconSize);
+			result = Icon.HOME_GREEN.getImage(iconSize);
 		}
 		if (result == null) {
-			result = Icon.RESOURCE_GREY.getImageView(iconSize);
+			result = Icon.RESOURCE_GREY.getImage(iconSize);
 		}
 		return result;
 	}

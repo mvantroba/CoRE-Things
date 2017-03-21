@@ -7,6 +7,7 @@ import de.thk.rdw.admin.model.GuiCoapResource;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeCell;
+import javafx.scene.image.ImageView;
 
 public abstract class DashboardTreeCell extends TreeCell<GuiCoapResource> {
 
@@ -44,7 +45,7 @@ public abstract class DashboardTreeCell extends TreeCell<GuiCoapResource> {
 				setContextMenu(null);
 				setStyle(null);
 			}
-			setGraphic(item.getIcon(IconSize.SMALL));
+			setGraphic(new ImageView(item.getImage(IconSize.SMALL)));
 		}
 	}
 }

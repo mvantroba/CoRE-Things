@@ -63,6 +63,15 @@ public class GuiCoapResource extends CoapResource {
 		return result;
 	}
 
+	public String getRelativePath() {
+		StringBuilder result = new StringBuilder();
+		if (!isEndpoint()) {
+			result.insert(0, "/" + getName());
+			result.insert(0, ((GuiCoapResource) getParent()).getRelativePath());
+		}
+		return result.toString();
+	}
+
 	public Image getImage(IconSize iconSize) {
 		Image result = null;
 		// TODO Define resource attributes globally.

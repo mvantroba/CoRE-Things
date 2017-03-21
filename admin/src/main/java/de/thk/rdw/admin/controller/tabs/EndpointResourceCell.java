@@ -15,11 +15,13 @@ public class EndpointResourceCell extends ListCell<GuiCoapResource> {
 
 	private final StackPane root = new StackPane();
 	private final ImageView imageView = new ImageView();
-	private final Label label = new Label();
+	private final Label path = new Label();
+	private final Label type = new Label();
 	private final Button button = new Button();
 
 	public EndpointResourceCell() {
-		VBox vBox = new VBox(label);
+		path.setStyle("-fx-font-weight: bold;");
+		VBox vBox = new VBox(path, type);
 		HBox hBox = new HBox(8.0, imageView, vBox);
 		StackPane.setAlignment(hBox, Pos.CENTER_LEFT);
 		StackPane.setAlignment(button, Pos.CENTER_RIGHT);
@@ -34,7 +36,8 @@ public class EndpointResourceCell extends ListCell<GuiCoapResource> {
 			setGraphic(null);
 		} else {
 			imageView.setImage(item.getImage(IconSize.MEDIUM));
-			label.setText(item.getName());
+			path.setText(item.getRelativePath());
+			type.setText("Type: " + item.getName());
 			setGraphic(root);
 		}
 	}

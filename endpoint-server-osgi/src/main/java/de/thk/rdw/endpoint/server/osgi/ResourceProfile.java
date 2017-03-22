@@ -3,7 +3,9 @@ package de.thk.rdw.endpoint.server.osgi;
 public enum ResourceProfile {
 
 	ACTUATORS("a", "act"), //
-	SENSORS("s", "sen");
+	SENSORS("s", "sen"), //
+
+	LED("led", "led");
 
 	private String name;
 	private String resourceType;

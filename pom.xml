@@ -67,6 +67,12 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- BASE -->
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>base</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<!-- ENDPOINT-DEVICE-OSGI -->
 			<dependency>
 				<groupId>${project.groupId}</groupId>

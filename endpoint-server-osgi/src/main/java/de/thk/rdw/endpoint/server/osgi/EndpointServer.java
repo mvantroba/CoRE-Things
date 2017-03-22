@@ -11,6 +11,7 @@ import org.eclipse.californium.core.coap.CoAP;
 import org.eclipse.californium.core.network.CoapEndpoint;
 import org.eclipse.californium.core.network.EndpointManager;
 
+import de.thk.rdw.base.ActuatorResourceType;
 import de.thk.rdw.endpoint.device.osgi.DeviceService;
 import de.thk.rdw.endpoint.server.osgi.resource.ActuatorResource;
 
@@ -37,7 +38,7 @@ public class EndpointServer extends CoapServer {
 		sensorsResource.getAttributes().addResourceType(ResourceProfile.SENSORS.getResourceType());
 		add(actuatorsResource, sensorsResource);
 
-		addActuator(ResourceProfile.LED);
+		addActuator(ActuatorResourceType.LED);
 	}
 
 	public void setDeviceService(DeviceService deviceService) {
@@ -48,25 +49,25 @@ public class EndpointServer extends CoapServer {
 		this.deviceService = null;
 	}
 
-	public void addActuator(final ResourceProfile resourceProfile) {
+	public void addActuator(final ActuatorResourceType actuatorResourceType) {
 		int id;
 		if (!actuators.isEmpty()) {
 			id = actuators.lastKey() + 1;
 		} else {
 			id = 0;
 		}
-		ActuatorResource actuatorResource = new ActuatorResource(resourceProfile.getName()) {
+		ActuatorResource actuatorResource = new ActuatorResource(actuatorResourceType.getName()) {
 
 			@Override
 			protected void onToggle() throws DeviceServiceNotInitializedException {
 				if (deviceService != null) {
-					deviceService.toggleActuator(resourceProfile.getName());
+					deviceService.toggleActuator(actuatorResourceType.getName());
 				} else {
 					throw new DeviceServiceNotInitializedException();
 				}
 			}
 		};
-		actuatorResource.getAttributes().addResourceType(resourceProfile.getResourceType());
+		actuatorResource.getAttributes().addResourceType(actuatorResourceType.getResourceType());
 		CoapResource idResource = new CoapResource(String.valueOf(id));
 		idResource.add(actuatorResource);
 		// Register resource in path /{actuators}/{id}/{actuator}.

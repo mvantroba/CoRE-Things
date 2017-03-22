@@ -21,6 +21,11 @@
 	</properties>
 
 	<dependencies>
+		<!-- BASE -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>base</artifactId>
+		</dependency>
 		<!-- ENDPOINT-DEVICE-OSGI -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -52,6 +57,7 @@
 				<configuration>
 					<instructions>
 						<Bundle-Activator>${bundle.activator}</Bundle-Activator>
+						<Embed-Dependency>base</Embed-Dependency>
 					</instructions>
 				</configuration>
 			</plugin>

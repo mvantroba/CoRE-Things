@@ -1,14 +1,13 @@
-package de.thk.rdw.endpoint.server.osgi;
+package de.thk.rdw.base;
 
-public enum ResourceProfile {
+public enum ActuatorResourceType {
 
-	ACTUATORS("a", "act"), //
-	SENSORS("s", "sen");
+	LED("led", "led");
 
 	private String name;
 	private String resourceType;
 
-	private ResourceProfile(String name, String resourceType) {
+	private ActuatorResourceType(String name, String resourceType) {
 		this.name = name;
 		this.resourceType = resourceType;
 	}

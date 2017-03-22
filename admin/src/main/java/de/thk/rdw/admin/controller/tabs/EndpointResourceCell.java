@@ -3,6 +3,7 @@ package de.thk.rdw.admin.controller.tabs;
 import de.thk.rdw.admin.icon.Icon;
 import de.thk.rdw.admin.icon.IconSize;
 import de.thk.rdw.admin.model.GuiCoapResource;
+import de.thk.rdw.base.ActuatorResourceType;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -37,7 +38,9 @@ public abstract class EndpointResourceCell extends ListCell<GuiCoapResource> {
 	protected void updateItem(GuiCoapResource item, boolean empty) {
 		super.updateItem(item, empty);
 		setText(null);
-		if (item == null || empty) {
+		// TODO Define "rt" globally.
+		if (item == null || empty || !item.getAttributes().containsAttribute("rt")
+				|| !ActuatorResourceType.containsTypes(item.getAttributes().getAttributeValues("rt"))) {
 			setGraphic(null);
 		} else {
 			imageView.setImage(item.getImage(IconSize.MEDIUM));

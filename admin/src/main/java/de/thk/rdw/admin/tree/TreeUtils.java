@@ -38,6 +38,9 @@ public class TreeUtils {
 			scanner.useDelimiter("/");
 			while (scanner.hasNext()) {
 				String resourceName = scanner.next();
+				if (onlyRd && resourceName.contains(".well-known")) {
+					break;
+				}
 				TreeItem<GuiCoapResource> childItem = findChildResource(parentItem, resourceName);
 				if (childItem == null) {
 					GuiCoapResource guiCoapResource = new GuiCoapResource(resourceName);

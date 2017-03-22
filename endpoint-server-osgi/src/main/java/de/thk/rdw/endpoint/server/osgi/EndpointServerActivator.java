@@ -33,28 +33,7 @@ public class EndpointServerActivator implements BundleActivator {
 		CoapResponse response = coapClient.post("</a/1/led>rt=\"led\"", MediaTypeRegistry.TEXT_PLAIN);
 		LOGGER.log(Level.INFO, "Response from server: {0}", new Object[] { response.toString() });
 
-		ServiceTrackerCustomizer<DeviceService, DeviceService> deviceServiceTrackerCustomizer = new ServiceTrackerCustomizer<DeviceService, DeviceService>() {
-
-			@Override
-			public DeviceService addingService(ServiceReference<DeviceService> reference) {
-				LOGGER.log(Level.INFO, "Adding service \"{0}\"...", new Object[] { DeviceService.class.getName() });
-				DeviceService service = context.getService(reference);
-				service.toggleActuator("light");
-				return service;
-			}
-
-			@Override
-			public void modifiedService(ServiceReference<DeviceService> reference, DeviceService service) {
-				LOGGER.log(Level.INFO, "Modifying service \"{0}\"...", new Object[] { DeviceService.class.getName() });
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void removedService(ServiceReference<DeviceService> reference, DeviceService service) {
-				LOGGER.log(Level.INFO, "Removing service \"{0}\"...", new Object[] { DeviceService.class.getName() });
-				context.ungetService(reference);
-			}
-		};
+		DeviceServiceTrackerCustomizer deviceServiceTrackerCustomizer = new DeviceServiceTrackerCustomizer(context);
 		deviceServiceTracker = new ServiceTracker<>(context, DeviceService.class, deviceServiceTrackerCustomizer);
 		deviceServiceTracker.open();
 		LOGGER.log(Level.INFO, "Bundle \"RDW Endpoint Server\" is started.");
@@ -66,5 +45,34 @@ public class EndpointServerActivator implements BundleActivator {
 		deviceServiceTracker.close();
 		endpointServer.stop();
 		LOGGER.log(Level.INFO, "Bundle \"RDW Endpoint Server\" is stopped.");
+	}
+
+	private class DeviceServiceTrackerCustomizer implements ServiceTrackerCustomizer<DeviceService, DeviceService> {
+
+		private final BundleContext context;
+
+		public DeviceServiceTrackerCustomizer(BundleContext context) {
+			this.context = context;
+		}
+
+		@Override
+		public DeviceService addingService(ServiceReference<DeviceService> reference) {
+			LOGGER.log(Level.INFO, "Adding service \"{0}\"...", new Object[] { DeviceService.class.getName() });
+			DeviceService service = context.getService(reference);
+			service.toggleActuator("led");
+			return service;
+		}
+
+		@Override
+		public void modifiedService(ServiceReference<DeviceService> reference, DeviceService service) {
+			LOGGER.log(Level.INFO, "Modifying service \"{0}\"...", new Object[] { DeviceService.class.getName() });
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void removedService(ServiceReference<DeviceService> reference, DeviceService service) {
+			LOGGER.log(Level.INFO, "Removing service \"{0}\"...", new Object[] { DeviceService.class.getName() });
+			context.ungetService(reference);
+		}
 	}
 }

@@ -20,12 +20,17 @@ public class EndpointServer extends CoapServer {
 			}
 		}
 
-		CoapResource actuators = new CoapResource("a");
+		CoapResource actuators = new CoapResource(ResourceProfile.ACTUATORS.getName());
+		actuators.getAttributes().addResourceType(ResourceProfile.ACTUATORS.getResourceType());
+
+		CoapResource sensors = new CoapResource(ResourceProfile.SENSORS.getName());
+		sensors.getAttributes().addResourceType(ResourceProfile.SENSORS.getResourceType());
+
 		CoapResource actuator1 = new CoapResource("1");
 		CoapResource led = new CoapResource("led");
 
 		actuator1.add(led);
 		actuators.add(actuator1);
-		add(actuators);
+		add(actuators, sensors);
 	}
 }

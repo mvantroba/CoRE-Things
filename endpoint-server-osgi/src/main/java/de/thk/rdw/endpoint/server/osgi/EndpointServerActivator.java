@@ -59,7 +59,7 @@ public class EndpointServerActivator implements BundleActivator {
 		public DeviceService addingService(ServiceReference<DeviceService> reference) {
 			LOGGER.log(Level.INFO, "Adding service \"{0}\"...", new Object[] { DeviceService.class.getName() });
 			DeviceService service = context.getService(reference);
-			service.toggleActuator("led");
+			endpointServer.setDeviceService(service);
 			return service;
 		}
 
@@ -72,6 +72,7 @@ public class EndpointServerActivator implements BundleActivator {
 		@Override
 		public void removedService(ServiceReference<DeviceService> reference, DeviceService service) {
 			LOGGER.log(Level.INFO, "Removing service \"{0}\"...", new Object[] { DeviceService.class.getName() });
+			endpointServer.unsetDeviceService();
 			context.ungetService(reference);
 		}
 	}

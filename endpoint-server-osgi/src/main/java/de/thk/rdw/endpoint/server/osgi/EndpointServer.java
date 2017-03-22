@@ -37,7 +37,7 @@ public class EndpointServer extends CoapServer {
 		sensorsResource.getAttributes().addResourceType(ResourceProfile.SENSORS.getResourceType());
 		add(actuatorsResource, sensorsResource);
 
-		addActuator("led");
+		addActuator(ResourceProfile.LED);
 	}
 
 	public void setDeviceService(DeviceService deviceService) {
@@ -48,24 +48,25 @@ public class EndpointServer extends CoapServer {
 		this.deviceService = null;
 	}
 
-	public void addActuator(final String name) {
+	public void addActuator(final ResourceProfile resourceProfile) {
 		int id;
 		if (!actuators.isEmpty()) {
 			id = actuators.lastKey() + 1;
 		} else {
 			id = 0;
 		}
-		ActuatorResource actuatorResource = new ActuatorResource(name) {
+		ActuatorResource actuatorResource = new ActuatorResource(resourceProfile.getName()) {
 
 			@Override
 			protected void onToggle() throws DeviceServiceNotInitializedException {
 				if (deviceService != null) {
-					deviceService.toggleActuator(name);
+					deviceService.toggleActuator(resourceProfile.getName());
 				} else {
 					throw new DeviceServiceNotInitializedException();
 				}
 			}
 		};
+		actuatorResource.getAttributes().addResourceType(resourceProfile.getResourceType());
 		CoapResource idResource = new CoapResource(String.valueOf(id));
 		idResource.add(actuatorResource);
 		// Register resource in path /{actuators}/{id}/{actuator}.

@@ -53,17 +53,17 @@ public class EndpointPanelController implements Initializable {
 			@Override
 			public void onToggle(GuiCoapResource item) {
 				// TODO Use CoapClient class to send requests.
-				Request request = new Request(CoAP.Code.GET);
+				Request request = new Request(CoAP.Code.POST);
 				String uri = String.format("%s%s", item.getEndpointUri(), item.getRelativePath());
 				request.setURI(uri);
 				request.addMessageObserver(new MessageObserverAdapter() {
 
 					@Override
 					public void onResponse(Response response) {
-						LOGGER.log(Level.INFO, "Received response: \"{0}\".", response.getPayloadString());
+						LOGGER.log(Level.INFO, "Received response code: \"{0}\".", response.getCode());
 					}
 				});
-				LOGGER.log(Level.INFO, "Sending GET request to \"{0}\"...", uri);
+				LOGGER.log(Level.INFO, "Sending POST request to \"{0}\"...", uri);
 				request.send();
 			}
 		});

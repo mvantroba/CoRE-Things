@@ -12,8 +12,10 @@ import org.eclipse.californium.core.network.CoapEndpoint;
 import org.eclipse.californium.core.network.EndpointManager;
 
 import de.thk.rdw.base.ActuatorResourceType;
+import de.thk.rdw.base.SensorResourceType;
 import de.thk.rdw.endpoint.device.osgi.DeviceService;
 import de.thk.rdw.endpoint.server.osgi.resource.ActuatorResource;
+import de.thk.rdw.endpoint.server.osgi.resource.SensorResource;
 
 public class EndpointServer extends CoapServer {
 
@@ -23,6 +25,7 @@ public class EndpointServer extends CoapServer {
 	private CoapResource sensorsResource;
 
 	private NavigableMap<Integer, ActuatorResource> actuators = new TreeMap<>();
+	private NavigableMap<Integer, SensorResource> sensors = new TreeMap<>();
 
 	public EndpointServer() {
 		super();
@@ -39,6 +42,7 @@ public class EndpointServer extends CoapServer {
 		add(actuatorsResource, sensorsResource);
 
 		addActuator(ActuatorResourceType.LED);
+		addSensor(SensorResourceType.TILT);
 	}
 
 	public void setDeviceService(DeviceService deviceService) {
@@ -74,5 +78,29 @@ public class EndpointServer extends CoapServer {
 		actuatorsResource.add(idResource);
 		// Store reference to the resource in map.
 		actuators.put(id, actuatorResource);
+	}
+
+	public void addSensor(final SensorResourceType sensorResourceType) {
+		int id;
+		if (!sensors.isEmpty()) {
+			id = sensors.lastKey() + 1;
+		} else {
+			id = 0;
+		}
+		SensorResource sensorResource = new SensorResource(sensorResourceType.getName()) {
+
+			@Override
+			protected String onGetValue() {
+				// TODO Implement this method.
+				return null;
+			}
+		};
+		sensorResource.getAttributes().addResourceType(sensorResourceType.getResourceType());
+		CoapResource idResource = new CoapResource(String.valueOf(id));
+		idResource.add(sensorResource);
+		// Register resource in path /{actuators}/{id}/{actuator}.
+		sensorsResource.add(idResource);
+		// Store reference to the resource in map.
+		sensors.put(id, sensorResource);
 	}
 }

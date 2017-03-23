@@ -32,7 +32,7 @@
 					<children>
 						<Label styleClass="card-heading" text="%card.title.request"
 							VBox.vgrow="NEVER" />
-						<TextArea VBox.vgrow="ALWAYS" />
+						<TextArea fx:id="requestPayload" VBox.vgrow="ALWAYS" />
 					</children>
 					<styleClass>
 						<String fx:value="card" />
@@ -42,7 +42,8 @@
 				<ButtonBar VBox.vgrow="NEVER">
 					<buttons>
 						<Button mnemonicParsing="false" text="%button.get" />
-						<Button mnemonicParsing="false" text="%button.post" />
+						<Button mnemonicParsing="false" onAction="#onActionPOST"
+							text="%button.post" />
 						<Button mnemonicParsing="false" text="%button.put" />
 						<Button mnemonicParsing="false" text="%button.delete" />
 					</buttons>
@@ -54,7 +55,7 @@
 					<children>
 						<Label styleClass="card-heading" text="%card.title.response"
 							VBox.vgrow="NEVER" />
-						<TextArea VBox.vgrow="ALWAYS" />
+						<TextArea fx:id="responsePayload" VBox.vgrow="ALWAYS" />
 					</children>
 					<styleClass>
 						<String fx:value="card" />

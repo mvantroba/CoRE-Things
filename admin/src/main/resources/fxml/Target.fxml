@@ -25,8 +25,12 @@
 			styleClass="port" />
 		<Label styleClass="separator" text="/">
 		</Label>
-		<TextField fx:id="variables" promptText="%field.prompt.variables"
+		<TextField fx:id="path" promptText="%field.prompt.path"
 			HBox.hgrow="ALWAYS" />
+		<Label layoutX="373.0" layoutY="10.0" styleClass="separator"
+			text="?" />
+		<TextField fx:id="query" layoutX="378.0" layoutY="10.0"
+			promptText="%field.prompt.query" HBox.hgrow="ALWAYS" />
 		<ButtonBar HBox.hgrow="NEVER">
 			<buttons>
 				<Button defaultButton="true" mnemonicParsing="false"

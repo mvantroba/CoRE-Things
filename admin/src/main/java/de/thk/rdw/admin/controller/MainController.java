@@ -45,4 +45,20 @@ public class MainController {
 	public void spinner(String key) {
 		notificationController.spinner(resources.getString(key));
 	}
+
+	public String getHost() {
+		return targetController.getHost();
+	}
+
+	public int getPort() {
+		return targetController.getPort();
+	}
+
+	public String getPath() {
+		return targetController.getPath();
+	}
+
+	public String getQuery() {
+		return targetController.getQuery();
+	}
 }

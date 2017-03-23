@@ -32,7 +32,9 @@ public class TargetController implements Initializable {
 	@FXML
 	private TextField port;
 	@FXML
-	private TextField variables;
+	private TextField path;
+	@FXML
+	private TextField query;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -71,5 +73,27 @@ public class TargetController implements Initializable {
 
 	public void setMainController(MainController mainController) {
 		this.mainController = mainController;
+	}
+
+	public String getHost() {
+		return host.getText();
+	}
+
+	public int getPort() {
+		int result = -1;
+		try {
+			result = Integer.parseInt(port.getText());
+		} catch (NumberFormatException e) {
+			// TODO Show notification.
+		}
+		return result;
+	}
+
+	public String getPath() {
+		return path.getText();
+	}
+
+	public String getQuery() {
+		return query.getText();
 	}
 }

@@ -13,7 +13,9 @@ import de.thk.rdw.admin.controller.MainController;
 import de.thk.rdw.admin.model.GuiCoapResource;
 import de.thk.rdw.admin.tree.AdvancedTreeCell;
 import de.thk.rdw.admin.tree.TreeUtils;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeView;
@@ -30,7 +32,11 @@ public class AdvancedController {
 	@FXML
 	private TreeView<GuiCoapResource> resourceTree;
 	@FXML
+	private Label request;
+	@FXML
 	private TextArea requestPayload;
+	@FXML
+	private Label response;
 	@FXML
 	private TextArea responsePayload;
 
@@ -41,14 +47,50 @@ public class AdvancedController {
 	}
 
 	@FXML
+	private void onActionGET() {
+		coapClient = new CoapClient.Builder(mainController.getHost(), mainController.getPort())
+				.path(mainController.getPath()).query(mainController.getQuery()).create();
+		AdvancedController.this.request.setText(String.format("GET %s", coapClient.getURI()));
+		coapClient.get(new CoapHandler() {
+
+			@Override
+			public void onLoad(CoapResponse response) {
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						responsePayload.setText(response.getResponseText());
+						AdvancedController.this.response
+								.setText(String.format("Response Code: %s", response.getCode().toString()));
+					}
+				});
+			}
+
+			@Override
+			public void onError() {
+				// TODO Notification.
+			}
+		});
+	}
+
+	@FXML
 	private void onActionPOST() {
 		coapClient = new CoapClient.Builder(mainController.getHost(), mainController.getPort())
 				.path(mainController.getPath()).query(mainController.getQuery()).create();
+		AdvancedController.this.request.setText(String.format("POST %s", coapClient.getURI()));
 		coapClient.post(new CoapHandler() {
 
 			@Override
 			public void onLoad(CoapResponse response) {
-				responsePayload.setText(response.getResponseText());
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						responsePayload.setText(response.getResponseText());
+						AdvancedController.this.response
+								.setText(String.format("Response Code: %s", response.getCode().toString()));
+					}
+				});
 			}
 
 			@Override

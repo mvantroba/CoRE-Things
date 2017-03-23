@@ -50,6 +50,9 @@
 					<VBox.margin>
 						<Insets bottom="8.0" top="8.0" />
 					</VBox.margin>
+					<padding>
+						<Insets right="64.0" />
+					</padding>
 				</ButtonBar>
 				<VBox VBox.vgrow="ALWAYS">
 					<children>

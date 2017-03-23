@@ -48,7 +48,7 @@ public class AdvancedController {
 
 			@Override
 			public void onLoad(CoapResponse response) {
-				responsePayload.setText(response.getPayload().toString());
+				responsePayload.setText(response.getResponseText());
 			}
 
 			@Override

@@ -24,12 +24,12 @@
 						<fx:include fx:id="advanced" source="tabs/Advanced.fxml" />
 					</content>
 				</Tab>
-				<Tab text="%menu.servers">
+				<Tab text="%menu.connections">
 					<content>
 						<AnchorPane />
 					</content>
 				</Tab>
-				<Tab text="%menu.settings">
+				<Tab text="%menu.log">
 					<content>
 						<AnchorPane />
 					</content>

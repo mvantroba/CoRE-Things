@@ -45,6 +45,11 @@ public abstract class EndpointResourceCell extends ListCell<GuiCoapResource> {
 						&& !SensorResourceType.containsTypes(item.getAttributes().getAttributeValues("rt")))) {
 			setGraphic(null);
 		} else {
+			if (ActuatorResourceType.containsTypes(item.getAttributes().getAttributeValues("rt"))) {
+				button.setVisible(true);
+			} else {
+				button.setVisible(false);
+			}
 			imageView.setImage(item.getImage(IconSize.MEDIUM));
 			path.setText(item.getRelativePath());
 			type.setText("Type: " + item.getName());

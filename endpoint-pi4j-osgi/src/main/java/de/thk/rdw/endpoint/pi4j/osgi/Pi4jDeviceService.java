@@ -1,5 +1,7 @@
 package de.thk.rdw.endpoint.pi4j.osgi;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,11 +15,14 @@ import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
+import de.thk.rdw.endpoint.device.osgi.DeviceListener;
 import de.thk.rdw.endpoint.device.osgi.DeviceService;
 
 public class Pi4jDeviceService implements DeviceService {
 
 	private static final Logger LOGGER = Logger.getLogger(Pi4jDeviceService.class.getName());
+
+	private List<DeviceListener> deviceListeners = new ArrayList<>();
 
 	private GpioController gpioController;
 	private GpioPinDigitalOutput led;
@@ -34,8 +39,19 @@ public class Pi4jDeviceService implements DeviceService {
 			@Override
 			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
 				LOGGER.log(Level.INFO, "Tilt state changed: \"{0}\"", event.getState().getName());
+				notifyListeners("tilt", event.getState().getName());
 			}
 		});
+	}
+
+	@Override
+	public boolean addListener(DeviceListener deviceListener) {
+		return deviceListeners.add(deviceListener);
+	}
+
+	@Override
+	public boolean removeListener(DeviceListener deviceListener) {
+		return deviceListeners.remove(deviceListener);
 	}
 
 	@Override
@@ -59,5 +75,11 @@ public class Pi4jDeviceService implements DeviceService {
 		gpioController.unprovisionPin(led);
 		gpioController.unprovisionPin(tilt);
 		LOGGER.log(Level.INFO, "GPIO controller has been shut down.");
+	}
+
+	private void notifyListeners(String name, Object newValue) {
+		for (DeviceListener deviceListener : deviceListeners) {
+			deviceListener.onSensorChanged(name, newValue);
+		}
 	}
 }

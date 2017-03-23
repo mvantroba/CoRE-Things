@@ -15,6 +15,7 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
+import de.thk.rdw.endpoint.device.osgi.DeviceListener;
 import de.thk.rdw.endpoint.device.osgi.DeviceService;
 
 public class EndpointServerActivator implements BundleActivator {
@@ -87,6 +88,14 @@ public class EndpointServerActivator implements BundleActivator {
 			LOGGER.log(Level.INFO, "Adding service \"{0}\"...", new Object[] { DeviceService.class.getName() });
 			DeviceService service = context.getService(reference);
 			endpointServer.setDeviceService(service);
+			service.addListener(new DeviceListener() {
+
+				@Override
+				public void onSensorChanged(String name, Object newValue) {
+					LOGGER.log(Level.INFO, "Sensor \"{0}\" has changed. New value: {1}",
+							new Object[] { name, newValue });
+				}
+			});
 			return service;
 		}
 
@@ -103,4 +112,5 @@ public class EndpointServerActivator implements BundleActivator {
 			context.ungetService(reference);
 		}
 	}
+
 }

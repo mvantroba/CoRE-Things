@@ -5,7 +5,8 @@ public enum ResourceType {
 	CORE_RD("core.rd"), //
 	CORE_RD_GROUP("core.rd-group"), //
 	CORE_RD_LOOKUP("core.rd-lookup"), //
-	LED("led");
+	LED("led"), //
+	TILT("tilt");
 
 	private String name;
 

@@ -22,7 +22,8 @@ public enum Icon {
 	POWER_SETTINGS_NEW_GREY("ic_power_settings_new_grey"), //
 	PUBLIC_BLUE("ic_public_blue"), //
 	RASPBERRY("ic_raspberry"), //
-	RESOURCE_GREY("ic_resource_grey");
+	RESOURCE_GREY("ic_resource_grey"), //
+	SCREEN_ROTATION("ic_screen_rotation");
 
 	private static final Logger LOGGER = Logger.getLogger(Icon.class.getName());
 	private static final String DIRECTORY = "img";

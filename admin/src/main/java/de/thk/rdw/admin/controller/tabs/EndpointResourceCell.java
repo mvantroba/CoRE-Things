@@ -4,6 +4,7 @@ import de.thk.rdw.admin.icon.Icon;
 import de.thk.rdw.admin.icon.IconSize;
 import de.thk.rdw.admin.model.GuiCoapResource;
 import de.thk.rdw.base.ActuatorResourceType;
+import de.thk.rdw.base.SensorResourceType;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -40,7 +41,8 @@ public abstract class EndpointResourceCell extends ListCell<GuiCoapResource> {
 		setText(null);
 		// TODO Define "rt" globally.
 		if (item == null || empty || !item.getAttributes().containsAttribute("rt")
-				|| !ActuatorResourceType.containsTypes(item.getAttributes().getAttributeValues("rt"))) {
+				|| (!ActuatorResourceType.containsTypes(item.getAttributes().getAttributeValues("rt"))
+						&& !SensorResourceType.containsTypes(item.getAttributes().getAttributeValues("rt")))) {
 			setGraphic(null);
 		} else {
 			imageView.setImage(item.getImage(IconSize.MEDIUM));

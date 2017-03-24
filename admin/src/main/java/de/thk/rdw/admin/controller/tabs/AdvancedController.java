@@ -114,4 +114,14 @@ public class AdvancedController {
 	public void setMainController(MainController mainController) {
 		this.mainController = mainController;
 	}
+
+	public String getPath() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getQuery() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

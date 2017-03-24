@@ -15,6 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 public class TargetController implements Initializable {
@@ -26,19 +27,17 @@ public class TargetController implements Initializable {
 	@FXML
 	private ResourceBundle resources;
 	@FXML
+	private ComboBox<String> connection;
+	@FXML
 	private ChoiceBox<String> scheme;
 	@FXML
 	private TextField host;
 	@FXML
 	private TextField port;
-	@FXML
-	private TextField path;
-	@FXML
-	private TextField query;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		scheme.setItems(FXCollections.observableArrayList(CoAP.COAP_URI_SCHEME, CoAP.COAP_SECURE_URI_SCHEME));
+		scheme.setItems(FXCollections.observableArrayList(CoAP.COAP_URI_SCHEME));
 		scheme.getSelectionModel().select(0);
 	}
 
@@ -71,6 +70,10 @@ public class TargetController implements Initializable {
 	private void onActionPing() {
 	}
 
+	@FXML
+	private void onActionSave() {
+	}
+
 	public void setMainController(MainController mainController) {
 		this.mainController = mainController;
 	}
@@ -87,18 +90,5 @@ public class TargetController implements Initializable {
 			// TODO Show notification.
 		}
 		return result;
-	}
-
-	public String getPath() {
-		return path.getText();
-	}
-
-	public String getQuery() {
-		return query.getText();
-	}
-
-	public void disableAdvanced(boolean value) {
-		path.setDisable(value);
-		query.setDisable(value);
 	}
 }

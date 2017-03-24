@@ -54,7 +54,13 @@
 /********** TARGET **********/
 .target {
 	-fx-background-color: color-primary;
-	-fx-padding: 8.0px 16.0px;
+	-fx-padding: 0.0px 16.0px;
+}
+
+.target > .connection {
+	 -fx-font-size: 14.0px;
+	 -fx-padding: 4.0px 0.0px;
+	 -fx-pref-width: 192.0px;
 }
 
 .target > .scheme {
@@ -62,7 +68,7 @@
 }
 
 .target > .host {
-	-fx-pref-width: 192.0px;
+	-fx-pref-width: 256.0px;
 }
 
 .target > .port {
@@ -70,7 +76,7 @@
 }
 
 .target > .separator {
-	-fx-padding: 4.0px;
+	-fx-padding: 0.0px 4.0px;
 }
 
 /********** NOTIFICATION **********/

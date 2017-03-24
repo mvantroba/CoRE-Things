@@ -10,10 +10,10 @@
 	fx:controller="de.thk.rdw.admin.controller.MainController">
 	<children>
 		<fx:include fx:id="header" source="Header.fxml" VBox.vgrow="NEVER" />
-		<fx:include fx:id="target" source="Target.fxml" />
-		<fx:include fx:id="notification" source="Notification.fxml" />
-		<TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE"
-			VBox.vgrow="ALWAYS">
+		<fx:include fx:id="target" source="Target.fxml" VBox.vgrow="NEVER" />
+		<fx:include fx:id="notification" source="Notification.fxml"
+			VBox.vgrow="NEVER" />
+		<TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
 			<tabs>
 				<Tab text="%menu.dashboard">
 					<content>
@@ -42,6 +42,6 @@
 				</Tab>
 			</tabs>
 		</TabPane>
-		<fx:include fx:id="footer" source="Footer.fxml" />
+		<fx:include fx:id="footer" source="Footer.fxml" VBox.vgrow="NEVER" />
 	</children>
 </VBox>

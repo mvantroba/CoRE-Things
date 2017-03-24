@@ -12,7 +12,8 @@
 		<fx:include fx:id="header" source="Header.fxml" VBox.vgrow="NEVER" />
 		<fx:include fx:id="target" source="Target.fxml" />
 		<fx:include fx:id="notification" source="Notification.fxml" />
-		<TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+		<TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE"
+			VBox.vgrow="ALWAYS">
 			<tabs>
 				<Tab text="%menu.dashboard">
 					<content>

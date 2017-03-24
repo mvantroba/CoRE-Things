@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -25,27 +26,39 @@
 			styleClass="port" />
 		<Label styleClass="separator" text="/">
 		</Label>
-		<TextField fx:id="path" promptText="%field.prompt.path"
+		<TextField fx:id="path" disable="true" promptText="%field.prompt.path"
 			HBox.hgrow="ALWAYS" />
 		<Label layoutX="373.0" layoutY="10.0" styleClass="separator"
 			text="?" />
-		<TextField fx:id="query" layoutX="378.0" layoutY="10.0"
-			promptText="%field.prompt.query" HBox.hgrow="ALWAYS" />
-		<ButtonBar HBox.hgrow="NEVER">
+		<TextField fx:id="query" disable="true" layoutX="378.0"
+			layoutY="10.0" promptText="%field.prompt.query" HBox.hgrow="ALWAYS" />
+		<ButtonBar buttonMinWidth="32.0" HBox.hgrow="NEVER">
 			<buttons>
 				<Button defaultButton="true" mnemonicParsing="false"
-					onAction="#onActionDiscover" text="%button.discover">
+					onAction="#onActionDiscover">
 					<graphic>
-						<ImageView fitHeight="16.0" fitWidth="16.0"
-							pickOnBounds="true" preserveRatio="true">
+						<ImageView pickOnBounds="true" preserveRatio="true">
 							<image>
 								<Image url="@../img/ic_public_blue_16px.png" />
 							</image>
 						</ImageView>
 					</graphic>
+					<tooltip>
+						<Tooltip text="%button.discover.tooltip" />
+					</tooltip>
 				</Button>
-				<Button mnemonicParsing="false" onAction="#onActionPing"
-					text="%button.ping" />
+				<Button mnemonicParsing="false" onAction="#onActionPing">
+					<graphic>
+						<ImageView pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="@../img/ic_ping_16px.png" />
+							</image>
+						</ImageView>
+					</graphic>
+					<tooltip>
+						<Tooltip text="%button.ping.tooltip" />
+					</tooltip>
+				</Button>
 			</buttons>
 		</ButtonBar>
 	</children>

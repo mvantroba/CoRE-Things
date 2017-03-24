@@ -96,4 +96,9 @@ public class TargetController implements Initializable {
 	public String getQuery() {
 		return query.getText();
 	}
+
+	public void disableAdvanced(boolean value) {
+		path.setDisable(value);
+		query.setDisable(value);
+	}
 }

@@ -62,7 +62,7 @@
 }
 
 .target > .host {
-	-fx-pref-width: 256.0px;
+	-fx-pref-width: 192.0px;
 }
 
 .target > .port {

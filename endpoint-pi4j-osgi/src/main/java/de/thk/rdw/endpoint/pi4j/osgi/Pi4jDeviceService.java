@@ -30,9 +30,9 @@ public class Pi4jDeviceService implements DeviceService {
 
 	public Pi4jDeviceService() {
 		gpioController = GpioFactory.getInstance();
-		led = gpioController.provisionDigitalOutputPin(RaspiPin.GPIO_01, "led", PinState.LOW);
+		led = gpioController.provisionDigitalOutputPin(RaspiPin.GPIO_00, "led", PinState.LOW);
 		led.setShutdownOptions(true, PinState.LOW);
-		tilt = gpioController.provisionDigitalInputPin(RaspiPin.GPIO_28, "tilt");
+		tilt = gpioController.provisionDigitalInputPin(RaspiPin.GPIO_01, "tilt");
 		tilt.setShutdownOptions(true);
 		tilt.addListener(new GpioPinListenerDigital() {
 
@@ -74,7 +74,7 @@ public class Pi4jDeviceService implements DeviceService {
 
 		gpioController.unprovisionPin(led);
 		gpioController.unprovisionPin(tilt);
-		LOGGER.log(Level.INFO, "GPIO controller has been shut down.");
+		LOGGER.log(Level.INFO, "All GPIO pins has been unprovisioned.");
 	}
 
 	private void notifyListeners(String name, Object newValue) {

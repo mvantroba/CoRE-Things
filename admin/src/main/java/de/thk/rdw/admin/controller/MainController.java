@@ -7,11 +7,14 @@ import org.eclipse.californium.core.coap.Response;
 
 import de.thk.rdw.admin.controller.tabs.AdvancedController;
 import de.thk.rdw.admin.controller.tabs.DashboardController;
+import de.thk.rdw.admin.usecase.MainUseCase;
 import javafx.fxml.FXML;
 
 public class MainController {
 
 	private static final Logger LOGGER = Logger.getLogger(MainController.class.getName());
+
+	private MainUseCase mainUseCase;
 
 	@FXML
 	private ResourceBundle resources;
@@ -31,6 +34,11 @@ public class MainController {
 		targetController.setMainController(this);
 		dashboardController.setMainController(this);
 		advancedController.setMainController(this);
+	}
+
+	public void setMainUseCase(MainUseCase mainUseCase) {
+		this.mainUseCase = mainUseCase;
+		initData();
 	}
 
 	public void populateTree(Response response) {
@@ -60,5 +68,9 @@ public class MainController {
 
 	public String getQuery() {
 		return advancedController.getQuery();
+	}
+
+	private void initData() {
+		targetController.updateConnections(mainUseCase.findAllConnections());
 	}
 }

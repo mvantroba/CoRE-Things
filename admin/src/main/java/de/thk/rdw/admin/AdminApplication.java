@@ -5,6 +5,9 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.thk.rdw.admin.controller.MainController;
+import de.thk.rdw.admin.usecase.MainUseCase;
+import de.thk.rdw.admin.usecase.MainUseCaseImpl;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,20 +18,31 @@ public class AdminApplication extends Application {
 
 	private static final Logger LOGGER = Logger.getLogger(AdminApplication.class.getName());
 
+	private MainUseCase mainUseCase;
+
 	public static void main(String[] args) {
 		launch(args);
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		// Create a facade which provides access to all services and DAOs for
+		// the main controller.
+		mainUseCase = new MainUseCaseImpl();
+
 		ResourceBundle bundle = ResourceBundle.getBundle("i18n/bundle");
-		Scene scene = new Scene(loadMainLayout(bundle));
+		Scene scene = new Scene(loadMainLayout(mainUseCase, bundle));
 		primaryStage.setTitle(getImplementationTitle());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 
-	private Parent loadMainLayout(ResourceBundle bundle) {
+	@Override
+	public void stop() throws Exception {
+		mainUseCase.cleanUp();
+	}
+
+	private Parent loadMainLayout(MainUseCase mainUseCase, ResourceBundle bundle) {
 		Parent result = null;
 		FXMLLoader loader;
 		try {
@@ -36,6 +50,7 @@ public class AdminApplication extends Application {
 			loader.setLocation(AdminApplication.class.getResource("/fxml/Main.fxml"));
 			loader.setResources(bundle);
 			result = loader.load();
+			((MainController) loader.getController()).setMainUseCase(mainUseCase);
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, e.getMessage(), e);
 		}

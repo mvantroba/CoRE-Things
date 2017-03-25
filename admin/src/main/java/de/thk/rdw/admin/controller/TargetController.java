@@ -1,6 +1,7 @@
 package de.thk.rdw.admin.controller;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,13 +11,18 @@ import org.eclipse.californium.core.coap.MessageObserverAdapter;
 import org.eclipse.californium.core.coap.Request;
 import org.eclipse.californium.core.coap.Response;
 
+import de.thk.rdw.admin.model.CoapConnection;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.util.converter.NumberStringConverter;
 
 public class TargetController implements Initializable {
 
@@ -27,7 +33,7 @@ public class TargetController implements Initializable {
 	@FXML
 	private ResourceBundle resources;
 	@FXML
-	private ComboBox<String> connection;
+	private ComboBox<CoapConnection> connection;
 	@FXML
 	private ChoiceBox<String> scheme;
 	@FXML
@@ -35,8 +41,20 @@ public class TargetController implements Initializable {
 	@FXML
 	private TextField port;
 
+	private ObservableList<CoapConnection> connections;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		connections = FXCollections.observableArrayList();
+		connection.setItems(connections);
+		connection.valueProperty().addListener(new ChangeListener<CoapConnection>() {
+
+			@Override
+			public void changed(ObservableValue<? extends CoapConnection> observable, CoapConnection oldValue,
+					CoapConnection newValue) {
+				updateData(newValue);
+			}
+		});
 		scheme.setItems(FXCollections.observableArrayList(CoAP.COAP_URI_SCHEME));
 		scheme.getSelectionModel().select(0);
 	}
@@ -90,5 +108,25 @@ public class TargetController implements Initializable {
 			// TODO Show notification.
 		}
 		return result;
+	}
+
+	public void updateConnections(List<CoapConnection> coapConnections) {
+		connections.setAll(coapConnections);
+	}
+
+	private void updateData(CoapConnection newValue) {
+		host.textProperty().bindBidirectional(newValue.getHostProperty());
+		port.textProperty().bindBidirectional(newValue.getPortProperty(), new NumberStringConverter("#") {
+			@Override
+			public Number fromString(String value) {
+				Number result = null;
+				try {
+					result = super.fromString(value);
+				} catch (RuntimeException e) {
+					LOGGER.log(Level.INFO, "Bad input");
+				}
+				return result;
+			}
+		});
 	}
 }

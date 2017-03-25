@@ -49,6 +49,8 @@
 		<californium.version>1.0.5</californium.version>
 		<org.eclipse.osgi.version>3.9.1.v20140110-1610</org.eclipse.osgi.version>
 		<pi4j.version>1.1</pi4j.version>
+		<eclipselink.version>2.6.4</eclipselink.version>
+		<h2.version>1.4.194</h2.version>
 		<controlsfx.version>8.40.12</controlsfx.version>
 		<junit.version>4.12</junit.version>
 		<!-- PLUGIN VERSIONS -->
@@ -108,6 +110,18 @@
 				<groupId>com.pi4j</groupId>
 				<artifactId>pi4j-core</artifactId>
 				<version>${pi4j.version}</version>
+			</dependency>
+			<!-- ECLIPSELINK -->
+			<dependency>
+				<groupId>org.eclipse.persistence</groupId>
+				<artifactId>eclipselink</artifactId>
+				<version>${eclipselink.version}</version>
+			</dependency>
+			<!-- H2 -->
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>${h2.version}</version>
 			</dependency>
 			<!-- CONTROLSFX -->
 			<dependency>

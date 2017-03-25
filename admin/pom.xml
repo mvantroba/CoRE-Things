@@ -33,6 +33,16 @@
 			<groupId>org.eclipse.californium</groupId>
 			<artifactId>californium-core</artifactId>
 		</dependency>
+		<!-- ECLIPSELINK -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>eclipselink</artifactId>
+		</dependency>
+		<!-- H2 -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
 		<!-- JUNIT -->
 		<dependency>
 			<groupId>junit</groupId>

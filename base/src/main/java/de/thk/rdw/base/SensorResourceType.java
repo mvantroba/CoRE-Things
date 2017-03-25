@@ -4,7 +4,9 @@ import java.util.List;
 
 public enum SensorResourceType {
 
-	TILT("tilt", "tilt");
+	TILT("tilt", "tilt"), //
+	PUSH("push", "push"), //
+	MOTION("motion", "motion");
 
 	private String name;
 	private String resourceType;

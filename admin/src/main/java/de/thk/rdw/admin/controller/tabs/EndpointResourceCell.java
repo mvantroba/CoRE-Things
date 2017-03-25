@@ -31,6 +31,7 @@ public abstract class EndpointResourceCell extends ListCell<GuiCoapResource> {
 		button.setGraphic(new ImageView(Icon.POWER_SETTINGS_NEW_GREY.getImage(IconSize.SMALL)));
 		button.setOnAction(event -> onToggle(getItem()));
 		root.getChildren().addAll(hBox, button);
+		root.setStyle("-fx-padding: 4.0px 0.0px;");
 	}
 
 	public abstract void onToggle(GuiCoapResource item);
@@ -54,6 +55,7 @@ public abstract class EndpointResourceCell extends ListCell<GuiCoapResource> {
 			path.setText(item.getRelativePath());
 			type.setText("Type: " + item.getName());
 			setGraphic(root);
+			setStyle("-fx-border-width: 0px 0px 2.0px 0px; -fx-border-color: #e0e0e0;");
 		}
 	}
 }

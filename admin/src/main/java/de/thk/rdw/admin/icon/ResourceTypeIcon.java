@@ -18,6 +18,8 @@ public class ResourceTypeIcon {
 		RESOURCE_TYPE_ICONS.put(ResourceType.CORE_RD_LOOKUP, Icon.PAGEVIEW_GREY);
 		RESOURCE_TYPE_ICONS.put(ResourceType.LED, Icon.LED_LIGHT_LAMP);
 		RESOURCE_TYPE_ICONS.put(ResourceType.TILT, Icon.SCREEN_ROTATION);
+		RESOURCE_TYPE_ICONS.put(ResourceType.MOTION, Icon.INDUSTRY_INFRARED_SENSOR);
+		RESOURCE_TYPE_ICONS.put(ResourceType.PUSH, Icon.PUSH_THE_BUTTON);
 	}
 
 	public static Icon get(ResourceType resourceType) {

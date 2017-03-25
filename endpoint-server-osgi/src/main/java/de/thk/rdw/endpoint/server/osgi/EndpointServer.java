@@ -42,7 +42,10 @@ public class EndpointServer extends CoapServer {
 		add(actuatorsResource, sensorsResource);
 
 		addActuator(ActuatorResourceType.LED);
+
 		addSensor(SensorResourceType.TILT);
+		addSensor(SensorResourceType.PUSH);
+		addSensor(SensorResourceType.MOTION);
 	}
 
 	public void setDeviceService(DeviceService deviceService) {

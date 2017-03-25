@@ -15,12 +15,14 @@ public enum Icon {
 	FOLDER_AMBER("ic_folder_amber"), //
 	GROUP_WORK_GREY("ic_group_work_grey"), //
 	HOME_GREEN("ic_home_green"), //
+	INDUSTRY_INFRARED_SENSOR("ic_industry_infrared_sensor"), //
 	INFO_BLUE("ic_info_blue"), //
 	LED_LIGHT_LAMP("ic_led_light_lamp"), //
 	OPENHAB("ic_openhab"), //
 	PAGEVIEW_GREY("ic_pageview_grey"), //
 	POWER_SETTINGS_NEW_GREY("ic_power_settings_new_grey"), //
 	PUBLIC_BLUE("ic_public_blue"), //
+	PUSH_THE_BUTTON("ic_push_the_button"), //
 	RASPBERRY("ic_raspberry"), //
 	RESOURCE_GREY("ic_resource_grey"), //
 	SCREEN_ROTATION("ic_screen_rotation");

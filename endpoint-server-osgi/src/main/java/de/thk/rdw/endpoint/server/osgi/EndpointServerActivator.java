@@ -78,6 +78,7 @@ public class EndpointServerActivator implements BundleActivator {
 	private class DeviceServiceTrackerCustomizer implements ServiceTrackerCustomizer<DeviceService, DeviceService> {
 
 		private final BundleContext context;
+		private DeviceListener deviceListener;
 
 		public DeviceServiceTrackerCustomizer(BundleContext context) {
 			this.context = context;
@@ -88,14 +89,15 @@ public class EndpointServerActivator implements BundleActivator {
 			LOGGER.log(Level.INFO, "Adding service \"{0}\"...", new Object[] { DeviceService.class.getName() });
 			DeviceService service = context.getService(reference);
 			endpointServer.setDeviceService(service);
-			service.addListener(new DeviceListener() {
+			deviceListener = new DeviceListener() {
 
 				@Override
 				public void onSensorChanged(String name, Object newValue) {
 					LOGGER.log(Level.INFO, "Sensor \"{0}\" has changed. New value: {1}",
 							new Object[] { name, newValue });
 				}
-			});
+			};
+			service.addListener(deviceListener);
 			return service;
 		}
 
@@ -109,8 +111,10 @@ public class EndpointServerActivator implements BundleActivator {
 		public void removedService(ServiceReference<DeviceService> reference, DeviceService service) {
 			LOGGER.log(Level.INFO, "Removing service \"{0}\"...", new Object[] { DeviceService.class.getName() });
 			endpointServer.unsetDeviceService();
+			if (deviceListener != null) {
+				service.removeListener(deviceListener);
+			}
 			context.ungetService(reference);
 		}
 	}
-
 }

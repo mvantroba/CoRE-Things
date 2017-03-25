@@ -9,3 +9,6 @@
 
 # Californium
 **/Californium.properties
+
+# H2
+**/*.db

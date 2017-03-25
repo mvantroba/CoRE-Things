@@ -10,6 +10,7 @@ import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPin;
 import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.PinPullResistance;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
@@ -25,8 +26,12 @@ public class Pi4jDeviceService implements DeviceService {
 	private List<DeviceListener> deviceListeners = new ArrayList<>();
 
 	private GpioController gpioController;
+
 	private GpioPinDigitalOutput led;
+
 	private GpioPinDigitalInput tilt;
+	private GpioPinDigitalInput push;
+	private GpioPinDigitalInput motion;
 
 	public Pi4jDeviceService() {
 		gpioController = GpioFactory.getInstance();
@@ -38,8 +43,27 @@ public class Pi4jDeviceService implements DeviceService {
 
 			@Override
 			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-				LOGGER.log(Level.INFO, "Tilt state changed: \"{0}\"", event.getState().getName());
 				notifyListeners("tilt", event.getState().getName());
+			}
+		});
+		push = gpioController.provisionDigitalInputPin(RaspiPin.GPIO_02, "push", PinPullResistance.PULL_DOWN);
+		push.setShutdownOptions(true);
+		push.addListener(new GpioPinListenerDigital() {
+
+			@Override
+			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
+				notifyListeners("push", event.getState().getName());
+			}
+		});
+		motion = gpioController.provisionDigitalInputPin(RaspiPin.GPIO_03, "motion", PinPullResistance.PULL_UP);
+		motion.setShutdownOptions(true);
+		motion.addListener(new GpioPinListenerDigital() {
+
+			@Override
+			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
+				if (event.getState().isHigh()) {
+					notifyListeners("motion", event.getState().getName());
+				}
 			}
 		});
 	}
@@ -68,13 +92,15 @@ public class Pi4jDeviceService implements DeviceService {
 	public void deactivate() {
 		led.setState(PinState.LOW);
 
-		// shutdown() causes java.util.concurrent.RejectedExecutionException in
+		// Calling GpioController.shutdown() causes
+		// java.util.concurrent.RejectedExecutionException in
 		// listeners after bundle is started again.
-		// gpioController.shutdown();
 
 		gpioController.unprovisionPin(led);
 		gpioController.unprovisionPin(tilt);
-		LOGGER.log(Level.INFO, "All GPIO pins has been unprovisioned.");
+		gpioController.unprovisionPin(push);
+		gpioController.unprovisionPin(motion);
+		LOGGER.log(Level.INFO, "All GPIO pins have been unprovisioned.");
 	}
 
 	private void notifyListeners(String name, Object newValue) {

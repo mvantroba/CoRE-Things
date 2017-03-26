@@ -54,13 +54,7 @@
 /********** TARGET **********/
 .target {
 	-fx-background-color: color-primary;
-	-fx-padding: 0.0px 16.0px;
-}
-
-.target > .connection {
-	 -fx-font-size: 14.0px;
-	 -fx-padding: 4.0px 0.0px;
-	 -fx-pref-width: 192.0px;
+	-fx-padding: 6.0px 16.0px;
 }
 
 .target > .scheme {

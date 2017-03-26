@@ -15,8 +15,8 @@
 	xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.thk.rdw.admin.controller.TargetController">
 	<children>
-		<ComboBox fx:id="connection" promptText="%comboBox.connection.prompt"
-			styleClass="connection" HBox.hgrow="NEVER" />
+		<ComboBox fx:id="coapConnection" promptText="%comboBox.connection.prompt"
+			HBox.hgrow="NEVER" />
 		<Label styleClass="separator" text=" " />
 		<ChoiceBox fx:id="scheme" styleClass="scheme" HBox.hgrow="NEVER" />
 		<Label styleClass="separator" text="://">
@@ -29,8 +29,8 @@
 			styleClass="port" HBox.hgrow="NEVER" />
 		<ButtonBar buttonMinWidth="88.0" HBox.hgrow="NEVER">
 			<buttons>
-				<Button defaultButton="true" mnemonicParsing="false"
-					onAction="#onActionDiscover" text="%button.discover">
+				<Button fx:id="discover" defaultButton="true"
+					mnemonicParsing="false" onAction="#onActionDiscover" text="%button.discover">
 					<graphic>
 						<ImageView pickOnBounds="true" preserveRatio="true">
 							<image>
@@ -39,7 +39,7 @@
 						</ImageView>
 					</graphic>
 				</Button>
-				<Button mnemonicParsing="false" onAction="#onActionPing"
+				<Button fx:id="ping" mnemonicParsing="false" onAction="#onActionPing"
 					text="%button.ping">
 					<graphic>
 						<ImageView pickOnBounds="true" preserveRatio="true">
@@ -49,7 +49,7 @@
 						</ImageView>
 					</graphic>
 				</Button>
-				<Button mnemonicParsing="false" onAction="#onActionSave"
+				<Button fx:id="save" mnemonicParsing="false" onAction="#onActionSave"
 					text="%button.save">
 					<graphic>
 						<ImageView pickOnBounds="true" preserveRatio="true">

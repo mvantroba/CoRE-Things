@@ -50,7 +50,7 @@ public class AdminApplication extends Application {
 			loader.setLocation(AdminApplication.class.getResource("/fxml/Main.fxml"));
 			loader.setResources(bundle);
 			result = loader.load();
-			((MainController) loader.getController()).setMainUseCase(mainUseCase);
+			((MainController) loader.getController()).setUseCase(mainUseCase);
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, e.getMessage(), e);
 		}

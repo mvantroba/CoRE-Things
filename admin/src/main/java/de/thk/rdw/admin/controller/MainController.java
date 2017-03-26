@@ -57,7 +57,7 @@ public class MainController {
 
 	public void coapDiscover() {
 		String uri = targetController.getURI();
-		useCase.coapDiscover(uri, new MessageObserverImpl("Discovery", uri) {
+		useCase.coapDiscover(uri, new MessageObserverImpl("DISCOVERY", uri) {
 			@Override
 			public void onResponse(Response response) {
 				super.onResponse(response);
@@ -68,7 +68,7 @@ public class MainController {
 				});
 			}
 		});
-		LOGGER.log(Level.INFO, "Discovery request has been sent to \"{0}\".", uri);
+		LOGGER.log(Level.INFO, "DISCOVERY request has been sent to {0}.", uri);
 		Platform.runLater(() -> notificationController.spinnerInfo("notification.discovery.requestSent"));
 	}
 
@@ -107,7 +107,7 @@ public class MainController {
 			String currentRetransmit = String.format("%d/%d", retransmit,
 					NetworkConfig.getStandard().getInt(NetworkConfig.Keys.MAX_RETRANSMIT));
 
-			LOGGER.log(Level.WARNING, "Retransmitting \"{0}\" request to \"{1}\" ({2}).",
+			LOGGER.log(Level.WARNING, "Retransmitting {0} request to {1} ({2}).",
 					new Object[] { code, uri, currentRetransmit });
 
 			Platform.runLater(
@@ -116,8 +116,10 @@ public class MainController {
 
 		@Override
 		public void onResponse(Response response) {
-			LOGGER.log(Level.INFO, "Received response from \"{0}\". Code: \"{1}\", Payload: \"{2}\".",
-					new Object[] { response.getSource().toString(), response.getCode(), response.getPayloadString() });
+			LOGGER.log(Level.INFO, "Received response from {0}. Code: {1}, Payload: {2}.",
+					new Object[] {
+							String.format("%s:%s", response.getSource().getHostAddress(), response.getSourcePort()),
+							response.getCode(), response.getPayloadString() });
 		}
 
 		@Override
@@ -132,7 +134,7 @@ public class MainController {
 
 		@Override
 		public void onTimeout() {
-			LOGGER.log(Level.SEVERE, "\"{0}\" request to \"{1}\" timed out.", new Object[] { code, uri });
+			LOGGER.log(Level.SEVERE, "{0} request to {1} timed out.", new Object[] { code, uri });
 			Platform.runLater(() -> notificationController.error("notification.requestTimeout"));
 		}
 

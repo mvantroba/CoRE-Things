@@ -34,38 +34,48 @@ public class NotificationController {
 		fadeIn.setToValue(1.0);
 	}
 
-	public void info(String message) {
+	public void info(String patternKey, Object... arguments) {
+		String messageText = MessageFormat.format(resources.getString(patternKey), arguments);
 		fadeIn.playFromStart();
 		box.getStyleClass().set(2, "notification-info");
 		icon.getChildren().set(0, new ImageView(Icon.INFO_BLUE.getImage(IconSize.MEDIUM)));
-		this.message.setText(message);
+		this.message.setText(messageText);
 	}
 
-	public void success(String message) {
+	public void success(String patternKey, Object... arguments) {
+		String messageText = MessageFormat.format(resources.getString(patternKey), arguments);
 		fadeIn.playFromStart();
 		box.getStyleClass().set(2, "notification-success");
 		icon.getChildren().set(0, new ImageView(Icon.CHECK_CIRCLE_GREEN.getImage(IconSize.MEDIUM)));
-		this.message.setText(message);
+		this.message.setText(messageText);
 	}
 
-	public void error(String message) {
+	public void error(String patternKey, Object... arguments) {
+		String messageText = MessageFormat.format(resources.getString(patternKey), arguments);
 		fadeIn.playFromStart();
 		box.getStyleClass().set(2, "notification-error");
 		icon.getChildren().set(0, new ImageView(Icon.ERROR_RED.getImage(IconSize.MEDIUM)));
-		this.message.setText(message);
+		this.message.setText(messageText);
 	}
 
-	public void spinner(String pattern, Object... arguments) {
-		spinner(MessageFormat.format(pattern, arguments));
+	public void spinnerInfo(String patternKey, Object... arguments) {
+		spinner(patternKey, "notification-info", arguments);
 	}
 
-	public void spinner(String message) {
-		fadeIn.playFromStart();
-		box.getStyleClass().set(2, "notification-info");
+	public void spinnerWarning(String patternKey, Object... arguments) {
+		spinner(patternKey, "notification-warning", arguments);
+	}
+
+	private void spinner(String patternKey, String styleClass, Object... arguments) {
+		// Prepare nodes for spinner.
+		String messageText = MessageFormat.format(resources.getString(patternKey), arguments);
 		ProgressIndicator indicator = new ProgressIndicator();
 		indicator.setMaxWidth(icon.getWidth());
 		indicator.setMaxHeight(icon.getHeight());
+		// Start spinner.
+		fadeIn.playFromStart();
+		box.getStyleClass().set(2, styleClass);
 		icon.getChildren().set(0, indicator);
-		this.message.setText(message);
+		this.message.setText(messageText);
 	}
 }

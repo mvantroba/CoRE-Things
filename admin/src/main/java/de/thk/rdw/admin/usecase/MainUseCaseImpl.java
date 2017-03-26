@@ -44,6 +44,12 @@ public class MainUseCaseImpl implements MainUseCase {
 	}
 
 	@Override
+	public void coapPing(String uri, MessageObserver observer) {
+		extendedCoapClient.setURI(uri);
+		extendedCoapClient.ping(observer);
+	}
+
+	@Override
 	public void coapGET(String uri, MessageObserver observer) {
 		extendedCoapClient.setURI(uri);
 		extendedCoapClient.get(observer);

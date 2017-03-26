@@ -14,6 +14,8 @@ public interface MainUseCase {
 
 	void coapDiscover(String uri, MessageObserver observer);
 
+	void coapPing(String uri, MessageObserver observer);
+
 	void coapGET(String uri, MessageObserver observer);
 
 	void coapPOST(String uri, String payload, MessageObserver observer, int format);

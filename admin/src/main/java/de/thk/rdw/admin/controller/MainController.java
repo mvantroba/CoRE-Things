@@ -1,14 +1,15 @@
 package de.thk.rdw.admin.controller;
 
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.controlsfx.validation.ValidationSupport;
+import org.eclipse.californium.core.coap.CoAP.Code;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.coap.MessageObserver;
 import org.eclipse.californium.core.coap.Response;
+import org.eclipse.californium.core.network.config.NetworkConfig;
 
 import de.thk.rdw.admin.controller.tabs.AdvancedController;
 import de.thk.rdw.admin.controller.tabs.DashboardController;
@@ -56,92 +57,88 @@ public class MainController {
 
 	public void coapDiscover() {
 		String uri = targetController.getURI();
-		LOGGER.log(Level.INFO, "Sending Discovery request to \"{0}\"...", uri);
-		useCase.coapDiscover(uri, new DiscoverMessageObserver());
-		spinner("notification.discovery.requestSent");
+		useCase.coapDiscover(uri, new MessageObserverImpl("Discovery", uri) {
+			@Override
+			public void onResponse(Response response) {
+				super.onResponse(response);
+				Platform.runLater(() -> {
+					notificationController.success("notification.discovery.success");
+					dashboardController.populateTree(response);
+					advancedController.populateTree(response);
+				});
+			}
+		});
+		LOGGER.log(Level.INFO, "Discovery request has been sent to \"{0}\".", uri);
+		Platform.runLater(() -> notificationController.spinnerInfo("notification.discovery.requestSent"));
+	}
+
+	public void coapPing() {
+		String uri = targetController.getURI();
+		useCase.coapPing(uri, new MessageObserverImpl("Ping", uri));
 	}
 
 	public void coapGET() {
 		String uri = targetController.getURI();
 		LOGGER.log(Level.INFO, "Sending GET request to \"{0}\"...", uri);
-		useCase.coapGET(uri, new DiscoverMessageObserver());
+		useCase.coapGET(uri, new MessageObserverImpl(Code.GET.name(), uri));
 	}
 
 	public void coapPOST() {
 		String uri = targetController.getURI();
 		LOGGER.log(Level.INFO, "Sending POST request to \"{0}\"...", uri);
-		useCase.coapPOST(uri, "", new DiscoverMessageObserver(), MediaTypeRegistry.TEXT_PLAIN);
+		useCase.coapPOST(uri, "", new MessageObserverImpl(Code.GET.name(), uri), MediaTypeRegistry.TEXT_PLAIN);
 	}
 
-	public void success(String key) {
-		notificationController.success(resources.getString(key));
-	}
+	private class MessageObserverImpl implements MessageObserver {
 
-	public void spinner(String key) {
-		notificationController.spinner(resources.getString(key));
-	}
+		private String code;
+		private String uri;
+		private int retransmit;
 
-	public String getPath() {
-		return advancedController.getPath();
-	}
-
-	public String getQuery() {
-		return advancedController.getQuery();
-	}
-
-	private class DiscoverMessageObserver implements MessageObserver {
+		public MessageObserverImpl(String code, String uri) {
+			this.code = code;
+			this.uri = uri;
+			this.retransmit = 0;
+		}
 
 		@Override
 		public void onRetransmission() {
-			// TODO Auto-generated method stub
+			retransmit++;
+			String currentRetransmit = String.format("%d/%d", retransmit,
+					NetworkConfig.getStandard().getInt(NetworkConfig.Keys.MAX_RETRANSMIT));
 
+			LOGGER.log(Level.WARNING, "Retransmitting \"{0}\" request to \"{1}\" ({2}).",
+					new Object[] { code, uri, currentRetransmit });
+
+			Platform.runLater(
+					() -> notificationController.spinnerWarning("notification.retransmit", currentRetransmit));
 		}
 
 		@Override
 		public void onResponse(Response response) {
-			LOGGER.log(Level.INFO, "Received response: \"{0}\".", response.getPayloadString());
-			Platform.runLater(new Runnable() {
-
-				@Override
-				public void run() {
-					success("notification.discovery.success");
-					dashboardController.populateTree(response);
-					advancedController.populateTree(response);
-				}
-			});
+			LOGGER.log(Level.INFO, "Received response from \"{0}\". Code: \"{1}\", Payload: \"{2}\".",
+					new Object[] { response.getSource().toString(), response.getCode(), response.getPayloadString() });
 		}
 
 		@Override
 		public void onAcknowledgement() {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void onReject() {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void onTimeout() {
-			// TODO Auto-generated method stub
-
+			LOGGER.log(Level.SEVERE, "\"{0}\" request to \"{1}\" timed out.", new Object[] { code, uri });
+			Platform.runLater(() -> notificationController.error("notification.requestTimeout"));
 		}
 
 		@Override
 		public void onCancel() {
 			// TODO Auto-generated method stub
-
 		}
-	}
-
-	public List<CoapConnection> getCoapConnections() {
-		return useCase.findAllCoapConnections();
-	}
-
-	public void coapPing() {
-		// TODO Auto-generated method stub
-
 	}
 }

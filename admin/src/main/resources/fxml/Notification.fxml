@@ -24,7 +24,7 @@
 				<Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
 			</HBox.margin>
 		</Pane>
-		<Label fx:id="message" text="%notification.general.welcome"
+		<Label fx:id="message" text="%notification.selectConnection"
 			HBox.hgrow="ALWAYS">
 			<HBox.margin>
 				<Insets bottom="9.0" left="4.0" right="4.0" top="9.0" />

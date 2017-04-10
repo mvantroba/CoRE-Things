@@ -53,8 +53,13 @@ public class TargetController {
 	public void setCoapConnections(ObservableList<CoapConnection> coapConnections) {
 		coapConnection.setItems(coapConnections);
 		coapConnection.valueProperty().addListener((observable, oldValue, newValue) -> {
-			host.setText(newValue.getHost());
-			port.setText(String.valueOf(newValue.getPort()));
+			if (newValue != null) {
+				host.setText(newValue.getHost());
+				port.setText(String.valueOf(newValue.getPort()));
+			} else {
+				host.setText("");
+				port.setText("");
+			}
 		});
 	}
 
@@ -99,7 +104,17 @@ public class TargetController {
 
 	@FXML
 	private void onActionSave() {
-		// TODO Implement this method.
+		CoapConnection dialogCoapConnection = this.coapConnection.getSelectionModel().getSelectedItem();
+		if (dialogCoapConnection == null) {
+			dialogCoapConnection = new CoapConnection();
+		}
+		dialogCoapConnection.setScheme(scheme.getSelectionModel().getSelectedItem());
+		dialogCoapConnection.setHost(host.getText());
+		dialogCoapConnection.setPort(getPort());
+		if (mainController.showCoapConnectionDialog(dialogCoapConnection)) {
+			mainController.saveCoapConnection(dialogCoapConnection);
+			this.coapConnection.getSelectionModel().select(dialogCoapConnection);
+		}
 	}
 
 	private int getPort() {

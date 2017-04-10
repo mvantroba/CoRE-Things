@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefWidth="360.0"
+	xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="de.thk.rdw.admin.controller.CoapConnectionDialogController">
+	<children>
+		<GridPane alignment="CENTER">
+			<columnConstraints>
+				<ColumnConstraints prefWidth="128.0" />
+				<ColumnConstraints prefWidth="256.0" />
+			</columnConstraints>
+			<rowConstraints>
+				<RowConstraints minHeight="10.0" prefHeight="30.0" />
+				<RowConstraints minHeight="10.0" prefHeight="30.0" />
+				<RowConstraints minHeight="10.0" prefHeight="30.0" />
+				<RowConstraints minHeight="10.0" prefHeight="30.0" />
+			</rowConstraints>
+			<children>
+				<Label text="%connection.name" />
+				<Label text="%connection.scheme" GridPane.rowIndex="1" />
+				<Label text="%connection.host" GridPane.rowIndex="2" />
+				<Label text="%connection.port" GridPane.rowIndex="3" />
+				<TextField fx:id="name" GridPane.columnIndex="1" />
+				<TextField fx:id="host" GridPane.columnIndex="1"
+					GridPane.rowIndex="2" />
+				<TextField fx:id="port" GridPane.columnIndex="1"
+					GridPane.rowIndex="3" />
+				<ChoiceBox fx:id="scheme" prefWidth="64.0"
+					GridPane.columnIndex="1" GridPane.rowIndex="1" />
+			</children>
+			<VBox.margin>
+				<Insets bottom="16.0" />
+			</VBox.margin>
+		</GridPane>
+		<ButtonBar>
+			<buttons>
+				<Button fx:id="ok" defaultButton="true" mnemonicParsing="false"
+					onAction="#onActionOk" text="%button.ok" />
+				<Button mnemonicParsing="false" onAction="#onActionCancel"
+					text="%button.cancel" />
+			</buttons>
+		</ButtonBar>
+	</children>
+	<padding>
+		<Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+	</padding>
+</VBox>

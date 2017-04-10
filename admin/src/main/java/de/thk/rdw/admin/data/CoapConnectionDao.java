@@ -14,6 +14,8 @@ public interface CoapConnectionDao {
 
 	List<CoapConnection> findAll();
 
+	CoapConnection findById(CoapConnection coapConnection);
+
 	void update(CoapConnection coapConnection);
 
 	void delete(CoapConnection coapConnection);

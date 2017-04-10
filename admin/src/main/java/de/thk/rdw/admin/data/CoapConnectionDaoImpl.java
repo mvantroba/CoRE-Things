@@ -38,12 +38,17 @@ public class CoapConnectionDaoImpl implements CoapConnectionDao {
 	}
 
 	@Override
+	public CoapConnection findById(CoapConnection coapConnection) {
+		return entityManager.find(CoapConnection.class, coapConnection.getId());
+	}
+
+	@Override
 	public void update(CoapConnection coapConnection) {
-		// TODO Auto-generated method stub
+		entityManager.merge(coapConnection);
 	}
 
 	@Override
 	public void delete(CoapConnection coapConnection) {
-		// TODO Auto-generated method stub
+		entityManager.remove(coapConnection);
 	}
 }

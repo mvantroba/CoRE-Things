@@ -8,7 +8,15 @@ import de.thk.rdw.admin.model.CoapConnection;
 
 public interface MainUseCase {
 
-	List<CoapConnection> findAllCoapConnections();
+	void createCoapConnection(CoapConnection coapConnection);
+
+	List<CoapConnection> findAllCoapConnections(boolean createDefault);
+
+	CoapConnection findCoapConnectionById(CoapConnection coapConnection);
+
+	void updateCoapConnection(CoapConnection coapConnection);
+
+	void deleteCoapConnection(CoapConnection coapConnection);
 
 	void setCoapURI(String uri);
 

@@ -43,14 +43,25 @@ public class ConnectionsController {
 
 	@FXML
 	private void onActionAdd() {
+		CoapConnection coapConnection = new CoapConnection();
+		if (mainController.showCoapConnectionDialog(coapConnection)) {
+			mainController.saveCoapConnection(coapConnection);
+		}
 	}
 
 	@FXML
 	private void onActionEdit() {
+		// TODO CoAP connection does not update in target panel after editing it
+		// here.
+		CoapConnection coapConnection = connections.getSelectionModel().getSelectedItem();
+		if (mainController.showCoapConnectionDialog(coapConnection)) {
+			mainController.saveCoapConnection(coapConnection);
+		}
 	}
 
 	@FXML
 	private void onActionDelete() {
+		// TODO Deselect this CoAP connection in target panel if it is selected.
 		mainController.deleteCoapConnection(connections.getSelectionModel().getSelectedItem());
 	}
 

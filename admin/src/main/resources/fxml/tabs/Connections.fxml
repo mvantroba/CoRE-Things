@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox styleClass="container-sub" xmlns="http://javafx.com/javafx/8.0.65"
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.tabs.ConnectionsController">
+	<children>
+		<VBox HBox.hgrow="ALWAYS">
+			<children>
+				<StackPane VBox.vgrow="NEVER">
+					<children>
+						<Label styleClass="card-heading" text="%card.title.connections"
+							StackPane.alignment="CENTER_LEFT" />
+						<HBox alignment="CENTER_RIGHT" spacing="4.0">
+							<children>
+								<Button fx:id="add" alignment="CENTER_RIGHT"
+									mnemonicParsing="false" onAction="#onActionAdd">
+									<graphic>
+										<ImageView fitHeight="16.0" fitWidth="16.0"
+											pickOnBounds="true" preserveRatio="true">
+											<image>
+												<Image url="@../../img/ic_add_circle_grey_16px.png" />
+											</image>
+										</ImageView>
+									</graphic>
+								</Button>
+								<Button fx:id="edit" alignment="CENTER_RIGHT"
+									mnemonicParsing="false" onAction="#onActionEdit">
+									<graphic>
+										<ImageView fitHeight="16.0" fitWidth="16.0"
+											pickOnBounds="true" preserveRatio="true">
+											<image>
+												<Image url="@../../img/ic_mode_edit_grey_16px.png" />
+											</image>
+										</ImageView>
+									</graphic>
+								</Button>
+								<Button fx:id="delete" alignment="CENTER_RIGHT"
+									mnemonicParsing="false" onAction="#onActionDelete">
+									<graphic>
+										<ImageView fitHeight="16.0" fitWidth="16.0"
+											pickOnBounds="true" preserveRatio="true">
+											<image>
+												<Image url="@../../img/ic_delete_grey_16px.png" />
+											</image>
+										</ImageView>
+									</graphic>
+								</Button>
+							</children>
+						</HBox>
+					</children>
+					<VBox.margin>
+						<Insets bottom="8.0" />
+					</VBox.margin>
+				</StackPane>
+				<TableView fx:id="connections" VBox.vgrow="ALWAYS">
+					<columns>
+						<TableColumn fx:id="name" prefWidth="128.0" text="%connection.name" />
+						<TableColumn fx:id="scheme" prefWidth="128.0"
+							text="%connection.scheme" />
+						<TableColumn fx:id="host" prefWidth="128.0" text="%connection.host" />
+						<TableColumn fx:id="port" prefWidth="128.0" text="%connection.port" />
+					</columns>
+					<columnResizePolicy>
+						<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+					</columnResizePolicy>
+				</TableView>
+			</children>
+			<styleClass>
+				<String fx:value="card" />
+				<String fx:value="card-content" />
+			</styleClass>
+		</VBox>
+	</children>
+</HBox>

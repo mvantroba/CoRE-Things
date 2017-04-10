@@ -27,7 +27,7 @@
 				</Tab>
 				<Tab text="%menu.connections">
 					<content>
-						<AnchorPane />
+						<fx:include fx:id="connections" source="tabs/Connections.fxml" />
 					</content>
 				</Tab>
 				<Tab text="%menu.log">

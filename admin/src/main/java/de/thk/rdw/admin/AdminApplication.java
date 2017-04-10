@@ -31,7 +31,7 @@ public class AdminApplication extends Application {
 		mainUseCase = new MainUseCaseImpl();
 
 		ResourceBundle bundle = ResourceBundle.getBundle("i18n/bundle");
-		Scene scene = new Scene(loadMainLayout(mainUseCase, bundle));
+		Scene scene = new Scene(loadMainLayout(mainUseCase, bundle, primaryStage));
 		primaryStage.setTitle(getImplementationTitle());
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -42,7 +42,7 @@ public class AdminApplication extends Application {
 		mainUseCase.cleanUp();
 	}
 
-	private Parent loadMainLayout(MainUseCase mainUseCase, ResourceBundle bundle) {
+	private Parent loadMainLayout(MainUseCase mainUseCase, ResourceBundle bundle, Stage primaryStage) {
 		Parent result = null;
 		FXMLLoader loader;
 		try {
@@ -50,7 +50,9 @@ public class AdminApplication extends Application {
 			loader.setLocation(AdminApplication.class.getResource("/fxml/Main.fxml"));
 			loader.setResources(bundle);
 			result = loader.load();
-			((MainController) loader.getController()).setUseCase(mainUseCase);
+			MainController mainController = loader.getController();
+			mainController.setUseCase(mainUseCase);
+			mainController.setPrimaryStage(primaryStage);
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, e.getMessage(), e);
 		}

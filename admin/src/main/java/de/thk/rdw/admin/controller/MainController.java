@@ -5,7 +5,10 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.controlsfx.control.Notifications;
 import org.controlsfx.validation.ValidationSupport;
+import org.eclipse.californium.core.CoapHandler;
+import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.coap.CoAP.Code;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.coap.MessageObserver;
@@ -16,6 +19,8 @@ import de.thk.rdw.admin.AdminApplication;
 import de.thk.rdw.admin.controller.tabs.AdvancedController;
 import de.thk.rdw.admin.controller.tabs.ConnectionsController;
 import de.thk.rdw.admin.controller.tabs.DashboardController;
+import de.thk.rdw.admin.icon.Icon;
+import de.thk.rdw.admin.icon.IconSize;
 import de.thk.rdw.admin.model.CoapConnection;
 import de.thk.rdw.admin.model.GuiCoapResource;
 import de.thk.rdw.admin.tree.TreeUtils;
@@ -25,11 +30,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MainController {
 
@@ -86,6 +94,11 @@ public class MainController {
 					TreeItem<GuiCoapResource> rootItem = TreeUtils.parseResources(response);
 					dashboardController.populateTree(rootItem);
 					advancedController.populateTree(rootItem);
+					// TODO Define this resource type globally.
+					if (response.getPayloadString().contains("core.rd")) {
+						coapObserve("coap://" + response.getSource().getHostAddress() + ":" + response.getSourcePort()
+								+ "/rd");
+					}
 				});
 			}
 		});
@@ -108,6 +121,60 @@ public class MainController {
 		String uri = targetController.getURI();
 		LOGGER.log(Level.INFO, "Sending POST request to \"{0}\"...", uri);
 		useCase.coapPOST(uri, "", new MessageObserverImpl(Code.GET.name(), uri), MediaTypeRegistry.TEXT_PLAIN);
+	}
+
+	public void coapObserve(String uri) {
+		LOGGER.log(Level.INFO, "Sending OBSERVE request to \"{0}\"...", uri);
+		useCase.coapObserve(uri, new CoapHandler() {
+
+			private boolean receivedFirstResponse = false;
+			private int observeFlag = 0;
+
+			@Override
+			public void onLoad(CoapResponse response) {
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						LOGGER.log(Level.INFO, "Received update from {0}: \"{1}\"", new Object[] {
+								response.advanced().getSource().toString(), response.advanced().toString() });
+						Integer currentObserveFlag = response.advanced().getOptions().getObserve();
+						// Only show notification and update tree if the
+						// resource was updated (observe flag has been
+						// incremented) and it is not the first observer
+						// response.
+						if (currentObserveFlag > observeFlag && receivedFirstResponse) {
+							observeFlag = currentObserveFlag;
+							Notifications.create().title("Resource Directory") //
+									.text("Endpoint list has been updated.") //
+									.graphic(new ImageView(Icon.INFO_BLUE.getImage(IconSize.MEDIUM))) //
+									.position(Pos.BOTTOM_RIGHT).hideAfter(Duration.seconds(5)).show();
+
+							// TODO Update only rd resource instead of doing
+							// full discovery request.
+							useCase.coapDiscover(uri, new MessageObserverImpl("DISCOVERY", uri) {
+								@Override
+								public void onResponse(Response response) {
+									super.onResponse(response);
+									Platform.runLater(() -> {
+										TreeItem<GuiCoapResource> rootItem = TreeUtils.parseResources(response);
+										dashboardController.populateTree(rootItem);
+										advancedController.populateTree(rootItem);
+									});
+								}
+							});
+						} else {
+							receivedFirstResponse = true;
+						}
+					}
+				});
+			}
+
+			@Override
+			public void onError() {
+				// TODO Cancel observation, show notification, reset GUI.
+			}
+		});
 	}
 
 	public boolean showCoapConnectionDialog(CoapConnection coapConnection) {

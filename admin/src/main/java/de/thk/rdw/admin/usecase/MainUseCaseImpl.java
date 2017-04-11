@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.eclipse.californium.core.CoapHandler;
 import org.eclipse.californium.core.coap.CoAP;
 import org.eclipse.californium.core.coap.MessageObserver;
 
@@ -69,6 +70,12 @@ public class MainUseCaseImpl implements MainUseCase {
 	public void coapDiscover(String uri, MessageObserver observer) {
 		extendedCoapClient.setURI(uri);
 		extendedCoapClient.discover(observer);
+	}
+
+	@Override
+	public void coapObserve(String uri, CoapHandler coapHandler) {
+		extendedCoapClient.setURI(uri);
+		extendedCoapClient.observe(coapHandler);
 	}
 
 	@Override

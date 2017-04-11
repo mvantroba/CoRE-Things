@@ -12,35 +12,24 @@ import javafx.scene.control.TreeItem;
 
 public class TreeUtils {
 
-	public static TreeItem<GuiCoapResource> parseResources(Response response, boolean onlyRd) {
+	public static TreeItem<GuiCoapResource> parseResources(Response response) {
 		TreeItem<GuiCoapResource> rootIem;
 		GuiCoapResource rootResource = new GuiCoapResource(
 				String.format("%s:%s", response.getSource().getHostAddress(), response.getSourcePort()));
 		rootIem = new TreeItem<>(rootResource);
 		rootIem.setExpanded(true);
-		addResources(rootIem, response.getPayloadString(), onlyRd);
+		addResources(rootIem, response.getPayloadString());
 		return rootIem;
 	}
 
-	private static void addResources(TreeItem<GuiCoapResource> rootItem, String payloadString, boolean onlyRd) {
+	private static void addResources(TreeItem<GuiCoapResource> rootItem, String payloadString) {
 		Set<WebLink> links = LinkFormat.parse(payloadString);
 		TreeItem<GuiCoapResource> parentItem = rootItem;
-		boolean resourceIsRd = false;
 		for (WebLink link : links) {
-			if (link.getURI().equals("/rd") || link.getURI().startsWith("/rd/")) {
-				resourceIsRd = true;
-			}
-			if (onlyRd && !resourceIsRd) {
-				continue;
-			}
-			resourceIsRd = false;
 			Scanner scanner = new Scanner(link.getURI());
 			scanner.useDelimiter("/");
 			while (scanner.hasNext()) {
 				String resourceName = scanner.next();
-				if (onlyRd && resourceName.contains(".well-known")) {
-					break;
-				}
 				TreeItem<GuiCoapResource> childItem = findChildResource(parentItem, resourceName);
 				if (childItem == null) {
 					GuiCoapResource guiCoapResource = new GuiCoapResource(resourceName);

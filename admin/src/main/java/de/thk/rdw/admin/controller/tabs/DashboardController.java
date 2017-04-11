@@ -5,16 +5,14 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.californium.core.coap.Response;
-
 import de.thk.rdw.admin.controller.MainController;
 import de.thk.rdw.admin.model.GuiCoapResource;
 import de.thk.rdw.admin.tree.DashboardTreeCell;
-import de.thk.rdw.admin.tree.TreeUtils;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TreeCell;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -100,7 +98,7 @@ public class DashboardController {
 		root.getChildren().set(PANEL_B_INDEX, panel);
 	}
 
-	public void populateTree(Response response) {
+	public void populateTree(TreeItem<GuiCoapResource> rootItem) {
 		resourceTree.setCellFactory(new Callback<TreeView<GuiCoapResource>, TreeCell<GuiCoapResource>>() {
 
 			@Override
@@ -127,7 +125,7 @@ public class DashboardController {
 				};
 			}
 		});
-		this.resourceTree.setRoot(TreeUtils.parseResources(response, true));
+		this.resourceTree.setRoot(rootItem);
 	}
 
 	public void setMainController(MainController mainController) {

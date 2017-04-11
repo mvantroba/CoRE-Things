@@ -17,6 +17,8 @@ import de.thk.rdw.admin.controller.tabs.AdvancedController;
 import de.thk.rdw.admin.controller.tabs.ConnectionsController;
 import de.thk.rdw.admin.controller.tabs.DashboardController;
 import de.thk.rdw.admin.model.CoapConnection;
+import de.thk.rdw.admin.model.GuiCoapResource;
+import de.thk.rdw.admin.tree.TreeUtils;
 import de.thk.rdw.admin.usecase.MainUseCase;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -24,6 +26,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TreeItem;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -80,8 +83,9 @@ public class MainController {
 				super.onResponse(response);
 				Platform.runLater(() -> {
 					notificationController.success("notification.discovery.success");
-					dashboardController.populateTree(response);
-					advancedController.populateTree(response);
+					TreeItem<GuiCoapResource> rootItem = TreeUtils.parseResources(response);
+					dashboardController.populateTree(rootItem);
+					advancedController.populateTree(rootItem);
 				});
 			}
 		});

@@ -2,15 +2,13 @@ package de.thk.rdw.admin.controller.tabs;
 
 import java.util.ResourceBundle;
 
-import org.eclipse.californium.core.coap.Response;
-
 import de.thk.rdw.admin.controller.MainController;
 import de.thk.rdw.admin.model.GuiCoapResource;
 import de.thk.rdw.admin.tree.AdvancedTreeCell;
-import de.thk.rdw.admin.tree.TreeUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
 public class AdvancedController {
@@ -30,9 +28,9 @@ public class AdvancedController {
 	@FXML
 	private TextArea responsePayload;
 
-	public void populateTree(Response response) {
+	public void populateTree(TreeItem<GuiCoapResource> rootItem) {
 		this.resourceTree.setCellFactory(param -> new AdvancedTreeCell());
-		this.resourceTree.setRoot(TreeUtils.parseResources(response, false));
+		this.resourceTree.setRoot(rootItem);
 	}
 
 	public void setMainController(MainController mainController) {

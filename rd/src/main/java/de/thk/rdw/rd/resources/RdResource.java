@@ -46,9 +46,10 @@ public class RdResource extends CoapResource {
 		response.setPayload(LinkFormat.serializeTree(this));
 		exchange.respond(response);
 		if (exchange.getRequestOptions().hasObserve()) {
-			addObserveRelation(new ObserveRelation(
-					new ObservingEndpoint(new InetSocketAddress(exchange.getSourceAddress(), exchange.getSourcePort())),
-					this, exchange.advanced()));
+			ObservingEndpoint observingEndpoint = new ObservingEndpoint(
+					new InetSocketAddress(exchange.getSourceAddress(), exchange.getSourcePort()));
+			addObserveRelation(new ObserveRelation(observingEndpoint, this, exchange.advanced()));
+			LOGGER.log(Level.INFO, "Added endpoint to observers: {0}", observingEndpoint.getAddress().toString());
 		}
 	}
 

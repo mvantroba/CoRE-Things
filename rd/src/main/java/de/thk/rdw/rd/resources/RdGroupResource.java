@@ -13,8 +13,8 @@ import de.thk.rdw.rd.uri.UriVariable;
 public class RdGroupResource extends CoapResource {
 
 	public RdGroupResource() {
-		super("rd-group");
-		getAttributes().addResourceType("core.rd-group");
+		super(ResourceType.CORE_RD_GROUP.getName());
+		getAttributes().addResourceType(ResourceType.CORE_RD_GROUP.getType());
 	}
 
 	@Override

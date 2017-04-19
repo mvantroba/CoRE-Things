@@ -27,8 +27,8 @@ public class RdResource extends CoapResource {
 	private static final Logger LOGGER = Logger.getLogger(RdResource.class.getName());
 
 	public RdResource() {
-		super("rd");
-		getAttributes().addResourceType("core.rd");
+		super(ResourceType.CORE_RD.getName());
+		getAttributes().addResourceType(ResourceType.CORE_RD.getType());
 		setObservable(true);
 	}
 

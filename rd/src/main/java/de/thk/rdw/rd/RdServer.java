@@ -21,8 +21,10 @@ public class RdServer extends CoapServer {
 				this.addEndpoint(new CoapEndpoint(new InetSocketAddress(address, CoAP.DEFAULT_COAP_PORT)));
 			}
 		}
-		add(new RdResource());
-		add(new RdGroupResource());
-		add(new RdLookupResource());
+		RdResource rdResource = new RdResource();
+		RdGroupResource rdGroupResource = new RdGroupResource();
+		add(rdResource);
+		add(rdGroupResource);
+		add(new RdLookupResource(rdResource, rdGroupResource));
 	}
 }

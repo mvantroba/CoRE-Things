@@ -45,6 +45,14 @@ public class EndpointResource extends CoapResource {
 		updateVariables(variables);
 	}
 
+	public EndpointResource(String name, String domain, long lifetime) {
+		super(name);
+		this.domain = domain;
+		getAttributes().addAttribute("d", domain);
+		this.lifetime = lifetime;
+		// TODO Update lifetime.
+	}
+
 	@Override
 	public void handleGET(CoapExchange exchange) {
 		// TODO Dont include rd and this resource in the payload.

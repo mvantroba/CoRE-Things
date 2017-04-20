@@ -9,7 +9,7 @@ import de.thk.rdw.rd.uri.UriVariableDefault;
 
 public class GroupResource extends CoapResource {
 
-	private String domain = String.valueOf(UriVariableDefault.DOMAIN.getDefaultValue());
+	private String domain = UriVariableDefault.DOMAIN.toString();
 
 	public GroupResource(String name, String domain) {
 		super(name);

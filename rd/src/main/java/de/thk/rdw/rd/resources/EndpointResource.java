@@ -18,15 +18,16 @@ import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.core.server.resources.Resource;
 
 import de.thk.rdw.rd.uri.UriVariable;
+import de.thk.rdw.rd.uri.UriVariableDefault;
 
 public class EndpointResource extends CoapResource {
 
 	private static final Logger LOGGER = Logger.getLogger(EndpointResource.class.getName());
 	private static final ScheduledExecutorService SCHEDULER = Executors.newSingleThreadScheduledExecutor();
 
-	private String domain = "local";
+	private String domain = UriVariableDefault.DOMAIN.toString();
 	private String endpointType;
-	private Long lifetime = 86400L; // 24 Hours
+	private Long lifetime = Long.parseLong(UriVariableDefault.LIFE_TIME.toString());
 	private String context;
 
 	private ScheduledFuture<?> scheduledFuture;

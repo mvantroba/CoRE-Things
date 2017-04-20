@@ -2,7 +2,8 @@ package de.thk.rdw.rd.uri;
 
 public enum UriVariableDefault {
 
-	DOMAIN("local"), LIFE_TIME(86400L);
+	DOMAIN("local"), //
+	LIFE_TIME(86400L); // 24 hours
 
 	private Object defaultValue;
 
@@ -10,7 +11,8 @@ public enum UriVariableDefault {
 		this.defaultValue = defaultValue;
 	}
 
-	public Object getDefaultValue() {
-		return defaultValue;
+	@Override
+	public String toString() {
+		return String.valueOf(defaultValue);
 	}
 }

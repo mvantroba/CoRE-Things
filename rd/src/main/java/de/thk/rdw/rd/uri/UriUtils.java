@@ -28,6 +28,8 @@ public class UriUtils {
 					throw new IllegalArgumentException(
 							String.format("Ignoring invalid uri variable \"%s\".", uriVariable));
 				}
+				// Throws IllegalArgumentException.
+				variable.validate(splittedVariable[1]);
 				result.put(variable, splittedVariable[1]);
 			} catch (IllegalArgumentException e) {
 				LOGGER.log(Level.WARNING, e.getMessage());

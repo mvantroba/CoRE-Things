@@ -1,8 +1,5 @@
 package de.thk.rdw.rd.uri;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import org.eclipse.californium.core.coap.CoAP;
 import org.eclipse.californium.core.coap.LinkFormat;
 
@@ -61,11 +58,7 @@ public enum UriVariable {
 
 		@Override
 		public void validate(String value) {
-			try {
-				new URI(value);
-			} catch (URISyntaxException e) {
-				throw new IllegalArgumentException(String.format("Context has invalid syntax. Received: %s.", value));
-			}
+			// Manual validation combined with request object is required.
 		}
 	}), GROUP("gp", new UriVariableValidator() {
 

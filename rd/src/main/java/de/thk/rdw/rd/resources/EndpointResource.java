@@ -24,33 +24,42 @@ public class EndpointResource extends CoapResource {
 	private static final Logger LOGGER = Logger.getLogger(EndpointResource.class.getName());
 	private static final ScheduledExecutorService SCHEDULER = Executors.newSingleThreadScheduledExecutor();
 
-	private ScheduledFuture<?> scheduledFuture;
-
 	private String domain = "local";
 	private String endpointType;
 	private Long lifetime = 86400L; // 24 Hours
 	private String context;
 
-	public EndpointResource(Map<UriVariable, String> variables) {
-		super(variables.get(UriVariable.END_POINT));
-		if (variables.get(UriVariable.DOMAIN) != null) {
-			this.domain = variables.get(UriVariable.DOMAIN);
-			// TODO Define attribute names globally.
+	private ScheduledFuture<?> scheduledFuture;
+
+	public EndpointResource(String name, String domain, String endpointType, String lifetime, String context) {
+		super(name);
+		if (domain != null) {
+			this.domain = domain;
 		}
-		getAttributes().addAttribute("d", domain);
-		this.endpointType = variables.get(UriVariable.END_POINT_TYPE);
-		if (endpointType != null) {
-			getAttributes().addAttribute("et", endpointType);
+		this.endpointType = endpointType;
+		if (this.endpointType != null) {
+			getAttributes().addAttribute(LinkFormat.END_POINT_TYPE, this.endpointType);
 		}
-		updateVariables(variables);
+		try {
+			this.lifetime = Long.parseLong(lifetime);
+		} catch (NumberFormatException e) {
+			// Default value will be used.
+		}
+		getAttributes().addAttribute(LinkFormat.LIFE_TIME, lifetime);
+		updateScheduledFuture();
+		this.context = context;
 	}
 
-	public EndpointResource(String name, String domain, long lifetime) {
-		super(name);
-		this.domain = domain;
-		getAttributes().addAttribute("d", domain);
-		this.lifetime = lifetime;
-		// TODO Update lifetime.
+	public EndpointResource(Map<UriVariable, String> variables) {
+		this(variables.get(UriVariable.END_POINT), //
+				variables.get(UriVariable.DOMAIN), //
+				variables.get(UriVariable.END_POINT_TYPE), //
+				variables.get(UriVariable.LIFE_TIME), //
+				variables.get(UriVariable.CONTEXT));
+	}
+
+	public EndpointResource(String name, String domain) {
+		this(name, domain, null, null, null);
 	}
 
 	@Override
@@ -78,6 +87,7 @@ public class EndpointResource extends CoapResource {
 	}
 
 	/**
+	 * <p>
 	 * Updates endpoint parameters after the endpoint sends a registration
 	 * update request. Such request can only update lifetime or context
 	 * registration parameters. Parameters that have not changed should not be
@@ -90,20 +100,22 @@ public class EndpointResource extends CoapResource {
 	 * 
 	 * @param variables
 	 */
-	public void updateVariables(Map<UriVariable, String> variables) {
+	public void updateVariables(String lifetime, String context) {
 		try {
-			this.lifetime = Long.parseLong(variables.get(UriVariable.LIFE_TIME));
+			this.lifetime = Long.parseLong(lifetime);
 		} catch (NumberFormatException e) {
-			LOGGER.log(Level.WARNING, "Could not parse lifetime value \"{0}\" to Long. Enforcing default value: {1}.",
-					new Object[] { variables.get(UriVariable.LIFE_TIME), lifetime });
+			// Old value will be used.
 		}
 		// Remove previous entry to prevent having multiple values.
-		getAttributes().clearAttribute("lt");
-		getAttributes().addAttribute("lt", String.valueOf(lifetime));
-		updateLifetime(lifetime);
-		this.context = variables.get(UriVariable.CONTEXT);
-		getAttributes().clearAttribute("con");
-		getAttributes().addAttribute("con", context);
+		getAttributes().clearAttribute(LinkFormat.LIFE_TIME);
+		getAttributes().addAttribute(LinkFormat.LIFE_TIME, String.valueOf(this.lifetime));
+		updateScheduledFuture();
+
+		if (context != null) {
+			this.context = context;
+			getAttributes().clearAttribute(LinkFormat.CONTEXT);
+			getAttributes().addAttribute(LinkFormat.CONTEXT, this.context);
+		}
 	}
 
 	public void updateResources(String linkFormat) {
@@ -148,9 +160,8 @@ public class EndpointResource extends CoapResource {
 				+ lifetime + ", context=" + context + "]";
 	}
 
-	private void updateLifetime(Long lifetime) {
+	private void updateScheduledFuture() {
 		if (lifetime != null) {
-			this.lifetime = lifetime;
 			if (scheduledFuture != null) {
 				scheduledFuture.cancel(true);
 			}
@@ -158,6 +169,8 @@ public class EndpointResource extends CoapResource {
 
 				@Override
 				public void run() {
+					LOGGER.log(Level.INFO, "Endpoint lifetime has expired: {0}",
+							new Object[] { EndpointResource.this.toString() });
 					delete();
 				}
 			}, lifetime, TimeUnit.SECONDS);

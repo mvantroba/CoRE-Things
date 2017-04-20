@@ -25,8 +25,6 @@ import de.thk.rdw.rd.resources.ResourceType;
 
 public class LookupDomainResourceTest {
 
-	private static final long ENDPOINT_LIFETIME = 86400L;
-
 	private CoapServer server;
 	private String lookupDomainUri;
 
@@ -89,10 +87,10 @@ public class LookupDomainResourceTest {
 
 		// Mock RD resource with two endpoint pairs.
 		Collection<Resource> children = new ArrayList<>();
-		children.add(new EndpointResource("node1", testedDomain1, ENDPOINT_LIFETIME));
-		children.add(new EndpointResource("node2", testedDomain1, ENDPOINT_LIFETIME));
-		children.add(new EndpointResource("node3", testedDomain2, ENDPOINT_LIFETIME));
-		children.add(new EndpointResource("node4", testedDomain2, ENDPOINT_LIFETIME));
+		children.add(new EndpointResource("node1", testedDomain1));
+		children.add(new EndpointResource("node2", testedDomain1));
+		children.add(new EndpointResource("node3", testedDomain2));
+		children.add(new EndpointResource("node4", testedDomain2));
 		RdResource rdResource = mock(RdResource.class);
 		when(rdResource.getChildren()).thenReturn(children);
 		server.add(new RdLookupResource(rdResource, null));
@@ -111,10 +109,10 @@ public class LookupDomainResourceTest {
 
 		// Mock RD resource with two endpoint pairs.
 		Collection<Resource> children = new ArrayList<>();
-		children.add(new EndpointResource("node1", testedDomain, ENDPOINT_LIFETIME));
-		children.add(new EndpointResource("node2", testedDomain, ENDPOINT_LIFETIME));
-		children.add(new EndpointResource("node3", "domain2", ENDPOINT_LIFETIME));
-		children.add(new EndpointResource("node4", "domain2", ENDPOINT_LIFETIME));
+		children.add(new EndpointResource("node1", testedDomain));
+		children.add(new EndpointResource("node2", testedDomain));
+		children.add(new EndpointResource("node3", "domain2"));
+		children.add(new EndpointResource("node4", "domain2"));
 		RdResource rdResource = mock(RdResource.class);
 		when(rdResource.getChildren()).thenReturn(children);
 		server.add(new RdLookupResource(rdResource, null));
@@ -132,10 +130,10 @@ public class LookupDomainResourceTest {
 
 		// Mock RD resource with two endpoint pairs.
 		Collection<Resource> children = new ArrayList<>();
-		children.add(new EndpointResource("node1", "domain1", ENDPOINT_LIFETIME));
-		children.add(new EndpointResource("node2", "domain1", ENDPOINT_LIFETIME));
-		children.add(new EndpointResource("node3", "domain2", ENDPOINT_LIFETIME));
-		children.add(new EndpointResource("node4", "domain2", ENDPOINT_LIFETIME));
+		children.add(new EndpointResource("node1", "domain1"));
+		children.add(new EndpointResource("node2", "domain1"));
+		children.add(new EndpointResource("node3", "domain2"));
+		children.add(new EndpointResource("node4", "domain2"));
 		RdResource rdResource = mock(RdResource.class);
 		when(rdResource.getChildren()).thenReturn(children);
 		server.add(new RdLookupResource(rdResource, null));

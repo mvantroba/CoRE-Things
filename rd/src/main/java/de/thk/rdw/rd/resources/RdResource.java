@@ -3,7 +3,6 @@ package de.thk.rdw.rd.resources;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,7 +53,9 @@ public class RdResource extends CoapResource {
 	}
 
 	private Response preparePostResponse(CoapExchange exchange) {
-		Map<UriVariable, String> variables = initVariablesFromExchange(exchange);
+		Map<UriVariable, String> variables = UriUtils.parseUriQuery(exchange.getRequestOptions().getUriQuery());
+		variables.put(UriVariable.CONTEXT,
+				initContextFromRequest(exchange.advanced().getRequest(), variables.get(UriVariable.CONTEXT)));
 		EndpointResource newEndpoint;
 		EndpointResource existingEndpoint;
 		Response response;
@@ -70,7 +71,8 @@ public class RdResource extends CoapResource {
 				exchange.setLocationPath(newEndpoint.getURI());
 				LOGGER.log(Level.INFO, "Added new endpoint: {0}.", new Object[] { newEndpoint.toString() });
 			} else {
-				existingEndpoint.updateVariables(variables);
+				existingEndpoint.updateVariables(variables.get(UriVariable.LIFE_TIME),
+						variables.get(UriVariable.CONTEXT));
 				existingEndpoint.updateResources(exchange.advanced().getRequest().getPayloadString());
 				response = new Response(ResponseCode.CHANGED);
 				exchange.setLocationPath(existingEndpoint.getURI());
@@ -81,37 +83,6 @@ public class RdResource extends CoapResource {
 			response.setPayload(String.format("Uri variable \"%s\" is mandatory.", UriVariable.END_POINT));
 		}
 		return response;
-	}
-
-	private Map<UriVariable, String> initVariablesFromExchange(CoapExchange exchange) {
-		Map<UriVariable, String> result = new EnumMap<>(UriVariable.class);
-		Map<UriVariable, String> variables = UriUtils.parseUriQuery(exchange.getRequestOptions().getUriQuery());
-		String endpoint = variables.get(UriVariable.END_POINT);
-		String domain = variables.get(UriVariable.DOMAIN);
-		String endpointType = variables.get(UriVariable.END_POINT_TYPE);
-		String lifetime = variables.get(UriVariable.LIFE_TIME);
-		String context = variables.get(UriVariable.CONTEXT);
-		if (endpoint != null) {
-			result.put(UriVariable.END_POINT, validateVariable(UriVariable.END_POINT, endpoint));
-		}
-		result.put(UriVariable.DOMAIN, validateVariable(UriVariable.DOMAIN, domain));
-		result.put(UriVariable.END_POINT_TYPE, validateVariable(UriVariable.END_POINT_TYPE, endpointType));
-		result.put(UriVariable.LIFE_TIME, validateVariable(UriVariable.LIFE_TIME, lifetime));
-		result.put(UriVariable.CONTEXT, initContextFromRequest(exchange.advanced().getRequest(), context));
-		return result;
-	}
-
-	private String validateVariable(UriVariable uriVariable, String value) {
-		String result = null;
-		if (value != null) {
-			try {
-				uriVariable.validate(value);
-				result = value;
-			} catch (IllegalArgumentException e) {
-				LOGGER.log(Level.WARNING, e.getMessage());
-			}
-		}
-		return result;
 	}
 
 	private String initContextFromRequest(Request request, String context) {

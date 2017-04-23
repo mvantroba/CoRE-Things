@@ -106,4 +106,8 @@ public class EndpointServer extends CoapServer {
 		// Store reference to the resource in map.
 		sensors.put(id, sensorResource);
 	}
+
+	public void sensorChanged(Integer id, String newValue) {
+		sensors.get(id).setSensorValue(newValue);
+	}
 }

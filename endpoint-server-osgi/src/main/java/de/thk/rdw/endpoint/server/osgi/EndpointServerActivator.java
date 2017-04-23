@@ -92,9 +92,10 @@ public class EndpointServerActivator implements BundleActivator {
 			deviceListener = new DeviceListener() {
 
 				@Override
-				public void onSensorChanged(String name, Object newValue) {
-					LOGGER.log(Level.INFO, "Sensor \"{0}\" has changed. New value: {1}",
-							new Object[] { name, newValue });
+				public void onSensorChanged(Integer id, Object newValue) {
+					LOGGER.log(Level.INFO, "Sensor with ID \"{0}\" has changed. New value: {1}",
+							new Object[] { id, newValue.toString() });
+					endpointServer.sensorChanged(id, String.valueOf(newValue));
 				}
 			};
 			service.addListener(deviceListener);

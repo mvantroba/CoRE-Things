@@ -43,7 +43,7 @@ public class Pi4jDeviceService implements DeviceService {
 
 			@Override
 			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-				notifyListeners("tilt", event.getState().getName());
+				notifyListeners(0, event.getState().getName());
 			}
 		});
 		push = gpioController.provisionDigitalInputPin(RaspiPin.GPIO_02, "push", PinPullResistance.PULL_DOWN);
@@ -52,7 +52,7 @@ public class Pi4jDeviceService implements DeviceService {
 
 			@Override
 			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-				notifyListeners("push", event.getState().getName());
+				notifyListeners(1, event.getState().getName());
 			}
 		});
 		motion = gpioController.provisionDigitalInputPin(RaspiPin.GPIO_03, "motion", PinPullResistance.PULL_UP);
@@ -61,9 +61,7 @@ public class Pi4jDeviceService implements DeviceService {
 
 			@Override
 			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-				if (event.getState().isHigh()) {
-					notifyListeners("motion", event.getState().getName());
-				}
+				notifyListeners(2, event.getState().getName());
 			}
 		});
 	}
@@ -103,9 +101,9 @@ public class Pi4jDeviceService implements DeviceService {
 		LOGGER.log(Level.INFO, "All GPIO pins have been unprovisioned.");
 	}
 
-	private void notifyListeners(String name, Object newValue) {
+	private void notifyListeners(Integer id, Object newValue) {
 		for (DeviceListener deviceListener : deviceListeners) {
-			deviceListener.onSensorChanged(name, newValue);
+			deviceListener.onSensorChanged(id, newValue);
 		}
 	}
 }

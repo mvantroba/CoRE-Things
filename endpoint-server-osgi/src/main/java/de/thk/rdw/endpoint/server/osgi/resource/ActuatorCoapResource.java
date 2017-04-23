@@ -7,9 +7,9 @@ import org.eclipse.californium.core.server.resources.CoapExchange;
 
 import de.thk.rdw.endpoint.server.osgi.DeviceServiceNotInitializedException;
 
-public abstract class ActuatorResource extends CoapResource {
+public abstract class ActuatorCoapResource extends CoapResource {
 
-	public ActuatorResource(String name) {
+	public ActuatorCoapResource(String name) {
 		super(name);
 	}
 

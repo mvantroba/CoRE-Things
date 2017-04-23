@@ -8,11 +8,11 @@ import org.eclipse.californium.core.observe.ObserveRelation;
 import org.eclipse.californium.core.observe.ObservingEndpoint;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 
-public abstract class SensorResource extends CoapResource {
+public abstract class SensorCoapResource extends CoapResource {
 
 	private String sensorValue;
 
-	public SensorResource(String name) {
+	public SensorCoapResource(String name) {
 		super(name);
 		setObservable(true);
 	}

@@ -1,4 +1,4 @@
-package de.thk.rdw.endpoint.server.osgi;
+package de.thk.rdw.endpoint.server.osgi.network;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -14,8 +14,10 @@ import org.eclipse.californium.core.network.EndpointManager;
 import de.thk.rdw.base.ActuatorResourceType;
 import de.thk.rdw.base.SensorResourceType;
 import de.thk.rdw.endpoint.device.osgi.DeviceService;
-import de.thk.rdw.endpoint.server.osgi.resource.ActuatorResource;
-import de.thk.rdw.endpoint.server.osgi.resource.SensorResource;
+import de.thk.rdw.endpoint.server.osgi.DeviceServiceNotInitializedException;
+import de.thk.rdw.endpoint.server.osgi.ResourceProfile;
+import de.thk.rdw.endpoint.server.osgi.resource.ActuatorCoapResource;
+import de.thk.rdw.endpoint.server.osgi.resource.SensorCoapResource;
 
 public class EndpointServer extends CoapServer {
 
@@ -24,8 +26,8 @@ public class EndpointServer extends CoapServer {
 	private CoapResource actuatorsResource;
 	private CoapResource sensorsResource;
 
-	private NavigableMap<Integer, ActuatorResource> actuators = new TreeMap<>();
-	private NavigableMap<Integer, SensorResource> sensors = new TreeMap<>();
+	private NavigableMap<Integer, ActuatorCoapResource> actuators = new TreeMap<>();
+	private NavigableMap<Integer, SensorCoapResource> sensors = new TreeMap<>();
 
 	public EndpointServer() {
 		super();
@@ -63,7 +65,7 @@ public class EndpointServer extends CoapServer {
 		} else {
 			id = 0;
 		}
-		ActuatorResource actuatorResource = new ActuatorResource(actuatorResourceType.getName()) {
+		ActuatorCoapResource actuatorResource = new ActuatorCoapResource(actuatorResourceType.getName()) {
 
 			@Override
 			protected void onToggle() throws DeviceServiceNotInitializedException {
@@ -90,7 +92,7 @@ public class EndpointServer extends CoapServer {
 		} else {
 			id = 0;
 		}
-		SensorResource sensorResource = new SensorResource(sensorResourceType.getName()) {
+		SensorCoapResource sensorResource = new SensorCoapResource(sensorResourceType.getName()) {
 
 			@Override
 			protected String onGetValue() {

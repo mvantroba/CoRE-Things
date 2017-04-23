@@ -17,6 +17,7 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 import de.thk.rdw.endpoint.device.osgi.DeviceListener;
 import de.thk.rdw.endpoint.device.osgi.DeviceService;
+import de.thk.rdw.endpoint.server.osgi.network.EndpointServer;
 
 public class EndpointServerActivator implements BundleActivator {
 
@@ -31,9 +32,8 @@ public class EndpointServerActivator implements BundleActivator {
 	private static final String RD_PATH = "rd";
 
 	private EndpointServer endpointServer;
+	private CoapClient endpointClient;
 	private ServiceTracker<DeviceService, DeviceService> deviceServiceTracker;
-
-	private CoapClient coapClient;
 
 	@Override
 	public void start(final BundleContext context) throws Exception {
@@ -43,9 +43,9 @@ public class EndpointServerActivator implements BundleActivator {
 
 		// TODO Read endpoint URI from endpoint server.
 		String query = String.format("ep=%s&et=%s&con=%s", EP_NAME, EP_TYPE, "coap://192.168.0.101:5683");
-		coapClient = new CoapClient.Builder(RD_HOST, RD_PORT).scheme(RD_SCHEME).path(RD_PATH).query(query).create();
-		LOGGER.log(Level.INFO, "Sending registration request to \"{0}\".", new Object[] { coapClient.getURI() });
-		coapClient.post(new CoapHandler() {
+		endpointClient = new CoapClient.Builder(RD_HOST, RD_PORT).scheme(RD_SCHEME).path(RD_PATH).query(query).create();
+		LOGGER.log(Level.INFO, "Sending registration request to \"{0}\".", new Object[] { endpointClient.getURI() });
+		endpointClient.post(new CoapHandler() {
 
 			@Override
 			public void onLoad(CoapResponse response) {
@@ -56,7 +56,7 @@ public class EndpointServerActivator implements BundleActivator {
 			@Override
 			public void onError() {
 				LOGGER.log(Level.INFO, "Error has occured while sending registration request to \"{0}\".",
-						new Object[] { coapClient.getURI() });
+						new Object[] { endpointClient.getURI() });
 			}
 		}, LinkFormat.serializeTree(endpointServer.getRoot()), MediaTypeRegistry.TEXT_PLAIN);
 
@@ -70,7 +70,7 @@ public class EndpointServerActivator implements BundleActivator {
 	public void stop(BundleContext context) throws Exception {
 		LOGGER.log(Level.INFO, "Stopping bundle \"RDW Endpoint Server\"...");
 		deviceServiceTracker.close();
-		coapClient.shutdown();
+		endpointClient.shutdown();
 		endpointServer.stop();
 		LOGGER.log(Level.INFO, "Bundle \"RDW Endpoint Server\" is stopped.");
 	}

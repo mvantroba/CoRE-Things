@@ -1,18 +1,10 @@
 package de.thk.rdw.rd.resources.lookup;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.CoapServer;
 import org.eclipse.californium.core.coap.CoAP.ResponseCode;
-import org.eclipse.californium.core.coap.LinkFormat;
 import org.eclipse.californium.core.network.CoapEndpoint;
-import org.eclipse.californium.core.server.resources.Resource;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,6 +14,7 @@ import de.thk.rdw.rd.resources.EndpointResource;
 import de.thk.rdw.rd.resources.RdLookupResource;
 import de.thk.rdw.rd.resources.RdResource;
 import de.thk.rdw.rd.resources.ResourceType;
+import de.thk.rdw.rd.uri.UriVariable;
 
 public class LookupDomainResourceTest {
 
@@ -51,13 +44,9 @@ public class LookupDomainResourceTest {
 		String uri = lookupDomainUri;
 		CoapClient client = new CoapClient(uri).useExecutor();
 
-		// Mock empty RD resource.
-		Collection<Resource> children = new ArrayList<>();
-		RdResource rdResource = mock(RdResource.class);
-		when(rdResource.getChildren()).thenReturn(children);
+		RdResource rdResource = new RdResource();
 		server.add(new RdLookupResource(rdResource, null));
 
-		// Expect "not found".
 		Assert.assertEquals(ResponseCode.NOT_FOUND, client.get().getCode());
 	}
 
@@ -66,79 +55,43 @@ public class LookupDomainResourceTest {
 		String uri = lookupDomainUri;
 		CoapClient client = new CoapClient(uri).useExecutor();
 
-		// Mock RD resource with wrong resource type (CoapResource instead of
-		// EndpointResource).
-		Collection<Resource> children = new ArrayList<>();
-		children.add(new CoapResource("node1"));
-		RdResource rdResource = mock(RdResource.class);
-		when(rdResource.getChildren()).thenReturn(children);
+		RdResource rdResource = new RdResource();
+		rdResource.add(new CoapResource("node1"));
 		server.add(new RdLookupResource(rdResource, null));
 
-		// Expect "not found".
 		Assert.assertEquals(ResponseCode.NOT_FOUND, client.get().getCode());
 	}
 
 	@Test
-	public void When_TwoEndpointPairs_Expect_ValidFormat() {
+	public void When_TwoEndpointPairs_Expect_TwoDomains() {
 		String testedDomain1 = "domain1";
 		String testedDomain2 = "domain2";
 		String uri = lookupDomainUri;
 		CoapClient client = new CoapClient(uri).useExecutor();
 
-		// Mock RD resource with two endpoint pairs.
-		Collection<Resource> children = new ArrayList<>();
-		children.add(new EndpointResource("node1", testedDomain1));
-		children.add(new EndpointResource("node2", testedDomain1));
-		children.add(new EndpointResource("node3", testedDomain2));
-		children.add(new EndpointResource("node4", testedDomain2));
-		RdResource rdResource = mock(RdResource.class);
-		when(rdResource.getChildren()).thenReturn(children);
+		RdResource rdResource = new RdResource();
+		rdResource.add(new EndpointResource("node1", testedDomain1));
+		rdResource.add(new EndpointResource("node2", testedDomain1));
+		rdResource.add(new EndpointResource("node3", testedDomain2));
+		rdResource.add(new EndpointResource("node4", testedDomain2));
 		server.add(new RdLookupResource(rdResource, null));
 
-		// Expect format according to
-		// https://tools.ietf.org/html/draft-ietf-core-resource-directory-08#section-8
-		Assert.assertEquals(String.format("<>;%s=\"%s\",<>;%s=\"%s\"", LinkFormat.DOMAIN, testedDomain1,
-				LinkFormat.DOMAIN, testedDomain2), client.get().getResponseText());
+		Assert.assertEquals(2, client.get().getResponseText().split(",").length);
 	}
 
 	@Test
-	public void When_TwoEndpointPairs_And_GoodDomainQuery_Expect_OneDomain() {
-		String testedDomain = "domain1";
-		String uri = String.format("%s?%s=%s", lookupDomainUri, LinkFormat.DOMAIN, testedDomain);
+	public void When_GetPageFromFourDomains_Expect_TwoDomains() {
+		String uri = String.format("%s?%s=1&%s=2", lookupDomainUri, UriVariable.PAGE.getName(),
+				UriVariable.COUNT.getName());
 		CoapClient client = new CoapClient(uri).useExecutor();
 
-		// Mock RD resource with two endpoint pairs.
-		Collection<Resource> children = new ArrayList<>();
-		children.add(new EndpointResource("node1", testedDomain));
-		children.add(new EndpointResource("node2", testedDomain));
-		children.add(new EndpointResource("node3", "domain2"));
-		children.add(new EndpointResource("node4", "domain2"));
-		RdResource rdResource = mock(RdResource.class);
-		when(rdResource.getChildren()).thenReturn(children);
+		RdResource rdResource = new RdResource();
+		rdResource.add(new EndpointResource("node1", "domain1"));
+		rdResource.add(new EndpointResource("node2", "domain2"));
+		rdResource.add(new EndpointResource("node3", "domain3"));
+		rdResource.add(new EndpointResource("node4", "domain4"));
 		server.add(new RdLookupResource(rdResource, null));
 
-		String responseText = client.get().getResponseText();
-		// Expect one domain.
-		Assert.assertEquals(1, responseText.split(",").length);
-		Assert.assertTrue(responseText.contains(testedDomain));
-	}
-
-	@Test
-	public void When_TwoEndpointPairs_And_BadDomainQuery_Expect_NotFound() {
-		String uri = String.format("%s?%s=%s", lookupDomainUri, LinkFormat.DOMAIN, "domain3");
-		CoapClient client = new CoapClient(uri).useExecutor();
-
-		// Mock RD resource with two endpoint pairs.
-		Collection<Resource> children = new ArrayList<>();
-		children.add(new EndpointResource("node1", "domain1"));
-		children.add(new EndpointResource("node2", "domain1"));
-		children.add(new EndpointResource("node3", "domain2"));
-		children.add(new EndpointResource("node4", "domain2"));
-		RdResource rdResource = mock(RdResource.class);
-		when(rdResource.getChildren()).thenReturn(children);
-		server.add(new RdLookupResource(rdResource, null));
-
-		// Expect "not found".
-		Assert.assertEquals(ResponseCode.NOT_FOUND, client.get().getCode());
+		Assert.assertEquals(2, client.get().getResponseText().split(",").length);
 	}
 }

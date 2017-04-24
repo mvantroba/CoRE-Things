@@ -34,9 +34,11 @@ public class EndpointResource extends CoapResource {
 
 	public EndpointResource(String name, String domain, String endpointType, String lifetime, String context) {
 		super(name);
+		getAttributes().addAttribute(LinkFormat.END_POINT, name);
 		if (domain != null) {
 			this.domain = domain;
 		}
+		getAttributes().addAttribute(LinkFormat.DOMAIN, this.domain);
 		this.endpointType = endpointType;
 		if (this.endpointType != null) {
 			getAttributes().addAttribute(LinkFormat.END_POINT_TYPE, this.endpointType);
@@ -46,9 +48,10 @@ public class EndpointResource extends CoapResource {
 		} catch (NumberFormatException e) {
 			// Default value will be used.
 		}
-		getAttributes().addAttribute(LinkFormat.LIFE_TIME, lifetime);
+		getAttributes().addAttribute(LinkFormat.LIFE_TIME, String.valueOf(this.lifetime));
 		updateScheduledFuture();
 		this.context = context;
+		getAttributes().addAttribute(LinkFormat.CONTEXT, this.context);
 	}
 
 	public EndpointResource(Map<UriVariable, String> variables) {

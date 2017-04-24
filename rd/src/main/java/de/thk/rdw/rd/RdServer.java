@@ -22,7 +22,7 @@ public class RdServer extends CoapServer {
 			}
 		}
 		RdResource rdResource = new RdResource();
-		RdGroupResource rdGroupResource = new RdGroupResource();
+		RdGroupResource rdGroupResource = new RdGroupResource(rdResource);
 		add(rdResource);
 		add(rdGroupResource);
 		add(new RdLookupResource(rdResource, rdGroupResource));

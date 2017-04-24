@@ -13,7 +13,7 @@ public class RdLookupResource extends CoapResource {
 		super(ResourceType.CORE_RD_LOOKUP.getName());
 		getAttributes().addResourceType(ResourceType.CORE_RD_LOOKUP.getType());
 		add(new LookupDomainResource(rdResource));
-		add(new LookupEndpointResource(rdResource));
+		add(new LookupEndpointResource(rdResource, rdGroupResource));
 		add(new LookupResourceResource(rdResource));
 		add(new LookupGroupResource(rdGroupResource));
 	}

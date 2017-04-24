@@ -128,13 +128,26 @@ public class RdResource extends CoapResource {
 		return result;
 	}
 
-	private EndpointResource findChildEndpointResource(EndpointResource endpointResource) {
+	public EndpointResource findChildEndpointResource(EndpointResource endpointResource) {
 		EndpointResource result = null;
 		for (Resource child : getChildren()) {
 			String childName = child.getName();
 			String childDomain = ((EndpointResource) child).getDomain();
 			if (childName != null && childName.equals(endpointResource.getName()) && childDomain != null
 					&& childDomain.equals(endpointResource.getDomain())) {
+				result = (EndpointResource) child;
+				break;
+			}
+		}
+		return result;
+	}
+
+	public EndpointResource findChildEndpointResource(String name, String domain) {
+		EndpointResource result = null;
+		for (Resource child : getChildren()) {
+			String childName = child.getName();
+			String childDomain = ((EndpointResource) child).getDomain();
+			if (childName != null && childName.equals(name) && childDomain != null && childDomain.equals(domain)) {
 				result = (EndpointResource) child;
 				break;
 			}

@@ -71,6 +71,36 @@ public enum UriVariable {
 						.format("Group name too long. Max length: %d bytes. Received: %d bytes.", maxLength, length));
 			}
 		}
+	}), PAGE("page", new UriVariableValidator() {
+
+		@Override
+		public void validate(String value) {
+			int minValue = 0;
+			try {
+				int valueNumeric = Integer.parseInt(value);
+				if (valueNumeric < minValue) {
+					throw new IllegalArgumentException(
+							String.format("Page must be larger than %d. Received: %d.", minValue, valueNumeric));
+				}
+			} catch (NumberFormatException e) {
+				throw new IllegalArgumentException(String.format("Page must be an integer. Received: %s.", value));
+			}
+		}
+	}), COUNT("count", new UriVariableValidator() {
+
+		@Override
+		public void validate(String value) {
+			int minValue = 0;
+			try {
+				int valueNumeric = Integer.parseInt(value);
+				if (valueNumeric < minValue) {
+					throw new IllegalArgumentException(
+							String.format("Count must be larger than %d. Received: %d.", minValue, valueNumeric));
+				}
+			} catch (NumberFormatException e) {
+				throw new IllegalArgumentException(String.format("Count must be an integer. Received: %s.", value));
+			}
+		}
 	});
 
 	private String name;

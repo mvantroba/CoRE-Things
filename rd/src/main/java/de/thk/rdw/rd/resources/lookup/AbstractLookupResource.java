@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.coap.LinkFormat;
+import org.eclipse.californium.core.server.resources.Resource;
 
 /**
  * The {@link CoapResource} type which implements basic functionality for lookup
@@ -27,13 +28,13 @@ public abstract class AbstractLookupResource extends CoapResource {
 		super(name);
 	}
 
-	public String toLinkFormat(List<CoapResource> resources, String page, String count) {
+	public String toLinkFormat(List<Resource> domains, String page, String count) {
 		String result = "";
 		StringBuilder builder = new StringBuilder();
-		List<CoapResource> resourcesPage = extractPage(resources, page, count);
+		List<Resource> resourcesPage = extractPage(domains, page, count);
 
 		if (!resourcesPage.isEmpty()) {
-			for (CoapResource resource : resourcesPage) {
+			for (Resource resource : resourcesPage) {
 				builder.append(LinkFormat.serializeResource(resource));
 			}
 			// Remove trailing comma.
@@ -42,8 +43,8 @@ public abstract class AbstractLookupResource extends CoapResource {
 		return result;
 	}
 
-	private List<CoapResource> extractPage(List<CoapResource> resources, String page, String count) {
-		List<CoapResource> result = new ArrayList<>();
+	private List<Resource> extractPage(List<Resource> domains, String page, String count) {
+		List<Resource> result = new ArrayList<>();
 		int pageNumeric = -1;
 		int countNumeric = -1;
 		try {
@@ -58,15 +59,15 @@ public abstract class AbstractLookupResource extends CoapResource {
 			if (pageNumeric >= 0) {
 				int fromIndex = pageNumeric * countNumeric;
 				try {
-					result.addAll(resources.subList(fromIndex, fromIndex + countNumeric));
+					result.addAll(domains.subList(fromIndex, fromIndex + countNumeric));
 				} catch (IndexOutOfBoundsException e) {
-					result.addAll(resources);
+					result.addAll(domains);
 				}
 			} else {
-				result.addAll(resources.subList(0, countNumeric));
+				result.addAll(domains.subList(0, countNumeric));
 			}
 		} else {
-			result.addAll(resources);
+			result.addAll(domains);
 		}
 		return result;
 	}

@@ -50,7 +50,7 @@ public class LookupDomainResource extends AbstractLookupResource {
 		Map<UriVariable, String> uriVariables = UriUtils.parseUriQuery(exchange.getRequestOptions().getUriQuery());
 		// Use TreeSet to prevent duplicates.
 		Set<String> domainNames = new TreeSet<>();
-		List<CoapResource> domains = new ArrayList<>();
+		List<Resource> domains = new ArrayList<>();
 
 		// Search for existing domains by iterating over all endpoints
 		// registered on the RD resource.

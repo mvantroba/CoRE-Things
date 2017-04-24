@@ -51,7 +51,9 @@ public class EndpointResource extends CoapResource {
 		getAttributes().addAttribute(LinkFormat.LIFE_TIME, String.valueOf(this.lifetime));
 		updateScheduledFuture();
 		this.context = context;
-		getAttributes().addAttribute(LinkFormat.CONTEXT, this.context);
+		if (this.context != null) {
+			getAttributes().addAttribute(LinkFormat.CONTEXT, this.context);
+		}
 	}
 
 	public EndpointResource(Map<UriVariable, String> variables) {

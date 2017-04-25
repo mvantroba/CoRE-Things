@@ -1,4 +1,4 @@
-package de.thk.rdw.rd.resources.lookup;
+package de.thk.rdw.base;
 
 import org.eclipse.californium.core.coap.LinkFormat;
 
@@ -8,7 +8,7 @@ import org.eclipse.californium.core.coap.LinkFormat;
  * @author Martin Vantroba
  *
  */
-public enum LookupType {
+public enum RdLookupType {
 
 	DOMAIN(LinkFormat.DOMAIN), //
 	ENDPOINT(LinkFormat.END_POINT), //
@@ -17,7 +17,7 @@ public enum LookupType {
 
 	private String type;
 
-	private LookupType(String type) {
+	private RdLookupType(String type) {
 		this.type = type;
 	}
 

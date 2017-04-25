@@ -10,10 +10,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.thk.rdw.base.RdLookupType;
+import de.thk.rdw.base.RdResourceType;
 import de.thk.rdw.rd.resources.EndpointResource;
 import de.thk.rdw.rd.resources.RdLookupResource;
 import de.thk.rdw.rd.resources.RdResource;
-import de.thk.rdw.rd.resources.ResourceType;
 
 public class LookupDomainResourceTest {
 
@@ -28,7 +29,7 @@ public class LookupDomainResourceTest {
 		server.start();
 		// Obtain port after server has started.
 		lookupDomainUri = String.format("coap://localhost:%d/%s/%s", endpoint.getAddress().getPort(),
-				ResourceType.CORE_RD_LOOKUP.getName(), LookupType.DOMAIN);
+				RdResourceType.CORE_RD_LOOKUP.getName(), RdLookupType.DOMAIN);
 	}
 
 	@After

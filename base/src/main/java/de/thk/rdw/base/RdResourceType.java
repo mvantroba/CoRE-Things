@@ -1,6 +1,6 @@
-package de.thk.rdw.rd.resources;
+package de.thk.rdw.base;
 
-public enum ResourceType {
+public enum RdResourceType {
 
 	CORE_RD("rd", "core.rd"), //
 	CORE_RD_GROUP("rd-group", "core.rd-group"), //
@@ -9,7 +9,7 @@ public enum ResourceType {
 	private String name;
 	private String type;
 
-	private ResourceType(String name, String type) {
+	private RdResourceType(String name, String type) {
 		this.name = name;
 		this.type = type;
 	}

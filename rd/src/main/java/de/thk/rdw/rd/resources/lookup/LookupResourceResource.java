@@ -7,6 +7,7 @@ import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.core.server.resources.Resource;
 
+import de.thk.rdw.base.RdLookupType;
 import de.thk.rdw.rd.resources.EndpointResource;
 import de.thk.rdw.rd.resources.RdResource;
 
@@ -32,7 +33,7 @@ public class LookupResourceResource extends CoapResource {
 	 *            Resource to which endpoints can be registered
 	 */
 	public LookupResourceResource(RdResource rdResource) {
-		super(LookupType.RESOURCE.getType());
+		super(RdLookupType.RESOURCE.getType());
 		this.rdResource = rdResource;
 	}
 

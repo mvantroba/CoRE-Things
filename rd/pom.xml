@@ -21,6 +21,11 @@
 	</properties>
 
 	<dependencies>
+		<!-- BASE -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>base</artifactId>
+		</dependency>
 		<!-- CALIFORNIUM-CORE -->
 		<dependency>
 			<groupId>org.eclipse.californium</groupId>

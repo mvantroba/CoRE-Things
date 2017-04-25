@@ -13,6 +13,7 @@ import org.eclipse.californium.core.coap.Response;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.core.server.resources.Resource;
 
+import de.thk.rdw.base.RdResourceType;
 import de.thk.rdw.rd.uri.UriUtils;
 import de.thk.rdw.rd.uri.UriVariable;
 import de.thk.rdw.rd.uri.UriVariableDefault;
@@ -42,8 +43,8 @@ public class RdGroupResource extends CoapResource {
 	 *            Resource to which endpoints register themselves.
 	 */
 	public RdGroupResource(RdResource rdResource) {
-		super(ResourceType.CORE_RD_GROUP.getName());
-		getAttributes().addResourceType(ResourceType.CORE_RD_GROUP.getType());
+		super(RdResourceType.CORE_RD_GROUP.getName());
+		getAttributes().addResourceType(RdResourceType.CORE_RD_GROUP.getType());
 		this.rdResource = rdResource;
 	}
 

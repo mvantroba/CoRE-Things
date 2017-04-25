@@ -7,6 +7,7 @@ import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.core.server.resources.Resource;
 
+import de.thk.rdw.base.RdLookupType;
 import de.thk.rdw.rd.resources.GroupResource;
 import de.thk.rdw.rd.resources.RdGroupResource;
 
@@ -30,7 +31,7 @@ public class LookupGroupResource extends CoapResource {
 	 *            Resource to which groups can be registered
 	 */
 	public LookupGroupResource(RdGroupResource rdGroupResource) {
-		super(LookupType.GROUP.getType());
+		super(RdLookupType.GROUP.getType());
 		this.rdGroupResource = rdGroupResource;
 	}
 

@@ -15,4 +15,12 @@
 
 	<name>RDW Base</name>
 	<description>Common resources</description>
+
+	<dependencies>
+		<!-- CALIFORNIUM-CORE -->
+		<dependency>
+			<groupId>org.eclipse.californium</groupId>
+			<artifactId>californium-core</artifactId>
+		</dependency>
+	</dependencies>
 </project>

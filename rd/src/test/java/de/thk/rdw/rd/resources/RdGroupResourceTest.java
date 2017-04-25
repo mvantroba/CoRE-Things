@@ -15,6 +15,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.thk.rdw.base.RdResourceType;
 import de.thk.rdw.rd.uri.UriVariable;
 
 public class RdGroupResourceTest {
@@ -30,7 +31,7 @@ public class RdGroupResourceTest {
 		server.start();
 		// Obtain port after server has started.
 		rdGroupUri = String.format("%s://localhost:%d/%s", CoAP.COAP_URI_SCHEME, endpoint.getAddress().getPort(),
-				ResourceType.CORE_RD_GROUP.getName());
+				RdResourceType.CORE_RD_GROUP.getName());
 	}
 
 	@After

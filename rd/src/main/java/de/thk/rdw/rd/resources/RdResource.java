@@ -18,6 +18,7 @@ import org.eclipse.californium.core.observe.ObservingEndpoint;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.core.server.resources.Resource;
 
+import de.thk.rdw.base.RdResourceType;
 import de.thk.rdw.rd.uri.UriUtils;
 import de.thk.rdw.rd.uri.UriVariable;
 
@@ -26,8 +27,8 @@ public class RdResource extends CoapResource {
 	private static final Logger LOGGER = Logger.getLogger(RdResource.class.getName());
 
 	public RdResource() {
-		super(ResourceType.CORE_RD.getName());
-		getAttributes().addResourceType(ResourceType.CORE_RD.getType());
+		super(RdResourceType.CORE_RD.getName());
+		getAttributes().addResourceType(RdResourceType.CORE_RD.getType());
 		setObservable(true);
 	}
 

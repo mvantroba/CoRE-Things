@@ -5,6 +5,7 @@ import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.CoapServer;
 import org.eclipse.californium.core.coap.CoAP.ResponseCode;
 import org.eclipse.californium.core.network.CoapEndpoint;
+import org.eclipse.californium.core.server.resources.Resource;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,10 +16,10 @@ import de.thk.rdw.rd.resources.RdLookupResource;
 import de.thk.rdw.rd.resources.RdResource;
 import de.thk.rdw.rd.resources.ResourceType;
 
-public class LookupDomainResourceTest {
+public class LookupResourceResourceTest {
 
 	private CoapServer server;
-	private String lookupDomainUri;
+	private String lookupResourceUri;
 
 	@Before
 	public void setUp() throws Exception {
@@ -27,8 +28,8 @@ public class LookupDomainResourceTest {
 		server.addEndpoint(endpoint);
 		server.start();
 		// Obtain port after server has started.
-		lookupDomainUri = String.format("coap://localhost:%d/%s/%s", endpoint.getAddress().getPort(),
-				ResourceType.CORE_RD_LOOKUP.getName(), LookupType.DOMAIN);
+		lookupResourceUri = String.format("coap://localhost:%d/%s/%s", endpoint.getAddress().getPort(),
+				ResourceType.CORE_RD_LOOKUP.getName(), LookupType.RESOURCE);
 	}
 
 	@After
@@ -40,40 +41,52 @@ public class LookupDomainResourceTest {
 
 	@Test
 	public void When_NoEndpoints_Expect_NotFound() {
-		String uri = lookupDomainUri;
-		CoapClient client = new CoapClient(uri).useExecutor();
-
-		server.add(new RdLookupResource(new RdResource(), null));
-
-		Assert.assertEquals(ResponseCode.NOT_FOUND, client.get().getCode());
-	}
-
-	@Test
-	public void When_WrongResourceType_Expect_NotFound() {
-		String uri = lookupDomainUri;
+		String uri = lookupResourceUri;
 		CoapClient client = new CoapClient(uri).useExecutor();
 
 		RdResource rdResource = new RdResource();
-		rdResource.add(new CoapResource("node1"));
 		server.add(new RdLookupResource(rdResource, null));
 
 		Assert.assertEquals(ResponseCode.NOT_FOUND, client.get().getCode());
 	}
 
 	@Test
-	public void When_TwoEndpointPairs_Expect_TwoDomains() {
-		String testedDomain1 = "domain1";
-		String testedDomain2 = "domain2";
-		String uri = lookupDomainUri;
+	public void When_EmptyEndpoint_Expect_NotFound() {
+		String uri = lookupResourceUri;
 		CoapClient client = new CoapClient(uri).useExecutor();
 
 		RdResource rdResource = new RdResource();
-		rdResource.add(new EndpointResource("node1", testedDomain1));
-		rdResource.add(new EndpointResource("node2", testedDomain1));
-		rdResource.add(new EndpointResource("node3", testedDomain2));
-		rdResource.add(new EndpointResource("node4", testedDomain2));
+		rdResource.add(new EndpointResource("node1", null));
 		server.add(new RdLookupResource(rdResource, null));
 
-		Assert.assertEquals(2, client.get().getResponseText().split(",").length);
+		Assert.assertEquals(ResponseCode.NOT_FOUND, client.get().getCode());
+	}
+
+	@Test
+	public void When_MultipleEndpoints_Expect_Content() {
+		String uri = lookupResourceUri;
+		CoapClient client = new CoapClient(uri).useExecutor();
+
+		// Endpoint 1
+		EndpointResource endpointResource1 = new EndpointResource("node1", "domain1");
+		endpointResource1.add(new CoapResource("temperature"));
+
+		// Endpoint 2
+		EndpointResource endpointResource2 = new EndpointResource("node2", "domain2");
+		Resource actuators = new CoapResource("actuators");
+		actuators.add(new CoapResource("led"));
+		actuators.add(new CoapResource("servo"));
+		endpointResource2.add(actuators);
+
+		// Endpoint 3
+		EndpointResource endpointResource3 = new EndpointResource("node3", "domain3");
+
+		// RD
+		RdResource rdResource = new RdResource();
+		rdResource.add(endpointResource1, endpointResource2, endpointResource3);
+
+		server.add(new RdLookupResource(rdResource, null));
+
+		Assert.assertEquals(4, client.get().getResponseText().split(",").length);
 	}
 }

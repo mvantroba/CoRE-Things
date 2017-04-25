@@ -10,15 +10,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.thk.rdw.rd.resources.EndpointResource;
+import de.thk.rdw.rd.resources.GroupResource;
+import de.thk.rdw.rd.resources.RdGroupResource;
 import de.thk.rdw.rd.resources.RdLookupResource;
 import de.thk.rdw.rd.resources.RdResource;
 import de.thk.rdw.rd.resources.ResourceType;
 
-public class LookupDomainResourceTest {
+public class LookupGroupResourceTest {
 
 	private CoapServer server;
-	private String lookupDomainUri;
+	private String lookupGroupUri;
 
 	@Before
 	public void setUp() throws Exception {
@@ -27,8 +28,8 @@ public class LookupDomainResourceTest {
 		server.addEndpoint(endpoint);
 		server.start();
 		// Obtain port after server has started.
-		lookupDomainUri = String.format("coap://localhost:%d/%s/%s", endpoint.getAddress().getPort(),
-				ResourceType.CORE_RD_LOOKUP.getName(), LookupType.DOMAIN);
+		lookupGroupUri = String.format("coap://localhost:%d/%s/%s", endpoint.getAddress().getPort(),
+				ResourceType.CORE_RD_LOOKUP.getName(), LookupType.GROUP);
 	}
 
 	@After
@@ -39,40 +40,40 @@ public class LookupDomainResourceTest {
 	}
 
 	@Test
-	public void When_NoEndpoints_Expect_NotFound() {
-		String uri = lookupDomainUri;
+	public void When_NoGroups_Expect_NotFound() {
+		String uri = lookupGroupUri;
 		CoapClient client = new CoapClient(uri).useExecutor();
 
-		server.add(new RdLookupResource(new RdResource(), null));
+		RdResource rdResource = new RdResource();
+		RdGroupResource rdGroupResource = new RdGroupResource(rdResource);
+		server.add(new RdLookupResource(rdResource, rdGroupResource));
 
 		Assert.assertEquals(ResponseCode.NOT_FOUND, client.get().getCode());
 	}
 
 	@Test
-	public void When_WrongResourceType_Expect_NotFound() {
-		String uri = lookupDomainUri;
+	public void When_WrongType_Expect_NotFound() {
+		String uri = lookupGroupUri;
 		CoapClient client = new CoapClient(uri).useExecutor();
 
 		RdResource rdResource = new RdResource();
-		rdResource.add(new CoapResource("node1"));
-		server.add(new RdLookupResource(rdResource, null));
+		RdGroupResource rdGroupResource = new RdGroupResource(rdResource);
+		rdGroupResource.add(new CoapResource("group1"));
+		server.add(new RdLookupResource(rdResource, rdGroupResource));
 
 		Assert.assertEquals(ResponseCode.NOT_FOUND, client.get().getCode());
 	}
 
 	@Test
-	public void When_TwoEndpointPairs_Expect_TwoDomains() {
-		String testedDomain1 = "domain1";
-		String testedDomain2 = "domain2";
-		String uri = lookupDomainUri;
+	public void When_TwoGroups_Expect_TwoFound() {
+		String uri = lookupGroupUri;
 		CoapClient client = new CoapClient(uri).useExecutor();
 
 		RdResource rdResource = new RdResource();
-		rdResource.add(new EndpointResource("node1", testedDomain1));
-		rdResource.add(new EndpointResource("node2", testedDomain1));
-		rdResource.add(new EndpointResource("node3", testedDomain2));
-		rdResource.add(new EndpointResource("node4", testedDomain2));
-		server.add(new RdLookupResource(rdResource, null));
+		RdGroupResource rdGroupResource = new RdGroupResource(rdResource);
+		rdGroupResource.add(new GroupResource("group1", null));
+		rdGroupResource.add(new GroupResource("group2", null));
+		server.add(new RdLookupResource(rdResource, rdGroupResource));
 
 		Assert.assertEquals(2, client.get().getResponseText().split(",").length);
 	}

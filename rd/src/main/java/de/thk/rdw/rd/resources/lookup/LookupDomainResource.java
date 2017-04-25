@@ -1,8 +1,5 @@
 package de.thk.rdw.rd.resources.lookup;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -15,19 +12,17 @@ import org.eclipse.californium.core.server.resources.Resource;
 
 import de.thk.rdw.rd.resources.EndpointResource;
 import de.thk.rdw.rd.resources.RdResource;
-import de.thk.rdw.rd.uri.UriUtils;
-import de.thk.rdw.rd.uri.UriVariable;
 
 /**
- * The {@link AbstractLookupResource} type which allows to perform a domain
- * lookup. List of domains can be retrieved by sending a GET request to this
- * resource. The {@link #handleGET(CoapExchange)} method iterates over all
- * endpoints registered on the {@link RdResource} and reads their domain names.
+ * The {@link CoapResource} type which allows to perform a domain lookup. List
+ * of domains can be retrieved by sending a GET request to this resource. The
+ * {@link #handleGET(CoapExchange)} method iterates over all endpoints
+ * registered on the {@link RdResource} and reads their domain names.
  * 
  * @author Martin Vantroba
  *
  */
-public class LookupDomainResource extends AbstractLookupResource {
+public class LookupDomainResource extends CoapResource {
 
 	private RdResource rdResource;
 
@@ -46,11 +41,9 @@ public class LookupDomainResource extends AbstractLookupResource {
 
 	@Override
 	public void handleGET(CoapExchange exchange) {
-		String resultPayload;
-		Map<UriVariable, String> uriVariables = UriUtils.parseUriQuery(exchange.getRequestOptions().getUriQuery());
+		String resultPayload = "";
 		// Use TreeSet to prevent duplicates.
 		Set<String> domainNames = new TreeSet<>();
-		List<Resource> domains = new ArrayList<>();
 
 		// Search for existing domains by iterating over all endpoints
 		// registered on the RD resource.
@@ -60,12 +53,10 @@ public class LookupDomainResource extends AbstractLookupResource {
 			}
 		}
 
-		// Create CoapResource object for every domain for easier serialization.
+		// Create Resource object for every domain for easier serialization.
 		for (String domainName : domainNames) {
-			domains.add(new CoapResource(domainName));
+			resultPayload += LinkFormat.serializeResource(new CoapResource(domainName));
 		}
-
-		resultPayload = toLinkFormat(domains, uriVariables.get(UriVariable.PAGE), uriVariables.get(UriVariable.COUNT));
 
 		if (!resultPayload.isEmpty()) {
 			exchange.respond(ResponseCode.CONTENT, resultPayload, MediaTypeRegistry.APPLICATION_LINK_FORMAT);

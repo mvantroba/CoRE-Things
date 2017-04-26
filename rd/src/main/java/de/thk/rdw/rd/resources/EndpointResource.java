@@ -15,7 +15,6 @@ import org.eclipse.californium.core.WebLink;
 import org.eclipse.californium.core.coap.CoAP.ResponseCode;
 import org.eclipse.californium.core.coap.LinkFormat;
 import org.eclipse.californium.core.server.resources.CoapExchange;
-import org.eclipse.californium.core.server.resources.Resource;
 
 import de.thk.rdw.rd.uri.UriVariable;
 import de.thk.rdw.rd.uri.UriVariableDefault;
@@ -131,20 +130,14 @@ public class EndpointResource extends CoapResource {
 		Scanner uriScanner = null;
 		CoapResource resource = this;
 		CoapResource childResource = null;
+		getChildren().clear();
 		for (WebLink link : links) {
 			uri = link.getURI();
 			uriScanner = new Scanner(uri).useDelimiter("/");
 			while (uriScanner.hasNext()) {
 				resourceName = uriScanner.next();
-				for (Resource existingChildResource : resource.getChildren()) {
-					if (existingChildResource.getName().equals(resourceName)) {
-						childResource = (CoapResource) existingChildResource;
-					}
-				}
-				if (childResource == null) {
-					childResource = new CoapResource(resourceName);
-					resource.add(childResource);
-				}
+				childResource = new CoapResource(resourceName);
+				resource.add(childResource);
 				resource = childResource;
 				childResource = null;
 			}
@@ -154,8 +147,6 @@ public class EndpointResource extends CoapResource {
 				}
 			}
 			resource = this;
-		}
-		if (uriScanner != null) {
 			uriScanner.close();
 		}
 	}

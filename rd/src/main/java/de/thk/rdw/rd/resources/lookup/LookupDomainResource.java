@@ -42,7 +42,7 @@ public class LookupDomainResource extends CoapResource {
 
 	@Override
 	public void handleGET(CoapExchange exchange) {
-		String resultPayload = "";
+		StringBuilder resultPayload = new StringBuilder();
 		// Use TreeSet to prevent duplicates.
 		Set<String> domainNames = new TreeSet<>();
 
@@ -56,11 +56,11 @@ public class LookupDomainResource extends CoapResource {
 
 		// Create Resource object for every domain for easier serialization.
 		for (String domainName : domainNames) {
-			resultPayload += LinkFormat.serializeResource(new CoapResource(domainName));
+			resultPayload.append(LinkFormat.serializeResource(new CoapResource(domainName)));
 		}
 
-		if (!resultPayload.isEmpty()) {
-			exchange.respond(ResponseCode.CONTENT, resultPayload, MediaTypeRegistry.APPLICATION_LINK_FORMAT);
+		if (resultPayload.length() > 0) {
+			exchange.respond(ResponseCode.CONTENT, resultPayload.toString(), MediaTypeRegistry.APPLICATION_LINK_FORMAT);
 		} else {
 			exchange.respond(ResponseCode.NOT_FOUND);
 		}

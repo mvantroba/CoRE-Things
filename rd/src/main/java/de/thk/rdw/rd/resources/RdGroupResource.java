@@ -19,13 +19,11 @@ import de.thk.rdw.rd.uri.UriVariable;
 import de.thk.rdw.rd.uri.UriVariableDefault;
 
 /**
- * The {@link CoapResource} type which allows to register or delete group of
- * endpoints. The {@link #handlePOST(CoapExchange)} allows to register a group
- * in certain domain. Group endpoints are obtained from the message payload. If
- * one or more endpoints in request are not registered in the
- * {@link RdResource}, the group cannot be created. The
- * {@link #handleDELETE(CoapExchange)} allows to delete a group in certain
- * domain.
+ * The {@link CoapResource} type which allows to register group of endpoints.
+ * The {@link #handlePOST(CoapExchange)} allows to register a group in certain
+ * domain. Group endpoints are obtained from the message payload. If one or more
+ * endpoints in request are not registered in the {@link RdResource}, the group
+ * cannot be created.
  * 
  * @author Martin Vantroba
  *
@@ -88,47 +86,12 @@ public class RdGroupResource extends CoapResource {
 		exchange.respond(response);
 	}
 
-	@Override
-	public void handleDELETE(CoapExchange exchange) {
-		Response response;
-		Map<UriVariable, String> variables = UriUtils.parseUriQuery(exchange.getRequestOptions().getUriQuery());
-		GroupResource existingGroup;
-		// Check if the query contains mandatory variable "group name".
-		if (variables.containsKey(UriVariable.GROUP)) {
-			existingGroup = findGroupResource(variables.get(UriVariable.GROUP), variables.get(UriVariable.DOMAIN));
-			if (existingGroup != null) {
-				delete(existingGroup);
-				response = new Response(ResponseCode.DELETED);
-			} else {
-				response = new Response(ResponseCode.NOT_FOUND);
-			}
-		} else {
-			response = new Response(ResponseCode.BAD_REQUEST);
-		}
-		exchange.respond(response);
-	}
-
-	/**
-	 * Searches registered group with given name in given domain. If the domain
-	 * is not specified, default value is assumed.
-	 * 
-	 * @param name
-	 *            group name
-	 * @param domain
-	 *            group domain
-	 * @return group resource, null when not found
-	 */
-	public GroupResource findGroupResource(String name, String domain) {
+	private GroupResource findGroupResource(String name, String domain) {
 		GroupResource result = null;
-		String searchDomain = domain;
-		if (searchDomain == null) {
-			searchDomain = UriVariableDefault.DOMAIN.toString();
-		}
 		for (Resource child : getChildren()) {
 			String childName = child.getName();
 			String childDomain = ((GroupResource) child).getDomain();
-			if (childName != null && childName.equals(name) && childDomain != null
-					&& childDomain.equals(searchDomain)) {
+			if (childName != null && childName.equals(name) && childDomain != null && childDomain.equals(domain)) {
 				result = (GroupResource) child;
 				break;
 			}
@@ -149,17 +112,16 @@ public class RdGroupResource extends CoapResource {
 				// Check if endpoint is registered.
 				existingEndpoint = rdResource.findChildEndpointResource(endpointName, groupDomain);
 				if (existingEndpoint != null) {
-					// Update attributes.
 					for (String attr : link.getAttributes().getAttributeKeySet()) {
-						// Clear old values.
+						// Clear old attribute values.
 						existingEndpoint.getAttributes().clearAttribute(attr);
-						// Add new values.
+						// Add new attribute values.
 						for (String value : link.getAttributes().getAttributeValues(attr)) {
 							resource.getAttributes().addAttribute(attr, value);
 						}
 					}
 				} else {
-					throw new IllegalArgumentException("Endpoint is not registered in the RD");
+					throw new IllegalArgumentException("Endpoint is not registered in the Resource Directory.");
 				}
 				result.add(existingEndpoint);
 			}

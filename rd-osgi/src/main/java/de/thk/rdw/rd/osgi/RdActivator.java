@@ -8,6 +8,14 @@ import org.osgi.framework.BundleContext;
 
 import de.thk.rdw.rd.RdServer;
 
+/**
+ * The {@link BundleActivator} of this bundle. It initializes and starts
+ * {@link RdServer} which can be used as a repository for web links hosted on
+ * other web servers.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public class RdActivator implements BundleActivator {
 
 	private static final Logger LOGGER = Logger.getLogger(RdActivator.class.getName());

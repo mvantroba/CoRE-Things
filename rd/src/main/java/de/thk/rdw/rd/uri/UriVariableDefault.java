@@ -1,8 +1,22 @@
 package de.thk.rdw.rd.uri;
 
+/**
+ * Defines default values for some of the URI variables which are defined in
+ * {@link UriVariable}.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public enum UriVariableDefault {
 
-	DOMAIN("local"), //
+	/**
+	 * Domain
+	 */
+	DOMAIN("local"),
+
+	/**
+	 * Lifetime
+	 */
 	LIFE_TIME(86400L); // 24 hours
 
 	private Object defaultValue;
@@ -14,5 +28,9 @@ public enum UriVariableDefault {
 	@Override
 	public String toString() {
 		return String.valueOf(defaultValue);
+	}
+
+	public Object getDefaultValue() {
+		return defaultValue;
 	}
 }

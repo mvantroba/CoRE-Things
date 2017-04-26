@@ -39,24 +39,26 @@ public class LookupResourceResource extends CoapResource {
 
 	@Override
 	public void handleGET(CoapExchange exchange) {
-		String resultPayload = "";
+		StringBuilder resultPayload = new StringBuilder();
+		String resultString = "";
 
 		for (Resource resource : rdResource.getChildren()) {
 			if (resource instanceof EndpointResource) {
 				String endpointResources = LinkFormat.serializeTree(resource);
 				if (!endpointResources.isEmpty()) {
-					resultPayload += LinkFormat.serializeTree(resource) + ",";
+					resultPayload.append(LinkFormat.serializeTree(resource));
+					resultPayload.append(",");
 				}
 			}
 		}
 
-		if (!resultPayload.isEmpty()) {
+		if (resultPayload.length() > 0) {
 			// Remove trailing comma.
-			resultPayload = resultPayload.substring(0, resultPayload.length() - 1);
+			resultString = resultPayload.substring(0, resultPayload.length() - 1);
 		}
 
-		if (!resultPayload.isEmpty()) {
-			exchange.respond(ResponseCode.CONTENT, resultPayload, MediaTypeRegistry.APPLICATION_LINK_FORMAT);
+		if (!resultString.isEmpty()) {
+			exchange.respond(ResponseCode.CONTENT, resultString, MediaTypeRegistry.APPLICATION_LINK_FORMAT);
 		} else {
 			exchange.respond(ResponseCode.NOT_FOUND);
 		}

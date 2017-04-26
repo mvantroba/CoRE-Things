@@ -16,21 +16,56 @@ import org.eclipse.californium.core.coap.CoAP.ResponseCode;
 import org.eclipse.californium.core.coap.LinkFormat;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 
+import de.thk.rdw.rd.uri.UriUtils;
 import de.thk.rdw.rd.uri.UriVariable;
 import de.thk.rdw.rd.uri.UriVariableDefault;
 
+/**
+ * The {@link CoapResource} type which represents an endpoint. Endpoint is a web
+ * server which registers resources to the Resource Directory. It is identified
+ * by name which is used during registration, and is unique within the
+ * associated domain.
+ * <p>
+ * An endpoint is characterized by additional attributes. Endpoint type (et)
+ * defines the semantic type of the endpoint. Lifetime (lt) defines lifetime of
+ * the registration in seconds. After lifetime expires, {@link EndpointResource}
+ * deletes itself from the parent, which usually is the {@link RdResource}.
+ * <p>
+ * The context (con) attribute sets the scheme, address and port at which ths
+ * endpoint is available. In the absence of this attribute the context of the
+ * register request should be assumed.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public class EndpointResource extends CoapResource {
 
-	private static final Logger LOGGER = Logger.getLogger(EndpointResource.class.getName());
+	private static final Logger ENDPOINT_LOGGER = Logger.getLogger(EndpointResource.class.getName());
 	private static final ScheduledExecutorService SCHEDULER = Executors.newSingleThreadScheduledExecutor();
 
 	private String domain = UriVariableDefault.DOMAIN.toString();
 	private String endpointType;
-	private Long lifetime = Long.parseLong(UriVariableDefault.LIFE_TIME.toString());
+	private Long lifetime = (Long) UriVariableDefault.LIFE_TIME.getDefaultValue();
 	private String context;
 
 	private ScheduledFuture<?> scheduledFuture;
 
+	/**
+	 * Constructs a {@link EndpointResource} with the complete set of
+	 * attributes. It schedules a {@link ScheduledExecutorService} which is
+	 * responsible for deleting the endpoint after its lifetime expires.
+	 * 
+	 * @param name
+	 *            endpoint name
+	 * @param domain
+	 *            domain this endpoint is associated with
+	 * @param endpointType
+	 *            semantic type of this endpoint
+	 * @param lifetime
+	 *            lifetime of this endpoint
+	 * @param context
+	 *            scheme, host and port at which the endpoint is available
+	 */
 	public EndpointResource(String name, String domain, String endpointType, String lifetime, String context) {
 		super(name);
 		getAttributes().addAttribute(LinkFormat.END_POINT, name);
@@ -55,6 +90,15 @@ public class EndpointResource extends CoapResource {
 		}
 	}
 
+	/**
+	 * Constructs a {@link EndpointResource} with set of registration variables.
+	 * These variables are represented by a {@link Map} of variables of type
+	 * {@link UriVariable}. Such map can be obtained by calling the
+	 * {@link UriUtils #parseUriQuery(java.util.List)} method.
+	 * 
+	 * @param variables
+	 *            endpoint registration variables
+	 */
 	public EndpointResource(Map<UriVariable, String> variables) {
 		this(variables.get(UriVariable.END_POINT), //
 				variables.get(UriVariable.DOMAIN), //
@@ -63,15 +107,29 @@ public class EndpointResource extends CoapResource {
 				variables.get(UriVariable.CONTEXT));
 	}
 
+	/**
+	 * Constructs {@link EndpointResource} with the given name and associates it
+	 * with the given domain. Other attributes will be either set to default
+	 * values or to null.
+	 * 
+	 * @param name
+	 *            endpoint name
+	 * @param domain
+	 *            domain this endpoint is associated with
+	 */
 	public EndpointResource(String name, String domain) {
 		this(name, domain, null, null, null);
 	}
 
 	@Override
+	public String toString() {
+		return " [name=" + getName() + ", domain=" + domain + ", endpointType=" + endpointType + ", lifetime="
+				+ lifetime + ", context=" + context + "]";
+	}
+
+	@Override
 	public void handleGET(CoapExchange exchange) {
-		// TODO Dont include rd and this resource in the payload.
-		String payload = LinkFormat.serializeTree(this);
-		exchange.respond(payload);
+		exchange.respond(LinkFormat.serializeTree(this));
 	}
 
 	@Override
@@ -88,22 +146,20 @@ public class EndpointResource extends CoapResource {
 			scheduledFuture.cancel(true);
 		}
 		super.delete();
-		LOGGER.log(Level.INFO, "Deleted endpoint: {0}.", new Object[] { this.toString() });
+		ENDPOINT_LOGGER.log(Level.INFO, "Deleted endpoint: {0}.", new Object[] { this.toString() });
 	}
 
 	/**
 	 * <p>
 	 * Updates endpoint parameters after the endpoint sends a registration
-	 * update request. Such request can only update lifetime or context
+	 * update request. Such request can only update lifetime and context
 	 * registration parameters. Parameters that have not changed should not be
 	 * sent to reduce the size of the message.
-	 * <p>
-	 * After receiving an update request, resource directory must reset the
-	 * timeout and update all received parameters.
-	 * <p>
-	 * URI Template: /{+location}{?lt,con}
 	 * 
-	 * @param variables
+	 * @param lifetime
+	 *            lifetime of this endpoint
+	 * @param context
+	 *            scheme, host and port at which the endpoint is available
 	 */
 	public void updateVariables(String lifetime, String context) {
 		try {
@@ -114,8 +170,8 @@ public class EndpointResource extends CoapResource {
 		// Remove previous entry to prevent having multiple values.
 		getAttributes().clearAttribute(LinkFormat.LIFE_TIME);
 		getAttributes().addAttribute(LinkFormat.LIFE_TIME, String.valueOf(this.lifetime));
+		// Reset endpoint lifetime.
 		updateScheduledFuture();
-
 		if (context != null) {
 			this.context = context;
 			getAttributes().clearAttribute(LinkFormat.CONTEXT);
@@ -123,23 +179,37 @@ public class EndpointResource extends CoapResource {
 		}
 	}
 
+	/**
+	 * Updates child resources of this endpoint. This method can be used by
+	 * {@link RdResource} upon receiving a registration update request to update
+	 * this endpoint's child resources. The old resources will be deleted.
+	 * 
+	 * The parameter of this method takes a list of resources which are stored
+	 * in the CoRE Link Format. Method {@link LinkFormat #parse(String)} is used
+	 * to parse this list of resource into a {@link Set} of {@link WebLink}
+	 * elements.
+	 * 
+	 * @param linkFormat
+	 *            list of resources in CoRE Link Format
+	 */
 	public void updateResources(String linkFormat) {
 		Set<WebLink> links = LinkFormat.parse(linkFormat);
-		String resourceName;
 		String uri;
-		Scanner uriScanner = null;
 		CoapResource resource = this;
 		CoapResource childResource = null;
+
+		// Clear old children.
 		getChildren().clear();
+
 		for (WebLink link : links) {
 			uri = link.getURI();
-			uriScanner = new Scanner(uri).useDelimiter("/");
-			while (uriScanner.hasNext()) {
-				resourceName = uriScanner.next();
-				childResource = new CoapResource(resourceName);
-				resource.add(childResource);
-				resource = childResource;
-				childResource = null;
+			try (Scanner uriScanner = new Scanner(uri).useDelimiter("/")) {
+				while (uriScanner.hasNext()) {
+					childResource = new CoapResource(uriScanner.next());
+					resource.add(childResource);
+					resource = childResource;
+				}
+
 			}
 			for (String attr : link.getAttributes().getAttributeKeySet()) {
 				for (String value : link.getAttributes().getAttributeValues(attr)) {
@@ -147,14 +217,7 @@ public class EndpointResource extends CoapResource {
 				}
 			}
 			resource = this;
-			uriScanner.close();
 		}
-	}
-
-	@Override
-	public String toString() {
-		return " [name=" + getName() + ", domain=" + domain + ", endpointType=" + endpointType + ", lifetime="
-				+ lifetime + ", context=" + context + "]";
 	}
 
 	private void updateScheduledFuture() {
@@ -166,11 +229,13 @@ public class EndpointResource extends CoapResource {
 
 				@Override
 				public void run() {
-					LOGGER.log(Level.INFO, "Endpoint lifetime has expired: {0}",
+					ENDPOINT_LOGGER.log(Level.INFO, "Endpoint lifetime has expired: {0}",
 							new Object[] { EndpointResource.this.toString() });
 					delete();
 				}
-			}, lifetime, TimeUnit.SECONDS);
+				// Add two seconds to prevent endpoint being removed before the
+				// next update due to package loss or slow network.
+			}, lifetime + 2, TimeUnit.SECONDS);
 		}
 	}
 

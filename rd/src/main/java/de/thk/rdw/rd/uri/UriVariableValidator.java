@@ -1,12 +1,19 @@
 package de.thk.rdw.rd.uri;
 
 /**
- * Resource directory entries can be exported to other discovery mechanisms such
- * as DNS-SD. For that reason, parameters should be limited to a maximum length
- * of 63 Bytes.
+ * Validation interface which variables defined in {@link UriVariable}
+ * implement.
+ * 
+ * @author Martin Vantroba
  *
  */
 public interface UriVariableValidator {
 
+	/**
+	 * Validates the given value.
+	 * 
+	 * @param value
+	 *            value of the URI variable
+	 */
 	void validate(String value);
 }

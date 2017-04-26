@@ -19,25 +19,35 @@ import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.core.server.resources.Resource;
 
 import de.thk.rdw.base.RdResourceType;
+import de.thk.rdw.rd.resources.lookup.LookupEndpointResource;
 import de.thk.rdw.rd.uri.UriUtils;
 import de.thk.rdw.rd.uri.UriVariable;
 
+/**
+ * The {@link RdResource} type which implements function set for the most
+ * important resource in a Resource Directory. This resource allows other web
+ * servers (endpoints) to register themselves and their resources in Resource
+ * Directory. These endpoints can be then obtained by using lookup interfaces of
+ * Resource Directory, such as {@link LookupEndpointResource}.
+ * <p>
+ * This resource is observable which allows clients to send observe requests to
+ * this resource in order to be notified of any changes.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public class RdResource extends CoapResource {
 
-	private static final Logger LOGGER = Logger.getLogger(RdResource.class.getName());
+	private static final Logger RD_LOGGER = Logger.getLogger(RdResource.class.getName());
 
+	/**
+	 * Constructs a {@link RdResource}, initializes its resource type and
+	 * enables observation.
+	 */
 	public RdResource() {
 		super(RdResourceType.CORE_RD.getName());
 		getAttributes().addResourceType(RdResourceType.CORE_RD.getType());
 		setObservable(true);
-	}
-
-	@Override
-	public void handlePOST(CoapExchange exchange) {
-		LOGGER.log(Level.INFO, "Registration request from {0}:{1}.",
-				new Object[] { exchange.getSourceAddress().getHostAddress(), exchange.getSourcePort() });
-		exchange.respond(preparePostResponse(exchange));
-		changed();
 	}
 
 	@Override
@@ -48,9 +58,56 @@ public class RdResource extends CoapResource {
 		if (exchange.getRequestOptions().hasObserve()) {
 			ObservingEndpoint observingEndpoint = new ObservingEndpoint(
 					new InetSocketAddress(exchange.getSourceAddress(), exchange.getSourcePort()));
+			// TODO This will cause endpoint to be added to observers multiple
+			// times, because it hasObserve() will return true.
 			addObserveRelation(new ObserveRelation(observingEndpoint, this, exchange.advanced()));
-			LOGGER.log(Level.INFO, "Added endpoint to observers: {0}", observingEndpoint.getAddress().toString());
+			RD_LOGGER.log(Level.INFO, "Added endpoint to observers: {0}", observingEndpoint.getAddress().toString());
 		}
+	}
+
+	@Override
+	public void handlePOST(CoapExchange exchange) {
+		RD_LOGGER.log(Level.INFO, "Registration request from {0}:{1}.",
+				new Object[] { exchange.getSourceAddress().getHostAddress(), exchange.getSourcePort() });
+		exchange.respond(preparePostResponse(exchange));
+		changed();
+	}
+
+	/**
+	 * Searches a registered endpoint resource which has the same name as the
+	 * method parameter and is associated with the same domain as the method
+	 * parameter.
+	 * 
+	 * @param endpointResource
+	 *            searched endpoint
+	 * @return found endpoint, null if not found
+	 */
+	public EndpointResource findChildEndpointResource(EndpointResource endpointResource) {
+		return findChildEndpointResource(endpointResource.getName(), endpointResource.getDomain());
+	}
+
+	/**
+	 * Searches a registered endpoint resource which has the same name as the
+	 * method parameter and is associated with the same domain as the method
+	 * parameter.
+	 * 
+	 * @param name
+	 *            name of the searched endpoint
+	 * @param domain
+	 *            domain the searched endpoint is associated with
+	 * @return found endpoint, null if not found
+	 */
+	public EndpointResource findChildEndpointResource(String name, String domain) {
+		EndpointResource result = null;
+		for (Resource child : getChildren()) {
+			String childName = child.getName();
+			String childDomain = ((EndpointResource) child).getDomain();
+			if (childName != null && childName.equals(name) && childDomain != null && childDomain.equals(domain)) {
+				result = (EndpointResource) child;
+				break;
+			}
+		}
+		return result;
 	}
 
 	private Response preparePostResponse(CoapExchange exchange) {
@@ -70,14 +127,14 @@ public class RdResource extends CoapResource {
 				newEndpoint.updateResources(exchange.advanced().getRequest().getPayloadString());
 				response = new Response(ResponseCode.CREATED);
 				exchange.setLocationPath(newEndpoint.getURI());
-				LOGGER.log(Level.INFO, "Added new endpoint: {0}.", new Object[] { newEndpoint.toString() });
+				RD_LOGGER.log(Level.INFO, "Added new endpoint: {0}.", new Object[] { newEndpoint.toString() });
 			} else {
 				existingEndpoint.updateVariables(variables.get(UriVariable.LIFE_TIME),
 						variables.get(UriVariable.CONTEXT));
 				existingEndpoint.updateResources(exchange.advanced().getRequest().getPayloadString());
 				response = new Response(ResponseCode.CHANGED);
 				exchange.setLocationPath(existingEndpoint.getURI());
-				LOGGER.log(Level.INFO, "Updated endpoint: {0}.", new Object[] { existingEndpoint.toString() });
+				RD_LOGGER.log(Level.INFO, "Updated endpoint: {0}.", new Object[] { existingEndpoint.toString() });
 			}
 		} else {
 			response = new Response(ResponseCode.BAD_REQUEST);
@@ -100,7 +157,7 @@ public class RdResource extends CoapResource {
 				host = uri.getHost();
 				port = uri.getPort();
 			} catch (URISyntaxException e) {
-				LOGGER.log(Level.WARNING, e.getMessage());
+				RD_LOGGER.log(Level.WARNING, e.getMessage());
 			}
 		}
 		// If the context parameter is not in the request, source scheme, host
@@ -111,7 +168,7 @@ public class RdResource extends CoapResource {
 		try {
 			result = new URI(scheme, null, host, port, null, null, null).toString();
 		} catch (URISyntaxException e) {
-			LOGGER.log(Level.WARNING, e.getMessage());
+			RD_LOGGER.log(Level.WARNING, e.getMessage());
 		}
 		return result;
 	}
@@ -124,33 +181,6 @@ public class RdResource extends CoapResource {
 				result = CoAP.COAP_SECURE_URI_SCHEME;
 			} else {
 				result = CoAP.COAP_URI_SCHEME;
-			}
-		}
-		return result;
-	}
-
-	public EndpointResource findChildEndpointResource(EndpointResource endpointResource) {
-		EndpointResource result = null;
-		for (Resource child : getChildren()) {
-			String childName = child.getName();
-			String childDomain = ((EndpointResource) child).getDomain();
-			if (childName != null && childName.equals(endpointResource.getName()) && childDomain != null
-					&& childDomain.equals(endpointResource.getDomain())) {
-				result = (EndpointResource) child;
-				break;
-			}
-		}
-		return result;
-	}
-
-	public EndpointResource findChildEndpointResource(String name, String domain) {
-		EndpointResource result = null;
-		for (Resource child : getChildren()) {
-			String childName = child.getName();
-			String childDomain = ((EndpointResource) child).getDomain();
-			if (childName != null && childName.equals(name) && childDomain != null && childDomain.equals(domain)) {
-				result = (EndpointResource) child;
-				break;
 			}
 		}
 		return result;

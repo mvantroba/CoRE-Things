@@ -38,16 +38,16 @@ public class LookupEndpointResource extends CoapResource {
 
 	@Override
 	public void handleGET(CoapExchange exchange) {
-		String resultPayload = "";
+		StringBuilder resultPayload = new StringBuilder();
 
 		for (Resource resource : rdResource.getChildren()) {
 			if (resource instanceof EndpointResource) {
-				resultPayload += LinkFormat.serializeResource(resource);
+				resultPayload.append(LinkFormat.serializeResource(resource));
 			}
 		}
 
-		if (!resultPayload.isEmpty()) {
-			exchange.respond(ResponseCode.CONTENT, resultPayload, MediaTypeRegistry.APPLICATION_LINK_FORMAT);
+		if (resultPayload.length() > 0) {
+			exchange.respond(ResponseCode.CONTENT, resultPayload.toString(), MediaTypeRegistry.APPLICATION_LINK_FORMAT);
 		} else {
 			exchange.respond(ResponseCode.NOT_FOUND);
 		}

@@ -165,55 +165,9 @@ public class RdGroupResourceTest {
 	}
 
 	@Test
-	public void When_DELETE_NoGroupParameter_Expect_BadRequest() {
-		server.add(new RdGroupResource(new RdResource()));
-
-		CoapClient client = new CoapClient(rdGroupUri).useExecutor();
-		ResponseCode responseCode = client.delete().getCode();
-
-		Assert.assertEquals(ResponseCode.BAD_REQUEST, responseCode);
-	}
-
-	@Test
-	public void When_DELETE_GroupInWrongDomain_Expect_NotFound() {
+	public void When_DELETE_GroupExists_Expect_Deleted() {
 		String testedGroup = "group1";
-		String uri = String.format("%s?%s=%s&%s=domain1", rdGroupUri, UriVariable.GROUP.getName(), testedGroup,
-				LinkFormat.DOMAIN);
-
-		RdResource rdResource = new RdResource();
-		RdGroupResource rdGroupResource = new RdGroupResource(rdResource);
-		rdGroupResource.add(new GroupResource(testedGroup, "domain2"));
-		server.add(rdGroupResource);
-
-		CoapClient client = new CoapClient(uri).useExecutor();
-		ResponseCode responseCode = client.delete().getCode();
-
-		Assert.assertEquals(ResponseCode.NOT_FOUND, responseCode);
-	}
-
-	@Test
-	public void When_DELETE_GroupInGoodDomain_Expect_Deleted() {
-		String testedGroup = "group1";
-		String testedDomain = "domain1";
-		String uri = String.format("%s?%s=%s&%s=%s", rdGroupUri, UriVariable.GROUP.getName(), testedGroup,
-				LinkFormat.DOMAIN, testedDomain);
-
-		RdResource rdResource = new RdResource();
-		RdGroupResource rdGroupResource = new RdGroupResource(rdResource);
-		rdGroupResource.add(new GroupResource(testedGroup, testedDomain));
-		server.add(rdGroupResource);
-
-		CoapClient client = new CoapClient(uri).useExecutor();
-		ResponseCode responseCode = client.delete().getCode();
-
-		Assert.assertEquals(ResponseCode.DELETED, responseCode);
-		Assert.assertEquals(0, rdGroupResource.getChildren().size());
-	}
-
-	@Test
-	public void When_DELETE_DefaultDomain_Expect_Deleted() {
-		String testedGroup = "group1";
-		String uri = String.format("%s?%s=%s", rdGroupUri, UriVariable.GROUP.getName(), testedGroup);
+		String uri = String.format("%s/%s", rdGroupUri, testedGroup);
 
 		RdResource rdResource = new RdResource();
 		RdGroupResource rdGroupResource = new RdGroupResource(rdResource);

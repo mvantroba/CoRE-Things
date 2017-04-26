@@ -37,16 +37,16 @@ public class LookupGroupResource extends CoapResource {
 
 	@Override
 	public void handleGET(CoapExchange exchange) {
-		String resultPayload = "";
+		StringBuilder resultPayload = new StringBuilder();
 
 		for (Resource resource : rdGroupResource.getChildren()) {
 			if (resource instanceof GroupResource) {
-				resultPayload += LinkFormat.serializeResource(resource);
+				resultPayload.append(LinkFormat.serializeResource(resource));
 			}
 		}
 
-		if (!resultPayload.isEmpty()) {
-			exchange.respond(ResponseCode.CONTENT, resultPayload, MediaTypeRegistry.APPLICATION_LINK_FORMAT);
+		if (resultPayload.length() > 0) {
+			exchange.respond(ResponseCode.CONTENT, resultPayload.toString(), MediaTypeRegistry.APPLICATION_LINK_FORMAT);
 		} else {
 			exchange.respond(ResponseCode.NOT_FOUND);
 		}

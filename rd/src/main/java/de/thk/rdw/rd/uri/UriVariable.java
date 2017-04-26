@@ -3,8 +3,20 @@ package de.thk.rdw.rd.uri;
 import org.eclipse.californium.core.coap.CoAP;
 import org.eclipse.californium.core.coap.LinkFormat;
 
+/**
+ * Definitions of all URI variables that registration and lookup interfaces of
+ * this Resource Directory use. Every variable is defined by its name and
+ * implements its own {@link UriVariableValidator} which is used by
+ * {@link UriVariable #validate(String)} method.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public enum UriVariable {
 
+	/**
+	 * Endpoint name
+	 */
 	END_POINT(LinkFormat.END_POINT, new UriVariableValidator() {
 
 		@Override
@@ -16,7 +28,12 @@ public enum UriVariable {
 						"Endpoint name too long. Max length: %d bytes. Received: %d bytes.", maxLength, length));
 			}
 		}
-	}), DOMAIN(LinkFormat.DOMAIN, new UriVariableValidator() {
+	}),
+
+	/**
+	 * Domain
+	 */
+	DOMAIN(LinkFormat.DOMAIN, new UriVariableValidator() {
 
 		@Override
 		public void validate(String value) {
@@ -27,7 +44,12 @@ public enum UriVariable {
 						.format("Domain name too long. Max length: %d bytes. Received: %d bytes.", maxLength, length));
 			}
 		}
-	}), END_POINT_TYPE(LinkFormat.END_POINT_TYPE, new UriVariableValidator() {
+	}),
+
+	/**
+	 * Endpoint type
+	 */
+	END_POINT_TYPE(LinkFormat.END_POINT_TYPE, new UriVariableValidator() {
 
 		@Override
 		public void validate(String value) {
@@ -38,7 +60,12 @@ public enum UriVariable {
 						"Endpoint type too long. Max length: %d bytes. Received: %d bytes.", maxLength, length));
 			}
 		}
-	}), LIFE_TIME(LinkFormat.LIFE_TIME, new UriVariableValidator() {
+	}),
+
+	/**
+	 * Lifetime
+	 */
+	LIFE_TIME(LinkFormat.LIFE_TIME, new UriVariableValidator() {
 
 		@Override
 		public void validate(String value) {
@@ -54,13 +81,23 @@ public enum UriVariable {
 				throw new IllegalArgumentException(String.format("Lifetime must be an integer. Received: %s.", value));
 			}
 		}
-	}), CONTEXT(LinkFormat.CONTEXT, new UriVariableValidator() {
+	}),
+
+	/**
+	 * Context (scheme, host and port)
+	 */
+	CONTEXT(LinkFormat.CONTEXT, new UriVariableValidator() {
 
 		@Override
 		public void validate(String value) {
 			// Manual validation combined with request object is required.
 		}
-	}), GROUP("gp", new UriVariableValidator() {
+	}),
+
+	/**
+	 * Group name
+	 */
+	GROUP("gp", new UriVariableValidator() {
 
 		@Override
 		public void validate(String value) {
@@ -71,7 +108,12 @@ public enum UriVariable {
 						.format("Group name too long. Max length: %d bytes. Received: %d bytes.", maxLength, length));
 			}
 		}
-	}), PAGE("page", new UriVariableValidator() {
+	}),
+
+	/**
+	 * Page used to define page of resources
+	 */
+	PAGE("page", new UriVariableValidator() {
 
 		@Override
 		public void validate(String value) {
@@ -86,7 +128,12 @@ public enum UriVariable {
 				throw new IllegalArgumentException(String.format("Page must be an integer. Received: %s.", value));
 			}
 		}
-	}), COUNT("count", new UriVariableValidator() {
+	}),
+
+	/**
+	 * Count used to define number of resources
+	 */
+	COUNT("count", new UriVariableValidator() {
 
 		@Override
 		public void validate(String value) {
@@ -116,6 +163,13 @@ public enum UriVariable {
 		return name;
 	}
 
+	/**
+	 * Searches an {@link UriVariable} by the given name.
+	 * 
+	 * @param name
+	 *            URI variable name
+	 * @return URI variable, null if not found
+	 */
 	public static UriVariable getByName(String name) {
 		UriVariable result = null;
 		for (UriVariable variable : UriVariable.values()) {
@@ -126,6 +180,13 @@ public enum UriVariable {
 		return result;
 	}
 
+	/**
+	 * Calls the validate method of this variable's {@link UriVariableValidator}
+	 * implementation with the given value.
+	 * 
+	 * @param value
+	 *            value which will be evaluated
+	 */
 	public void validate(String value) {
 		validator.validate(value);
 	}

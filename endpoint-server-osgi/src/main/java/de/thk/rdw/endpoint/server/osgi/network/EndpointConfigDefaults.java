@@ -11,7 +11,7 @@ public class EndpointConfigDefaults {
 		config.setString(EndpointConfig.Keys.RD_SCHEME, CoAP.COAP_URI_SCHEME);
 		config.setInt(EndpointConfig.Keys.RD_PORT, CoAP.DEFAULT_COAP_PORT);
 		config.setString(EndpointConfig.Keys.RD_HOST, "127.0.0.1");
-		config.setString(EndpointConfig.Keys.ENDPOINT_NAME, "node");
+		config.setString(EndpointConfig.Keys.ENDPOINT_NAME, "endpoint");
 		config.setString(EndpointConfig.Keys.ENDPOINT_DOMAIN, "local");
 		config.setString(EndpointConfig.Keys.ENDPOINT_TYPE, "default");
 		config.setLong(EndpointConfig.Keys.ENDPOINT_LIFETIME, 86400L);

@@ -2,22 +2,27 @@ package de.thk.rdw.endpoint.pi4j.osgi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
-import com.pi4j.io.gpio.GpioPin;
 import com.pi4j.io.gpio.GpioPinDigitalInput;
-import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinPullResistance;
-import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
+import de.thk.rdw.base.ActuatorType;
+import de.thk.rdw.base.SensorType;
 import de.thk.rdw.endpoint.device.osgi.DeviceListener;
 import de.thk.rdw.endpoint.device.osgi.DeviceService;
+import de.thk.rdw.endpoint.pi4j.osgi.resources.ActuatorPi4jResource;
+import de.thk.rdw.endpoint.pi4j.osgi.resources.LedResource;
 
 public class Pi4jDeviceService implements DeviceService {
 
@@ -25,9 +30,11 @@ public class Pi4jDeviceService implements DeviceService {
 
 	private List<DeviceListener> deviceListeners = new ArrayList<>();
 
+	private NavigableMap<Integer, ActuatorPi4jResource> actuators = new TreeMap<>();
+
 	private GpioController gpioController;
 
-	private GpioPinDigitalOutput led;
+	private LedResource ledResource;
 
 	private GpioPinDigitalInput tilt;
 	private GpioPinDigitalInput push;
@@ -35,8 +42,9 @@ public class Pi4jDeviceService implements DeviceService {
 
 	public Pi4jDeviceService() {
 		gpioController = GpioFactory.getInstance();
-		led = gpioController.provisionDigitalOutputPin(RaspiPin.GPIO_00, "led", PinState.LOW);
-		led.setShutdownOptions(true, PinState.LOW);
+
+		ledResource = new LedResource("led", ActuatorType.LED, gpioController, RaspiPin.GPIO_00);
+
 		tilt = gpioController.provisionDigitalInputPin(RaspiPin.GPIO_01, "tilt");
 		tilt.setShutdownOptions(true);
 		tilt.addListener(new GpioPinListenerDigital() {
@@ -77,24 +85,25 @@ public class Pi4jDeviceService implements DeviceService {
 	}
 
 	@Override
-	public void toggleActuator(String name) {
-		GpioPin pin = gpioController.getProvisionedPin(name);
-		if (pin != null) {
-			((GpioPinDigitalOutput) pin).toggle();
-			LOGGER.log(Level.INFO, "Toggled actuator with name \"{0}\".", new Object[] { name });
-		} else {
-			LOGGER.log(Level.WARNING, "Actuator with name \"{0}\" does not exists.", new Object[] { name });
-		}
+	public void toggleActuator(int id) {
+		// GpioPin pin = gpioController.getProvisionedPin(name);
+		// if (pin != null) {
+		// ((GpioPinDigitalOutput) pin).toggle();
+		// LOGGER.log(Level.INFO, "Toggled actuator with name \"{0}\".", new
+		// Object[] { name });
+		// } else {
+		// LOGGER.log(Level.WARNING, "Actuator with name \"{0}\" does not
+		// exists.", new Object[] { name });
+		// }
 	}
 
 	public void deactivate() {
-		led.setState(PinState.LOW);
+		ledResource.destroy();
 
 		// Calling GpioController.shutdown() causes
 		// java.util.concurrent.RejectedExecutionException in
 		// listeners after bundle is started again.
 
-		gpioController.unprovisionPin(led);
 		gpioController.unprovisionPin(tilt);
 		gpioController.unprovisionPin(push);
 		gpioController.unprovisionPin(motion);
@@ -105,5 +114,35 @@ public class Pi4jDeviceService implements DeviceService {
 		for (DeviceListener deviceListener : deviceListeners) {
 			deviceListener.onSensorChanged(id, newValue);
 		}
+	}
+
+	@Override
+	public Map<Integer, Entry<SensorType, String>> getSensors() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<Integer, Entry<ActuatorType, String>> getActuators() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getSensorValue(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getActuatorValue(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setActuatorValue(int id, Object value) {
+		// TODO Auto-generated method stub
+
 	}
 }

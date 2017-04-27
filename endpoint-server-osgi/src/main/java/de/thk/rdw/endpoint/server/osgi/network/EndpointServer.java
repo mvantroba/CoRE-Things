@@ -11,8 +11,8 @@ import org.eclipse.californium.core.coap.CoAP;
 import org.eclipse.californium.core.network.CoapEndpoint;
 import org.eclipse.californium.core.network.EndpointManager;
 
-import de.thk.rdw.base.ActuatorResourceType;
-import de.thk.rdw.base.SensorResourceType;
+import de.thk.rdw.base.ActuatorType;
+import de.thk.rdw.base.SensorType;
 import de.thk.rdw.endpoint.device.osgi.DeviceService;
 import de.thk.rdw.endpoint.server.osgi.DeviceServiceNotInitializedException;
 import de.thk.rdw.endpoint.server.osgi.ResourceProfile;
@@ -43,11 +43,11 @@ public class EndpointServer extends CoapServer {
 		sensorsResource.getAttributes().addResourceType(ResourceProfile.SENSORS.getResourceType());
 		add(actuatorsResource, sensorsResource);
 
-		addActuator(ActuatorResourceType.LED);
+		addActuator(ActuatorType.LED);
 
-		addSensor(SensorResourceType.TILT);
-		addSensor(SensorResourceType.PUSH);
-		addSensor(SensorResourceType.MOTION);
+		addSensor(SensorType.TILT);
+		addSensor(SensorType.PUSH);
+		addSensor(SensorType.MOTION);
 	}
 
 	public void setDeviceService(DeviceService deviceService) {
@@ -58,25 +58,25 @@ public class EndpointServer extends CoapServer {
 		this.deviceService = null;
 	}
 
-	public void addActuator(final ActuatorResourceType actuatorResourceType) {
-		int id;
+	public void addActuator(final ActuatorType actuatorResourceType) {
+		final int id;
 		if (!actuators.isEmpty()) {
 			id = actuators.lastKey() + 1;
 		} else {
 			id = 0;
 		}
-		ActuatorCoapResource actuatorResource = new ActuatorCoapResource(actuatorResourceType.getName()) {
+		ActuatorCoapResource actuatorResource = new ActuatorCoapResource(actuatorResourceType.getType()) {
 
 			@Override
 			protected void onToggle() throws DeviceServiceNotInitializedException {
 				if (deviceService != null) {
-					deviceService.toggleActuator(actuatorResourceType.getName());
+					deviceService.toggleActuator(id);
 				} else {
 					throw new DeviceServiceNotInitializedException();
 				}
 			}
 		};
-		actuatorResource.getAttributes().addResourceType(actuatorResourceType.getResourceType());
+		actuatorResource.getAttributes().addResourceType(actuatorResourceType.getType());
 		CoapResource idResource = new CoapResource(String.valueOf(id));
 		idResource.add(actuatorResource);
 		// Register resource in path /{actuators}/{id}/{actuator}.
@@ -85,14 +85,14 @@ public class EndpointServer extends CoapServer {
 		actuators.put(id, actuatorResource);
 	}
 
-	public void addSensor(final SensorResourceType sensorResourceType) {
+	public void addSensor(final SensorType sensorResourceType) {
 		int id;
 		if (!sensors.isEmpty()) {
 			id = sensors.lastKey() + 1;
 		} else {
 			id = 0;
 		}
-		SensorCoapResource sensorResource = new SensorCoapResource(sensorResourceType.getName()) {
+		SensorCoapResource sensorResource = new SensorCoapResource(sensorResourceType.getType()) {
 
 			@Override
 			protected String onGetValue() {
@@ -100,7 +100,7 @@ public class EndpointServer extends CoapServer {
 				return null;
 			}
 		};
-		sensorResource.getAttributes().addResourceType(sensorResourceType.getResourceType());
+		sensorResource.getAttributes().addResourceType(sensorResourceType.getType());
 		CoapResource idResource = new CoapResource(String.valueOf(id));
 		idResource.add(sensorResource);
 		// Register resource in path /{actuators}/{id}/{actuator}.

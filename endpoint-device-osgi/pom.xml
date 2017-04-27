@@ -16,6 +16,14 @@
 	<name>RDW Endpoint Device OSGi Bundle</name>
 	<description>API for a driver that operates sensors and actuators on a device</description>
 
+	<dependencies>
+		<!-- BASE -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>base</artifactId>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<plugins>
 			<!-- MAVEN-BUNDLE-PLUGIN -->

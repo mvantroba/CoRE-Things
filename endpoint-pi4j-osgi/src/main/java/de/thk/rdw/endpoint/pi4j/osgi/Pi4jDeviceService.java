@@ -11,8 +11,6 @@ import java.util.logging.Logger;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
-import com.pi4j.io.gpio.GpioPinDigitalInput;
-import com.pi4j.io.gpio.PinPullResistance;
 import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
@@ -23,6 +21,9 @@ import de.thk.rdw.endpoint.device.osgi.DeviceListener;
 import de.thk.rdw.endpoint.device.osgi.DeviceService;
 import de.thk.rdw.endpoint.pi4j.osgi.resources.ActuatorPi4jResource;
 import de.thk.rdw.endpoint.pi4j.osgi.resources.LedResource;
+import de.thk.rdw.endpoint.pi4j.osgi.resources.MercurySwitchResource;
+import de.thk.rdw.endpoint.pi4j.osgi.resources.PirSensorResource;
+import de.thk.rdw.endpoint.pi4j.osgi.resources.TactileSwitchResource;
 
 public class Pi4jDeviceService implements DeviceService {
 
@@ -35,37 +36,37 @@ public class Pi4jDeviceService implements DeviceService {
 	private GpioController gpioController;
 
 	private LedResource ledResource;
-
-	private GpioPinDigitalInput tilt;
-	private GpioPinDigitalInput push;
-	private GpioPinDigitalInput motion;
+	private MercurySwitchResource mercurySwitchResource;
+	private TactileSwitchResource tactileSwitchResource;
+	private PirSensorResource pirSensorResource;
 
 	public Pi4jDeviceService() {
 		gpioController = GpioFactory.getInstance();
 
 		ledResource = new LedResource("led", ActuatorType.LED, gpioController, RaspiPin.GPIO_00);
 
-		tilt = gpioController.provisionDigitalInputPin(RaspiPin.GPIO_01, "tilt");
-		tilt.setShutdownOptions(true);
-		tilt.addListener(new GpioPinListenerDigital() {
+		mercurySwitchResource = new MercurySwitchResource("tilt", SensorType.MERCURY_SWITCH, gpioController,
+				RaspiPin.GPIO_01);
+		mercurySwitchResource.addListener(new GpioPinListenerDigital() {
 
 			@Override
 			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
 				notifyListeners(0, event.getState().getName());
 			}
 		});
-		push = gpioController.provisionDigitalInputPin(RaspiPin.GPIO_02, "push", PinPullResistance.PULL_DOWN);
-		push.setShutdownOptions(true);
-		push.addListener(new GpioPinListenerDigital() {
+
+		tactileSwitchResource = new TactileSwitchResource("tactileSwitch", SensorType.TACTILE_SWITCH, gpioController,
+				RaspiPin.GPIO_02);
+		tactileSwitchResource.addListener(new GpioPinListenerDigital() {
 
 			@Override
 			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
 				notifyListeners(1, event.getState().getName());
 			}
 		});
-		motion = gpioController.provisionDigitalInputPin(RaspiPin.GPIO_03, "motion", PinPullResistance.PULL_UP);
-		motion.setShutdownOptions(true);
-		motion.addListener(new GpioPinListenerDigital() {
+
+		pirSensorResource = new PirSensorResource("motion", SensorType.PIR_SENSOR, gpioController, RaspiPin.GPIO_03);
+		pirSensorResource.addListener(new GpioPinListenerDigital() {
 
 			@Override
 			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
@@ -99,14 +100,14 @@ public class Pi4jDeviceService implements DeviceService {
 
 	public void deactivate() {
 		ledResource.destroy();
+		mercurySwitchResource.destroy();
+		tactileSwitchResource.destroy();
+		pirSensorResource.destroy();
 
 		// Calling GpioController.shutdown() causes
 		// java.util.concurrent.RejectedExecutionException in
 		// listeners after bundle is started again.
 
-		gpioController.unprovisionPin(tilt);
-		gpioController.unprovisionPin(push);
-		gpioController.unprovisionPin(motion);
 		LOGGER.log(Level.INFO, "All GPIO pins have been unprovisioned.");
 	}
 

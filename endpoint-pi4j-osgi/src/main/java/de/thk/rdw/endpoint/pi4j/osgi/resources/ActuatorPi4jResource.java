@@ -11,6 +11,8 @@ public abstract class ActuatorPi4jResource extends AbstractPi4jResource {
 		this.actuatorType = actuatorType;
 	}
 
+	protected abstract void toggle();
+
 	@Override
 	public String getType() {
 		return actuatorType.getType();

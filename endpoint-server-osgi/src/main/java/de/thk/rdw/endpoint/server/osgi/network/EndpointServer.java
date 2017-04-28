@@ -45,9 +45,9 @@ public class EndpointServer extends CoapServer {
 
 		addActuator(ActuatorType.LED);
 
-		addSensor(SensorType.TILT);
-		addSensor(SensorType.PUSH);
-		addSensor(SensorType.MOTION);
+		addSensor(SensorType.MERCURY_SWITCH);
+		addSensor(SensorType.TACTILE_SWITCH);
+		addSensor(SensorType.PIR_SENSOR);
 	}
 
 	public void setDeviceService(DeviceService deviceService) {

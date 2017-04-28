@@ -4,9 +4,9 @@ import java.util.List;
 
 public enum SensorType {
 
-	TILT("tilt"), //
-	PUSH("push"), //
-	MOTION("motion");
+	MERCURY_SWITCH("mercurySwitch"), //
+	TACTILE_SWITCH("tactileSwitch"), //
+	PIR_SENSOR("pirSensor");
 
 	private String type;
 

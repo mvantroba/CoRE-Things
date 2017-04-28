@@ -8,9 +8,11 @@ public abstract class AbstractPi4jResource {
 		this.name = name;
 	}
 
-	public abstract String getType();
-
 	public abstract void init();
 
 	public abstract void destroy();
+
+	public abstract String getType();
+
+	public abstract String getValue();
 }

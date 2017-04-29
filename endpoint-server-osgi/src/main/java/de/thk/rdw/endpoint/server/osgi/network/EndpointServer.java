@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.NavigableMap;
 import java.util.TreeMap;
+import java.util.logging.Level;
 
 import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.CoapServer;
@@ -14,6 +15,7 @@ import org.eclipse.californium.core.network.EndpointManager;
 import de.thk.rdw.base.ActuatorType;
 import de.thk.rdw.base.SensorType;
 import de.thk.rdw.endpoint.device.osgi.DeviceService;
+import de.thk.rdw.endpoint.device.osgi.NoSuchActuatorException;
 import de.thk.rdw.endpoint.server.osgi.DeviceServiceNotInitializedException;
 import de.thk.rdw.endpoint.server.osgi.ResourceProfile;
 import de.thk.rdw.endpoint.server.osgi.resource.ActuatorCoapResource;
@@ -70,7 +72,11 @@ public class EndpointServer extends CoapServer {
 			@Override
 			protected void onToggle() throws DeviceServiceNotInitializedException {
 				if (deviceService != null) {
-					deviceService.toggleActuator(id);
+					try {
+						deviceService.toggleActuator(id);
+					} catch (NoSuchActuatorException e) {
+						LOGGER.log(Level.WARNING, e.getMessage());
+					}
 				} else {
 					throw new DeviceServiceNotInitializedException();
 				}

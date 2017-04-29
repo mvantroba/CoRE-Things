@@ -15,4 +15,8 @@ public abstract class AbstractPi4jResource {
 	public abstract String getType();
 
 	public abstract String getValue();
+
+	public String getName() {
+		return name;
+	}
 }

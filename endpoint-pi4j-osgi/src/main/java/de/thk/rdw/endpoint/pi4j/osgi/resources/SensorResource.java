@@ -2,11 +2,11 @@ package de.thk.rdw.endpoint.pi4j.osgi.resources;
 
 import de.thk.rdw.base.SensorType;
 
-public abstract class SensorPi4jResource extends AbstractPi4jResource {
+public abstract class SensorResource extends AbstractPi4jResource {
 
-	private SensorType sensorType;
+	protected SensorType sensorType;
 
-	public SensorPi4jResource(String name, SensorType sensorType) {
+	public SensorResource(String name, SensorType sensorType) {
 		super(name);
 		this.sensorType = sensorType;
 	}

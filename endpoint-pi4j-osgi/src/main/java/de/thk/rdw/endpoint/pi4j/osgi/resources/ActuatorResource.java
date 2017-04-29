@@ -2,16 +2,18 @@ package de.thk.rdw.endpoint.pi4j.osgi.resources;
 
 import de.thk.rdw.base.ActuatorType;
 
-public abstract class ActuatorPi4jResource extends AbstractPi4jResource {
+public abstract class ActuatorResource extends AbstractPi4jResource {
 
-	private ActuatorType actuatorType;
+	protected ActuatorType actuatorType;
 
-	public ActuatorPi4jResource(String name, ActuatorType actuatorType) {
+	public ActuatorResource(String name, ActuatorType actuatorType) {
 		super(name);
 		this.actuatorType = actuatorType;
 	}
 
-	protected abstract void toggle();
+	public abstract void toggle();
+
+	public abstract void setValue(String value);
 
 	@Override
 	public String getType() {

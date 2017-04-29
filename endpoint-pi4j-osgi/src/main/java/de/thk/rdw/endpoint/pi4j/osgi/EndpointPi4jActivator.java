@@ -18,6 +18,7 @@ public class EndpointPi4jActivator implements BundleActivator {
 	public void start(BundleContext context) throws Exception {
 		LOGGER.log(Level.INFO, "Starting bundle \"RDW Endpoint Pi4J\"...");
 		deviceService = new Pi4jDeviceService();
+		deviceService.init();
 		LOGGER.log(Level.INFO, "Registering service \"{0}\"...", new Object[] { DeviceService.class.getName() });
 		context.registerService(DeviceService.class, deviceService, null);
 		LOGGER.log(Level.INFO, "Service \"{0}\" is registered.", new Object[] { DeviceService.class.getName() });
@@ -27,7 +28,7 @@ public class EndpointPi4jActivator implements BundleActivator {
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		LOGGER.log(Level.INFO, "Stopping bundle \"RDW Endpoint Pi4J\"...");
-		deviceService.deactivate();
+		deviceService.destroy();
 		LOGGER.log(Level.INFO, "Bundle \"RDW Endpoint Pi4J\" is stopped.");
 	}
 }

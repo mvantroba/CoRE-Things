@@ -30,6 +30,11 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
+				<configuration>
+					<instructions>
+						<Embed-Dependency>base</Embed-Dependency>
+					</instructions>
+				</configuration>
 			</plugin>
 			<!-- MAVEN-DEPENDENCY-PLUGIN -->
 			<plugin>

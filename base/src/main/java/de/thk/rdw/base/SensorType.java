@@ -14,6 +14,11 @@ public enum SensorType {
 		this.type = type;
 	}
 
+	@Override
+	public String toString() {
+		return type;
+	}
+
 	public static boolean containsTypes(List<String> resourceTypes) {
 		boolean result = false;
 		for (String type : resourceTypes) {

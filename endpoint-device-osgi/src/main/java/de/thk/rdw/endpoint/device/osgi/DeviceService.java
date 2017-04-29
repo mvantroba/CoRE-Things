@@ -12,13 +12,13 @@ public interface DeviceService {
 
 	Map<Integer, Entry<ActuatorType, String>> getActuators();
 
-	Object getSensorValue(int id);
+	String getSensorValue(int id) throws NoSuchSensorException;
 
-	Object getActuatorValue(int id);
+	String getActuatorValue(int id) throws NoSuchActuatorException;
 
-	void setActuatorValue(int id, Object value);
+	void setActuatorValue(int id, String value) throws NoSuchActuatorException;
 
-	void toggleActuator(int id);
+	void toggleActuator(int id) throws NoSuchActuatorException;
 
 	boolean addListener(DeviceListener deviceListener);
 

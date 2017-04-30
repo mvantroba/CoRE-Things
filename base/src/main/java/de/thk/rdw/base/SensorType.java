@@ -19,14 +19,27 @@ public enum SensorType {
 		return type;
 	}
 
+	public static SensorType get(String type) {
+		SensorType result = null;
+		for (SensorType sensorType : values()) {
+			if (type.equals(sensorType.getType())) {
+				result = sensorType;
+				break;
+			}
+		}
+		return result;
+	}
+
+	public static boolean containsType(String type) {
+		return get(type) != null;
+	}
+
 	public static boolean containsTypes(List<String> resourceTypes) {
 		boolean result = false;
 		for (String type : resourceTypes) {
-			for (SensorType actuatorResourceType : values()) {
-				if (type.equals(actuatorResourceType.getType())) {
-					result = true;
-					break;
-				}
+			if (containsType(type)) {
+				result = true;
+				break;
 			}
 		}
 		return result;

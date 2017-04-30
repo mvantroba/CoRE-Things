@@ -17,14 +17,27 @@ public enum ActuatorType {
 		return type;
 	}
 
+	public static ActuatorType get(String type) {
+		ActuatorType result = null;
+		for (ActuatorType actuatorType : values()) {
+			if (type.equals(actuatorType.getType())) {
+				result = actuatorType;
+				break;
+			}
+		}
+		return result;
+	}
+
+	public static boolean containsType(String type) {
+		return get(type) != null;
+	}
+
 	public static boolean containsTypes(List<String> resourceTypes) {
 		boolean result = false;
 		for (String type : resourceTypes) {
-			for (ActuatorType actuatorResourceType : values()) {
-				if (type.equals(actuatorResourceType.getType())) {
-					result = true;
-					break;
-				}
+			if (containsType(type)) {
+				result = true;
+				break;
 			}
 		}
 		return result;

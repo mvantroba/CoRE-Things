@@ -6,11 +6,12 @@ import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinPullResistance;
 
 import de.thk.rdw.base.SensorType;
+import de.thk.rdw.endpoint.pi4j.osgi.resources.DeviceResourceListener;
 
 public class TactileSwitchResource extends SensorGpioResource {
 
-	public TactileSwitchResource(String name, GpioController gpioController, Pin pin) {
-		super(name, SensorType.TACTILE_SWITCH, gpioController, pin);
+	public TactileSwitchResource(String name, DeviceResourceListener listener, GpioController gpioController, Pin pin) {
+		super(name, listener, SensorType.TACTILE_SWITCH, gpioController, pin);
 	}
 
 	@Override

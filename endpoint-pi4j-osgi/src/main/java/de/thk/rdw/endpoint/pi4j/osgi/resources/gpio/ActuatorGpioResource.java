@@ -7,10 +7,13 @@ import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinState;
+import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListener;
+import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
 import de.thk.rdw.base.ActuatorType;
 import de.thk.rdw.endpoint.pi4j.osgi.resources.ActuatorResource;
+import de.thk.rdw.endpoint.pi4j.osgi.resources.DeviceResourceListener;
 
 public abstract class ActuatorGpioResource extends ActuatorResource {
 
@@ -22,10 +25,18 @@ public abstract class ActuatorGpioResource extends ActuatorResource {
 	private GpioPinDigitalOutput output;
 	private GpioPinListener gpioPinListener;
 
-	public ActuatorGpioResource(String name, ActuatorType actuatorType, GpioController gpioController, Pin pin) {
-		super(name, actuatorType);
+	public ActuatorGpioResource(String name, DeviceResourceListener listener, ActuatorType actuatorType,
+			GpioController gpioController, Pin pin) {
+		super(name, listener, actuatorType);
 		this.gpioController = gpioController;
 		this.pin = pin;
+		this.gpioPinListener = new GpioPinListenerDigital() {
+
+			@Override
+			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
+				onChanged(event.getState().getName());
+			}
+		};
 	}
 
 	protected abstract GpioPinDigitalOutput getOutput();
@@ -102,9 +113,5 @@ public abstract class ActuatorGpioResource extends ActuatorResource {
 			LOGGER.log(Level.WARNING, "Could not update value for {0}, because pin is not provisioned.",
 					new Object[] { toString() });
 		}
-	}
-
-	public void setListener(GpioPinListener gpioPinListener) {
-		this.gpioPinListener = gpioPinListener;
 	}
 }

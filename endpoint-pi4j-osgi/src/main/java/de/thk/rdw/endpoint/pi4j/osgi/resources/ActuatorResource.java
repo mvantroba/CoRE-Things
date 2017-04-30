@@ -2,12 +2,12 @@ package de.thk.rdw.endpoint.pi4j.osgi.resources;
 
 import de.thk.rdw.base.ActuatorType;
 
-public abstract class ActuatorResource extends AbstractPi4jResource {
+public abstract class ActuatorResource extends AbstractDeviceResource {
 
 	protected ActuatorType actuatorType;
 
-	public ActuatorResource(String name, ActuatorType actuatorType) {
-		super(name);
+	public ActuatorResource(String name, DeviceResourceListener listener, ActuatorType actuatorType) {
+		super(name, listener);
 		this.actuatorType = actuatorType;
 	}
 

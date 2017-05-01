@@ -15,6 +15,13 @@ import de.thk.rdw.base.ActuatorType;
 import de.thk.rdw.endpoint.pi4j.osgi.resources.ActuatorResource;
 import de.thk.rdw.endpoint.pi4j.osgi.resources.DeviceResourceListener;
 
+/**
+ * The type of {@link ActuatorResource} which uses GPIO pins and
+ * {@link GpioController}.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public abstract class ActuatorGpioResource extends ActuatorResource {
 
 	private static final Logger LOGGER = Logger.getLogger(ActuatorGpioResource.class.getName());
@@ -25,6 +32,21 @@ public abstract class ActuatorGpioResource extends ActuatorResource {
 	private GpioPinDigitalOutput output;
 	private GpioPinListener gpioPinListener;
 
+	/**
+	 * Constructs a {@link ActuatorGpioResource} which will be managed by the
+	 * given {@link GpioController}.
+	 * 
+	 * @param name
+	 *            actuator name
+	 * @param listener
+	 *            actuator listener
+	 * @param actuatorType
+	 *            actuator type
+	 * @param gpioController
+	 *            controller
+	 * @param pin
+	 *            pin which this actuator is associated with
+	 */
 	public ActuatorGpioResource(String name, DeviceResourceListener listener, ActuatorType actuatorType,
 			GpioController gpioController, Pin pin) {
 		super(name, listener, actuatorType);
@@ -39,6 +61,12 @@ public abstract class ActuatorGpioResource extends ActuatorResource {
 		};
 	}
 
+	/**
+	 * Returns output pin interface, that will be used to control state of this
+	 * resource.
+	 * 
+	 * @return output pin interface
+	 */
 	protected abstract GpioPinDigitalOutput getOutput();
 
 	@Override

@@ -14,6 +14,14 @@ import de.thk.rdw.base.ActuatorType;
 import de.thk.rdw.base.ResourceType;
 import de.thk.rdw.base.SensorType;
 
+/**
+ * Helper class which can be used to read sensor and actuator lists from a CSV
+ * files. It returns already validated arguments that can be used to initialize
+ * sensors and actuators.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public class CsvReader {
 
 	private static final Logger LOGGER = Logger.getLogger(CsvReader.class.getName());
@@ -26,6 +34,14 @@ public class CsvReader {
 	private CsvReader() {
 	}
 
+	/**
+	 * Reads either sensors or actuators from a CSV file and validates them.
+	 * 
+	 * @param resourceType
+	 *            defines if sensors or actuators will be obtained
+	 * @return validated list of arguments that can be used for initialization
+	 *         of sensors or actuators
+	 */
 	public static List<String[]> readResources(ResourceType resourceType) {
 		List<String[]> result;
 		if (resourceType.equals(ResourceType.SENSOR)) {
@@ -39,7 +55,7 @@ public class CsvReader {
 	private static List<String[]> read(File file, ResourceType resourceType) {
 		List<String[]> result = new ArrayList<>();
 		try {
-			// File will be created only if it does not exists.
+			// File will be created only if it does not exist.
 			if (file.createNewFile()) {
 				LOGGER.log(Level.INFO, "File \"{0}\" was not found, new one has been created.",
 						new Object[] { file.getAbsolutePath() });
@@ -72,11 +88,21 @@ public class CsvReader {
 				}
 			}
 		} catch (IOException e) {
-			LOGGER.log(Level.WARNING, e.getMessage());
+			LOGGER.log(Level.SEVERE, e.getMessage());
 		}
 		return result;
 	}
 
+	/**
+	 * Validates list of arguments that should contain at least resource name,
+	 * resource type and one additional parameter.
+	 * 
+	 * @param arguments
+	 *            sensor or actuator arguments
+	 * @param resourceType
+	 *            sensor or actuator
+	 * @return true if arguments are valid
+	 */
 	public static boolean validate(String[] arguments, ResourceType resourceType) {
 		boolean result = true;
 		try {

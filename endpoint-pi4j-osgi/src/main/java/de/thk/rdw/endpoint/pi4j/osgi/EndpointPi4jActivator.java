@@ -8,6 +8,14 @@ import org.osgi.framework.BundleContext;
 
 import de.thk.rdw.endpoint.device.osgi.DeviceService;
 
+/**
+ * The {@link BundleActivator} of this bundle. It initializes and starts
+ * {@link Pi4jDeviceService} which can be used to access sensors and actuators
+ * on the device.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public class EndpointPi4jActivator implements BundleActivator {
 
 	private static final Logger LOGGER = Logger.getLogger(EndpointPi4jActivator.class.getName());

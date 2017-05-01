@@ -14,6 +14,13 @@ import de.thk.rdw.base.SensorType;
 import de.thk.rdw.endpoint.pi4j.osgi.resources.DeviceResourceListener;
 import de.thk.rdw.endpoint.pi4j.osgi.resources.SensorResource;
 
+/**
+ * The type of {@link SensorResource} which uses GPIO pins and
+ * {@link GpioController}.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public abstract class SensorGpioResource extends SensorResource {
 
 	private static final Logger LOGGER = Logger.getLogger(SensorGpioResource.class.getName());
@@ -24,6 +31,21 @@ public abstract class SensorGpioResource extends SensorResource {
 	private GpioPinDigitalInput input;
 	private GpioPinListener gpioPinListener;
 
+	/**
+	 * Constructs a {@link SensorGpioResource} which will be managed by the
+	 * given {@link GpioController}.
+	 * 
+	 * @param name
+	 *            sensor name
+	 * @param listener
+	 *            sensor listener
+	 * @param sensorType
+	 *            sensor type
+	 * @param gpioController
+	 *            controller
+	 * @param pin
+	 *            pin which this sensor is associated with
+	 */
 	public SensorGpioResource(String name, DeviceResourceListener listener, SensorType sensorType,
 			GpioController gpioController, Pin pin) {
 		super(name, listener, sensorType);
@@ -38,6 +60,12 @@ public abstract class SensorGpioResource extends SensorResource {
 		};
 	}
 
+	/**
+	 * Returns input pin interface, that will be used to obtain state of this
+	 * resource.
+	 * 
+	 * @return input pin interface
+	 */
 	protected abstract GpioPinDigitalInput getInput();
 
 	@Override
@@ -74,9 +102,5 @@ public abstract class SensorGpioResource extends SensorResource {
 					new Object[] { toString() });
 		}
 		return result;
-	}
-
-	public void setListener(GpioPinListener gpioPinListener) {
-		this.gpioPinListener = gpioPinListener;
 	}
 }

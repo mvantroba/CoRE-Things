@@ -26,6 +26,18 @@ import de.thk.rdw.endpoint.pi4j.osgi.resources.DeviceResourceFactory;
 import de.thk.rdw.endpoint.pi4j.osgi.resources.DeviceResourceListener;
 import de.thk.rdw.endpoint.pi4j.osgi.resources.SensorResource;
 
+/**
+ * The {@link DeviceService} type which enables access to Raspberry Pi sensors
+ * and actuators using the Pi4J framework. Sensors and actuators are obtained
+ * from files using {@link CsvReader} in constructor of this class.
+ * <p>
+ * The {@link Pi4jDeviceService #init()} method initializes all resources by
+ * provisioning pins. The {@link Pi4jDeviceService #destroy()} should be called
+ * to destroy all resources after before application exits.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public class Pi4jDeviceService implements DeviceService {
 
 	private static final Logger LOGGER = Logger.getLogger(Pi4jDeviceService.class.getName());
@@ -37,6 +49,12 @@ public class Pi4jDeviceService implements DeviceService {
 
 	private List<DeviceListener> deviceListeners = new ArrayList<>();
 
+	/**
+	 * Constructs the {@link Pi4jDeviceService} and reads all sensors and
+	 * actuators from the file using {@link CsvReader}. These sensors have to be
+	 * initialized by calling the {@link Pi4jDeviceService #init()} method
+	 * before it can be used.
+	 */
 	public Pi4jDeviceService() {
 		gpioController = GpioFactory.getInstance();
 		for (String[] sensorArguments : CsvReader.readResources(ResourceType.SENSOR)) {
@@ -44,27 +62,6 @@ public class Pi4jDeviceService implements DeviceService {
 		}
 		for (String[] actuatorArguments : CsvReader.readResources(ResourceType.ACTUATOR)) {
 			addActuator(actuatorArguments);
-		}
-	}
-
-	@Override
-	public boolean addListener(DeviceListener deviceListener) {
-		return deviceListeners.add(deviceListener);
-	}
-
-	@Override
-	public boolean removeListener(DeviceListener deviceListener) {
-		return deviceListeners.remove(deviceListener);
-	}
-
-	@Override
-	public void toggleActuator(int id) throws NoSuchActuatorException {
-		ActuatorResource actuator = actuators.get(id);
-		if (actuator != null) {
-			actuator.toggle();
-			LOGGER.log(Level.INFO, "Toggled {0}.", new Object[] { actuator.toString() });
-		} else {
-			throw new NoSuchActuatorException(String.format("Actuator with ID %d does not exist on the device.", id));
 		}
 	}
 
@@ -95,7 +92,7 @@ public class Pi4jDeviceService implements DeviceService {
 		if (sensor != null) {
 			result = sensor.getValue();
 		} else {
-			throw new NoSuchSensorException(String.format("Sensor with ID %d does not exist on the device.", id));
+			throw new NoSuchSensorException(id);
 		}
 		return result;
 	}
@@ -107,7 +104,7 @@ public class Pi4jDeviceService implements DeviceService {
 		if (actuator != null) {
 			result = actuator.getValue();
 		} else {
-			throw new NoSuchActuatorException(String.format("Actuator with ID %d does not exist on the device.", id));
+			throw new NoSuchActuatorException(id);
 		}
 		return result;
 	}
@@ -116,13 +113,41 @@ public class Pi4jDeviceService implements DeviceService {
 	public void setActuatorValue(int id, String value) throws NoSuchActuatorException {
 		ActuatorResource actuator = actuators.get(id);
 		if (actuator != null) {
-			actuator.setValue(value);
-			LOGGER.log(Level.INFO, "Set {0} to value {1}.", new Object[] { actuator.toString(), value });
+			try {
+				actuator.setValue(value);
+				LOGGER.log(Level.INFO, "Set {0} to value {1}.", new Object[] { actuator.toString(), value });
+			} catch (IllegalArgumentException e) {
+				LOGGER.log(Level.WARNING, e.getMessage());
+			}
 		} else {
-			throw new NoSuchActuatorException(String.format("Actuator with ID %d does not exist on the device.", id));
+			throw new NoSuchActuatorException(id);
 		}
 	}
 
+	@Override
+	public void toggleActuator(int id) throws NoSuchActuatorException {
+		ActuatorResource actuator = actuators.get(id);
+		if (actuator != null) {
+			actuator.toggle();
+			LOGGER.log(Level.INFO, "Toggled {0}.", new Object[] { actuator.toString() });
+		} else {
+			throw new NoSuchActuatorException(id);
+		}
+	}
+
+	@Override
+	public boolean addListener(DeviceListener deviceListener) {
+		return deviceListeners.add(deviceListener);
+	}
+
+	@Override
+	public boolean removeListener(DeviceListener deviceListener) {
+		return deviceListeners.remove(deviceListener);
+	}
+
+	/**
+	 * Initializes all sensors and actuators.
+	 */
 	public void init() {
 		int counter = 0;
 		for (Entry<Integer, SensorResource> entry : sensors.entrySet()) {
@@ -138,6 +163,9 @@ public class Pi4jDeviceService implements DeviceService {
 		LOGGER.log(Level.INFO, "{0} actuators have been initialised.", new Object[] { counter });
 	}
 
+	/**
+	 * Destroys all sensors and actuators.
+	 */
 	public void destroy() {
 		int counter = 0;
 		for (Entry<Integer, SensorResource> entry : sensors.entrySet()) {
@@ -167,7 +195,10 @@ public class Pi4jDeviceService implements DeviceService {
 			@Override
 			public void onChanged(String value) {
 				LOGGER.log(Level.INFO, "Sensor with ID {0} changed value to {1}.", new Object[] { id, value });
-				notifyListenersSensor(id, value);
+				// Notify all listeners.
+				for (DeviceListener deviceListener : deviceListeners) {
+					deviceListener.onSensorChanged(id, value);
+				}
 			}
 		};
 
@@ -202,7 +233,10 @@ public class Pi4jDeviceService implements DeviceService {
 			@Override
 			public void onChanged(String value) {
 				LOGGER.log(Level.INFO, "Actuator with ID {0} changed value to {1}.", new Object[] { id, value });
-				notifyListenersActuator(id, value);
+				for (DeviceListener deviceListener : deviceListeners) {
+					// Notify all listeners.
+					deviceListener.onActuatorChanged(id, value);
+				}
 			}
 		};
 
@@ -217,18 +251,6 @@ public class Pi4jDeviceService implements DeviceService {
 		if (actuatorResource != null) {
 			actuators.put(id, actuatorResource);
 			LOGGER.log(Level.INFO, "Added {0} with ID {1}.", new Object[] { actuatorResource.toString(), id });
-		}
-	}
-
-	private void notifyListenersSensor(int id, String value) {
-		for (DeviceListener deviceListener : deviceListeners) {
-			deviceListener.onSensorChanged(id, value);
-		}
-	}
-
-	private void notifyListenersActuator(int id, String value) {
-		for (DeviceListener deviceListener : deviceListeners) {
-			deviceListener.onActuatorChanged(id, value);
 		}
 	}
 }

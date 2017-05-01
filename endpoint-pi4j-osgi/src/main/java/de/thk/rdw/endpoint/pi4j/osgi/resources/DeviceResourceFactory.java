@@ -12,6 +12,13 @@ import de.thk.rdw.endpoint.pi4j.osgi.resources.gpio.MercurySwitchResource;
 import de.thk.rdw.endpoint.pi4j.osgi.resources.gpio.PirSensorResource;
 import de.thk.rdw.endpoint.pi4j.osgi.resources.gpio.TactileSwitchResource;
 
+/**
+ * Factory class for all resources in this application. Created resource will be
+ * either of type {@link SensorResource} or {@link ActuatorResource}.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public class DeviceResourceFactory {
 
 	private static final Logger LOGGER = Logger.getLogger(DeviceResourceFactory.class.getName());
@@ -23,6 +30,20 @@ public class DeviceResourceFactory {
 	// SENSORS
 	// ####################
 
+	/**
+	 * Constructs {@link MercurySwitchResource} if all arguments are valid,
+	 * otherwise it returns null.
+	 * 
+	 * @param name
+	 *            resource name
+	 * @param listener
+	 *            resource listener
+	 * @param gpioController
+	 *            controller
+	 * @param pinString
+	 *            pin number as string
+	 * @return created resource
+	 */
 	public static SensorResource createMercurySwitch(String name, DeviceResourceListener listener,
 			GpioController gpioController, String pinString) {
 
@@ -38,6 +59,20 @@ public class DeviceResourceFactory {
 		return result;
 	}
 
+	/**
+	 * Constructs {@link TactileSwitchResource} if all arguments are valid,
+	 * otherwise it returns null.
+	 * 
+	 * @param name
+	 *            resource name
+	 * @param listener
+	 *            resource listener
+	 * @param gpioController
+	 *            controller
+	 * @param pinString
+	 *            pin number as string
+	 * @return created resource
+	 */
 	public static SensorResource createTactileSwitch(String name, DeviceResourceListener listener,
 			GpioController gpioController, String pinString) {
 
@@ -53,6 +88,20 @@ public class DeviceResourceFactory {
 		return result;
 	}
 
+	/**
+	 * Constructs {@link PirSensorResource} if all arguments are valid,
+	 * otherwise it returns null.
+	 * 
+	 * @param name
+	 *            resource name
+	 * @param listener
+	 *            resource listener
+	 * @param gpioController
+	 *            controller
+	 * @param pinString
+	 *            pin number as string
+	 * @return created resource
+	 */
 	public static SensorResource createPirSensor(String name, DeviceResourceListener listener,
 			GpioController gpioController, String pinString) {
 
@@ -72,6 +121,20 @@ public class DeviceResourceFactory {
 	// ACTUATORS
 	// ####################
 
+	/**
+	 * Constructs {@link LedResource} if all arguments are valid, otherwise it
+	 * returns null.
+	 * 
+	 * @param name
+	 *            resource name
+	 * @param listener
+	 *            resource listener
+	 * @param gpioController
+	 *            controller
+	 * @param pinString
+	 *            pin number as string
+	 * @return created resource
+	 */
 	public static ActuatorResource createLed(String name, DeviceResourceListener listener,
 			GpioController gpioController, String pinString) {
 

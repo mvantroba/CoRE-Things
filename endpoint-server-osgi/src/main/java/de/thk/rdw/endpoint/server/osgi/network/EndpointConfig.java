@@ -27,6 +27,7 @@ public class EndpointConfig {
 		public static final String ENDPOINT_DOMAIN = "ENDPOINT_DOMAIN";
 		public static final String ENDPOINT_TYPE = "ENDPOINT_TYPE";
 		public static final String ENDPOINT_LIFETIME = "ENDPOINT_LIFETIME";
+		public static final String ENDPOINT_CONTEXT = "ENDPOINT_CONTEXT";
 	}
 
 	private EndpointConfig() {

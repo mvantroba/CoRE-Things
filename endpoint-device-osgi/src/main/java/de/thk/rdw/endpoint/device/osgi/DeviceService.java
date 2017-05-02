@@ -3,14 +3,11 @@ package de.thk.rdw.endpoint.device.osgi;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import de.thk.rdw.base.ActuatorType;
-import de.thk.rdw.base.SensorType;
-
 public interface DeviceService {
 
-	Map<Integer, Entry<SensorType, String>> getSensors();
+	Map<Integer, Entry<String, String>> getSensors();
 
-	Map<Integer, Entry<ActuatorType, String>> getActuators();
+	Map<Integer, Entry<String, String>> getActuators();
 
 	String getSensorValue(int id) throws NoSuchSensorException;
 

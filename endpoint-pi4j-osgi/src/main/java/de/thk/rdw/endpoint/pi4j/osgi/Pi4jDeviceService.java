@@ -66,21 +66,23 @@ public class Pi4jDeviceService implements DeviceService {
 	}
 
 	@Override
-	public NavigableMap<Integer, Entry<SensorType, String>> getSensors() {
-		NavigableMap<Integer, Entry<SensorType, String>> result = new TreeMap<>();
+	public NavigableMap<Integer, Entry<String, String>> getSensors() {
+		NavigableMap<Integer, Entry<String, String>> result = new TreeMap<>();
 		for (Entry<Integer, SensorResource> entry : sensors.entrySet()) {
 			SensorResource sensor = entry.getValue();
-			result.put(entry.getKey(), new AbstractMap.SimpleEntry<>(sensor.getSensorType(), sensor.getName()));
+			result.put(entry.getKey(),
+					new AbstractMap.SimpleEntry<>(sensor.getSensorType().getType(), sensor.getName()));
 		}
 		return result;
 	}
 
 	@Override
-	public Map<Integer, Entry<ActuatorType, String>> getActuators() {
-		NavigableMap<Integer, Entry<ActuatorType, String>> result = new TreeMap<>();
+	public Map<Integer, Entry<String, String>> getActuators() {
+		NavigableMap<Integer, Entry<String, String>> result = new TreeMap<>();
 		for (Entry<Integer, ActuatorResource> entry : actuators.entrySet()) {
 			ActuatorResource actuator = entry.getValue();
-			result.put(entry.getKey(), new AbstractMap.SimpleEntry<>(actuator.getActuatorType(), actuator.getName()));
+			result.put(entry.getKey(),
+					new AbstractMap.SimpleEntry<>(actuator.getActuatorType().getType(), actuator.getName()));
 		}
 		return result;
 	}

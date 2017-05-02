@@ -8,27 +8,31 @@ import org.eclipse.californium.core.observe.ObserveRelation;
 import org.eclipse.californium.core.observe.ObservingEndpoint;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 
+import de.thk.rdw.base.SensorType;
+import de.thk.rdw.endpoint.server.osgi.DeviceServiceNotInitializedException;
+
 public abstract class SensorCoapResource extends CoapResource {
 
-	private String sensorValue;
+	private String value;
 
-	public SensorCoapResource(String name) {
+	public SensorCoapResource(String name, SensorType sensorType) {
 		super(name);
+		getAttributes().addResourceType(sensorType.getType());
 		setObservable(true);
 	}
 
-	public String getSensorValue() {
-		return sensorValue;
+	public String getValue() {
+		return value;
 	}
 
-	public void setSensorValue(String sensorValue) {
-		this.sensorValue = sensorValue;
+	public void setValue(String sensorValue) {
+		this.value = sensorValue;
 		changed();
 	}
 
 	@Override
 	public void handleGET(CoapExchange exchange) {
-		exchange.respond(sensorValue);
+		exchange.respond(value);
 		if (exchange.getRequestOptions().hasObserve()) {
 			ObservingEndpoint observingEndpoint = new ObservingEndpoint(
 					new InetSocketAddress(exchange.getSourceAddress(), exchange.getSourcePort()));
@@ -37,5 +41,5 @@ public abstract class SensorCoapResource extends CoapResource {
 		}
 	}
 
-	protected abstract String onGetValue();
+	protected abstract String onGetValue() throws DeviceServiceNotInitializedException;
 }

@@ -1,1 +1,1 @@
-# Resource Directory Workbench
+# CoRE Things

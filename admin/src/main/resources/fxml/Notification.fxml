@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 
 <HBox fx:id="box" minHeight="62.0" xmlns="http://javafx.com/javafx/8.0.65"
-	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.NotificationController">
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.ct.admin.controller.NotificationController">
 	<children>
 		<Pane fx:id="icon" HBox.hgrow="NEVER">
 			<children>

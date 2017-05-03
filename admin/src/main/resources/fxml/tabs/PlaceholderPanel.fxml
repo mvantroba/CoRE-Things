@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 
 <VBox styleClass="card-placeholder" xmlns="http://javafx.com/javafx/8.0.65"
-	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.tabs.PlaceholderPanelController">
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.ct.admin.controller.tabs.PlaceholderPanelController">
 	<children>
 		<StackPane VBox.vgrow="ALWAYS">
 			<children>

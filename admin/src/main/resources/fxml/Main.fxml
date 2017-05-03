@@ -7,7 +7,7 @@
 
 <VBox styleClass="container-main" stylesheets="@../css/styles.css"
 	xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="de.thk.rdw.admin.controller.MainController">
+	fx:controller="de.thk.ct.admin.controller.MainController">
 	<children>
 		<fx:include fx:id="header" source="Header.fxml" VBox.vgrow="NEVER" />
 		<fx:include fx:id="target" source="Target.fxml" VBox.vgrow="NEVER" />

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.StackPane?>
 
 <StackPane styleClass="footer" xmlns="http://javafx.com/javafx/8.0.65"
-	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.FooterController">
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.ct.admin.controller.FooterController">
 	<children>
 		<Label fx:id="vendor" StackPane.alignment="CENTER_LEFT" />
 		<Label fx:id="version" StackPane.alignment="CENTER_RIGHT" />

@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>de.thk.rdw</groupId>
+		<groupId>de.thk.ct</groupId>
 		<artifactId>parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
@@ -13,11 +13,11 @@
 	<artifactId>endpoint-pi4j-osgi</artifactId>
 	<packaging>bundle</packaging>
 
-	<name>RDW Endpoint Pi4J OSGi Bundle</name>
+	<name>CoRE Things Endpoint Pi4J OSGi</name>
 	<description>Driver that operates sensors and actuators on a Raspberry Pi using Pi4J</description>
 
 	<properties>
-		<bundle.activator>de.thk.rdw.endpoint.pi4j.osgi.EndpointPi4jActivator</bundle.activator>
+		<bundle.activator>de.thk.ct.endpoint.pi4j.osgi.EndpointPi4jActivator</bundle.activator>
 	</properties>
 
 	<dependencies>

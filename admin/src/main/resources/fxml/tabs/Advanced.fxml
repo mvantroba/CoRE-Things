@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 
 <HBox styleClass="container-sub" xmlns="http://javafx.com/javafx/8.0.65"
-	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.tabs.AdvancedController">
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.ct.admin.controller.tabs.AdvancedController">
 	<children>
 		<VBox HBox.hgrow="ALWAYS">
 			<children>

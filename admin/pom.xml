@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>de.thk.rdw</groupId>
+		<groupId>de.thk.ct</groupId>
 		<artifactId>parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
@@ -13,13 +13,13 @@
 	<artifactId>admin</artifactId>
 	<packaging>jar</packaging>
 
-	<name>RDW Admin GUI</name>
+	<name>CoRE Things Admin</name>
 	<description>GUI for managing resource directory</description>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<assembly.mainClass>de.thk.rdw.admin.AdminApplication</assembly.mainClass>
+		<assembly.mainClass>de.thk.ct.admin.AdminApplication</assembly.mainClass>
 	</properties>
 
 	<dependencies>

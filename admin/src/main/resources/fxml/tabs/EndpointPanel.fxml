@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 
 <VBox HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx/8.0.65"
-	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.rdw.admin.controller.tabs.EndpointPanelController">
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.ct.admin.controller.tabs.EndpointPanelController">
 	<styleClass>
 		<String fx:value="card" />
 		<String fx:value="card-content" />

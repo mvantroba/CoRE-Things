@@ -13,7 +13,7 @@
 
 <VBox alignment="CENTER" prefWidth="360.0"
 	xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="de.thk.rdw.admin.controller.CoapConnectionDialogController">
+	fx:controller="de.thk.ct.admin.controller.CoapConnectionDialogController">
 	<children>
 		<GridPane alignment="CENTER">
 			<columnConstraints>

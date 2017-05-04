@@ -70,13 +70,11 @@ public class EndpointServerActivator implements BundleActivator {
 
 				@Override
 				public void onSensorChanged(int id, String value) {
-					LOGGER.log(Level.INFO, "Sensor with ID {0} changed state to {1}.", new Object[] { id, value });
 					endpointServer.sensorChanged(id, value);
 				}
 
 				@Override
 				public void onActuatorChanged(int id, String value) {
-					LOGGER.log(Level.INFO, "Actuator with ID {0} changed state to {1}.", new Object[] { id, value });
 					endpointServer.actuatorChanged(id, value);
 				}
 			};

@@ -196,7 +196,6 @@ public class Pi4jDeviceService implements DeviceService {
 
 			@Override
 			public void onChanged(String value) {
-				LOGGER.log(Level.INFO, "Sensor with ID {0} changed value to {1}.", new Object[] { id, value });
 				// Notify all listeners.
 				for (DeviceListener deviceListener : deviceListeners) {
 					deviceListener.onSensorChanged(id, value);
@@ -234,7 +233,6 @@ public class Pi4jDeviceService implements DeviceService {
 
 			@Override
 			public void onChanged(String value) {
-				LOGGER.log(Level.INFO, "Actuator with ID {0} changed value to {1}.", new Object[] { id, value });
 				for (DeviceListener deviceListener : deviceListeners) {
 					// Notify all listeners.
 					deviceListener.onActuatorChanged(id, value);

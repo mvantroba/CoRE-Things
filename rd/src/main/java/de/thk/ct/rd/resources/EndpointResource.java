@@ -199,6 +199,10 @@ public class EndpointResource extends CoapResource {
 		String uri;
 		CoapResource resource = this;
 		CoapResource childResource = null;
+
+		// Clear old children
+		getChildren().clear();
+
 		for (WebLink link : links) {
 			uri = link.getURI();
 			try (Scanner uriScanner = new Scanner(uri).useDelimiter("/")) {

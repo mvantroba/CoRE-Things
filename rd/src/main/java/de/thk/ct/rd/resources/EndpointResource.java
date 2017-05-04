@@ -15,6 +15,7 @@ import org.eclipse.californium.core.WebLink;
 import org.eclipse.californium.core.coap.CoAP.ResponseCode;
 import org.eclipse.californium.core.coap.LinkFormat;
 import org.eclipse.californium.core.server.resources.CoapExchange;
+import org.eclipse.californium.core.server.resources.Resource;
 
 import de.thk.ct.rd.uri.UriUtils;
 import de.thk.ct.rd.uri.UriVariable;
@@ -194,29 +195,34 @@ public class EndpointResource extends CoapResource {
 	 */
 	public void updateResources(String linkFormat) {
 		Set<WebLink> links = LinkFormat.parse(linkFormat);
+		String resourceName;
 		String uri;
 		CoapResource resource = this;
 		CoapResource childResource = null;
-
-		// Clear old children.
-		getChildren().clear();
-
 		for (WebLink link : links) {
 			uri = link.getURI();
 			try (Scanner uriScanner = new Scanner(uri).useDelimiter("/")) {
 				while (uriScanner.hasNext()) {
-					childResource = new CoapResource(uriScanner.next());
-					resource.add(childResource);
+					resourceName = uriScanner.next();
+					for (Resource existingChildResource : resource.getChildren()) {
+						if (existingChildResource.getName().equals(resourceName)) {
+							childResource = (CoapResource) existingChildResource;
+						}
+					}
+					if (childResource == null) {
+						childResource = new CoapResource(resourceName);
+						resource.add(childResource);
+					}
 					resource = childResource;
+					childResource = null;
 				}
-
-			}
-			for (String attr : link.getAttributes().getAttributeKeySet()) {
-				for (String value : link.getAttributes().getAttributeValues(attr)) {
-					resource.getAttributes().addAttribute(attr, value);
+				for (String attr : link.getAttributes().getAttributeKeySet()) {
+					for (String value : link.getAttributes().getAttributeValues(attr)) {
+						resource.getAttributes().addAttribute(attr, value);
+					}
 				}
+				resource = this;
 			}
-			resource = this;
 		}
 	}
 

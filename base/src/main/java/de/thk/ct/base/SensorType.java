@@ -11,7 +11,7 @@ public enum SensorType {
 	private String type;
 
 	private SensorType(String type) {
-		this.type = type;
+		this.type = ResourceType.prefix + "." + type;
 	}
 
 	@Override

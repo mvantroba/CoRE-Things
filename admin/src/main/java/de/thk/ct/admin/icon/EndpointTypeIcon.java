@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import de.thk.ct.admin.model.EndpointType;
+import de.thk.ct.base.EndpointType;
 
 public class EndpointTypeIcon {
 
@@ -45,7 +45,7 @@ public class EndpointTypeIcon {
 		boolean found = false;
 		for (String endpointType : endpointTypes) {
 			for (Entry<EndpointType, Icon> entry : ENDPOINT_TYPE_ICONS.entrySet()) {
-				if (endpointType.equals(entry.getKey().getName())) {
+				if (endpointType.equals(entry.getKey().getType())) {
 					result = get(entry.getKey());
 					found = true;
 					break;

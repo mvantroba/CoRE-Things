@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.CoapServer;
@@ -14,16 +15,18 @@ import org.eclipse.californium.core.network.CoapEndpoint;
 import org.eclipse.californium.core.network.EndpointManager;
 
 import de.thk.ct.base.ActuatorType;
+import de.thk.ct.base.ResourceType;
 import de.thk.ct.base.SensorType;
 import de.thk.ct.endpoint.device.osgi.DeviceService;
 import de.thk.ct.endpoint.device.osgi.NoSuchActuatorException;
 import de.thk.ct.endpoint.device.osgi.NoSuchSensorException;
 import de.thk.ct.endpoint.server.osgi.DeviceServiceNotInitializedException;
-import de.thk.ct.endpoint.server.osgi.ResourceProfile;
 import de.thk.ct.endpoint.server.osgi.resource.ActuatorCoapResource;
 import de.thk.ct.endpoint.server.osgi.resource.SensorCoapResource;
 
 public class EndpointServer extends CoapServer {
+
+	private static final Logger LOGGER = Logger.getLogger(EndpointServer.class.getName());
 
 	private DeviceService deviceService;
 
@@ -41,10 +44,10 @@ public class EndpointServer extends CoapServer {
 				this.addEndpoint(new CoapEndpoint(new InetSocketAddress(address, CoAP.DEFAULT_COAP_PORT)));
 			}
 		}
-		actuatorsResource = new CoapResource(ResourceProfile.ACTUATORS.getName());
-		actuatorsResource.getAttributes().addResourceType(ResourceProfile.ACTUATORS.getResourceType());
-		sensorsResource = new CoapResource(ResourceProfile.SENSORS.getName());
-		sensorsResource.getAttributes().addResourceType(ResourceProfile.SENSORS.getResourceType());
+		actuatorsResource = new CoapResource(ResourceType.ACTUATOR.getName());
+		actuatorsResource.getAttributes().addResourceType(ResourceType.ACTUATOR.getType());
+		sensorsResource = new CoapResource(ResourceType.SENSOR.getName());
+		sensorsResource.getAttributes().addResourceType(ResourceType.SENSOR.getType());
 		add(actuatorsResource, sensorsResource);
 	}
 
@@ -52,11 +55,21 @@ public class EndpointServer extends CoapServer {
 		this.deviceService = deviceService;
 		for (Entry<Integer, Entry<String, String>> entry : deviceService.getSensors().entrySet()) {
 			Entry<String, String> sensor = entry.getValue();
-			addSensor(entry.getKey(), SensorType.get(sensor.getKey()), sensor.getValue());
+			SensorType sensorType = SensorType.get(sensor.getKey());
+			if (sensorType != null) {
+				addSensor(entry.getKey(), sensorType, sensor.getValue());
+			} else {
+				LOGGER.log(Level.WARNING, "Sensor type \"{0}\" is unknown.", sensor.getKey());
+			}
 		}
 		for (Entry<Integer, Entry<String, String>> entry : deviceService.getActuators().entrySet()) {
 			Entry<String, String> actuator = entry.getValue();
-			addActuator(entry.getKey(), ActuatorType.get(actuator.getKey()), actuator.getValue());
+			ActuatorType actuatorType = ActuatorType.get(actuator.getKey());
+			if (actuatorType != null) {
+				addActuator(entry.getKey(), actuatorType, actuator.getValue());
+			} else {
+				LOGGER.log(Level.WARNING, "Actuator type \"{0}\" is unknown.", actuator.getKey());
+			}
 		}
 	}
 

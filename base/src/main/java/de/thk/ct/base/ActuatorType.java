@@ -9,7 +9,7 @@ public enum ActuatorType {
 	private String type;
 
 	private ActuatorType(String type) {
-		this.type = type;
+		this.type = ResourceType.prefix + "." + type;
 	}
 
 	@Override

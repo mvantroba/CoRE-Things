@@ -12,7 +12,7 @@ public enum ResourceType {
 
 	private ResourceType(String name, String type) {
 		this.name = name;
-		this.type = prefix + "." + type;
+		this.type = String.format("%s.%s", prefix, type);
 	}
 
 	public String getName() {

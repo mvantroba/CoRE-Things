@@ -32,12 +32,12 @@
 				</Tab>
 				<Tab text="%menu.log">
 					<content>
-						<AnchorPane />
+						<fx:include fx:id="log" source="tabs/Log.fxml" />
 					</content>
 				</Tab>
-				<Tab text="%menu.help">
+				<Tab text="%menu.about">
 					<content>
-						<AnchorPane />
+						<fx:include fx:id="about" source="tabs/About.fxml" />
 					</content>
 				</Tab>
 			</tabs>

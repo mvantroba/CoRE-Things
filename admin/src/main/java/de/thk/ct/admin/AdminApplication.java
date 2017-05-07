@@ -1,9 +1,12 @@
 package de.thk.ct.admin;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.eclipse.californium.core.CaliforniumLogger;
 
 import de.thk.ct.admin.controller.MainController;
 import de.thk.ct.admin.usecase.MainUseCase;
@@ -51,6 +54,14 @@ public class AdminApplication extends Application {
 			loader.setResources(bundle);
 			result = loader.load();
 			MainController mainController = loader.getController();
+
+			PrintStream ps = new PrintStream(mainController.getLogStream());
+			System.setOut(ps);
+			System.setErr(ps);
+
+			CaliforniumLogger.initialize();
+			CaliforniumLogger.setLevel(Level.FINE);
+
 			mainController.setUseCase(mainUseCase);
 			mainController.setPrimaryStage(primaryStage);
 		} catch (IOException e) {

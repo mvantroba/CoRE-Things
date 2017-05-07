@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox styleClass="container-sub" xmlns="http://javafx.com/javafx/8.0.65"
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thk.ct.admin.controller.tabs.LogController">
+	<children>
+		<VBox HBox.hgrow="ALWAYS">
+			<children>
+				<StackPane VBox.vgrow="NEVER">
+					<children>
+						<Label styleClass="card-heading" text="%card.title.log"
+							StackPane.alignment="CENTER_LEFT" />
+						<HBox alignment="CENTER_RIGHT" spacing="4.0">
+							<children>
+								<Button alignment="CENTER_RIGHT" mnemonicParsing="false"
+									onAction="#onActionClear">
+									<graphic>
+										<ImageView fitHeight="16.0" fitWidth="16.0"
+											pickOnBounds="true" preserveRatio="true">
+											<image>
+												<Image url="@../../img/ic_clear_red_16px.png" />
+											</image>
+										</ImageView>
+									</graphic>
+								</Button>
+							</children>
+						</HBox>
+					</children>
+					<VBox.margin>
+						<Insets bottom="8.0" />
+					</VBox.margin>
+				</StackPane>
+				<TextArea fx:id="log" editable="false" VBox.vgrow="ALWAYS" />
+			</children>
+			<styleClass>
+				<String fx:value="card" />
+				<String fx:value="card-content" />
+			</styleClass>
+		</VBox>
+	</children>
+</HBox>

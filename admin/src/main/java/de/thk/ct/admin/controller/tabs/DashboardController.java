@@ -22,7 +22,6 @@ import javafx.util.Duration;
 public class DashboardController {
 
 	private static final Logger LOGGER = Logger.getLogger(DashboardController.class.getName());
-	// TODO Define fxml directories globaly.
 	private static final String ENDPOINT_PANEL_FXML = "/fxml/tabs/EndpointPanel.fxml";
 	private static final int PANEL_A_INDEX = 2;
 	private static final int PANEL_B_INDEX = 4;

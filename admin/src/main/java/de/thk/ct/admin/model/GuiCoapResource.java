@@ -23,7 +23,6 @@ public class GuiCoapResource extends CoapResource {
 		List<String> values = getAttributes().getAttributeValues(attr);
 		String separator = ", ";
 		if (values == null || values.isEmpty()) {
-			// TODO Localize this String.
 			result.append("undefined");
 		} else {
 			for (int i = 0; i < values.size(); i++) {
@@ -48,14 +47,12 @@ public class GuiCoapResource extends CoapResource {
 		return getAttributes().containsAttribute("rt") && getAttributes().getAttributeValues("rt").contains("core.rd");
 	}
 
-	// TODO Endpoints are appearing in list view when they have no children.
 	public List<GuiCoapResource> getLeafNodes() {
 		List<GuiCoapResource> result = new ArrayList<>();
 		if (getChildren().isEmpty()) {
 			result.add(this);
 		} else {
 			for (Resource child : getChildren()) {
-				// TODO Remove this cast.
 				GuiCoapResource guiChild = (GuiCoapResource) child;
 				result.addAll(guiChild.getLeafNodes());
 			}
@@ -67,25 +64,21 @@ public class GuiCoapResource extends CoapResource {
 		StringBuilder result = new StringBuilder();
 		if (!isEndpoint()) {
 			result.insert(0, "/" + getName());
-			// TODO Remove this cast.
 			result.insert(0, ((GuiCoapResource) getParent()).getRelativePath());
 		}
 		return result.toString();
 	}
 
-	// TODO Use method getEndpoints().
 	public String getEndpointUri() {
 		if (getAttributes().containsAttribute("con")) {
 			return getAttributes().getAttributeValues("con").get(0);
 		} else {
-			// TODO Remove this cast.
 			return ((GuiCoapResource) getParent()).getEndpointUri();
 		}
 	}
 
 	public Image getImage(IconSize iconSize) {
 		Image result = null;
-		// TODO Define resource attributes globally.
 		if (getAttributes().containsAttribute("rt")) {
 			result = ResourceTypeIcon.get(getAttributes().getAttributeValues("rt")).getImage(iconSize);
 		} else if (getName().equals(".well-known")) {

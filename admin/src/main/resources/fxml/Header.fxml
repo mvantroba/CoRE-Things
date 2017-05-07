@@ -16,15 +16,5 @@
 				<Image url="@../img/ic_thk_67x36.png" />
 			</image>
 		</ImageView>
-		<HBox alignment="CENTER_RIGHT" StackPane.alignment="CENTER_RIGHT">
-			<children>
-				<Label text="Administrator" />
-				<ImageView pickOnBounds="true" preserveRatio="true">
-					<image>
-						<Image url="@../img/ic_person_black_24px.png" />
-					</image>
-				</ImageView>
-			</children>
-		</HBox>
 	</children>
 </StackPane>

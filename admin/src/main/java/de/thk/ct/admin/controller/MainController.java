@@ -1,6 +1,7 @@
 package de.thk.ct.admin.controller;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,12 +20,14 @@ import de.thk.ct.admin.AdminApplication;
 import de.thk.ct.admin.controller.tabs.AdvancedController;
 import de.thk.ct.admin.controller.tabs.ConnectionsController;
 import de.thk.ct.admin.controller.tabs.DashboardController;
+import de.thk.ct.admin.controller.tabs.LogController;
 import de.thk.ct.admin.icon.Icon;
 import de.thk.ct.admin.icon.IconSize;
 import de.thk.ct.admin.model.CoapConnection;
 import de.thk.ct.admin.model.GuiCoapResource;
 import de.thk.ct.admin.tree.TreeUtils;
 import de.thk.ct.admin.usecase.MainUseCase;
+import de.thk.ct.base.RdResourceType;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -61,6 +64,8 @@ public class MainController {
 	private AdvancedController advancedController;
 	@FXML
 	private ConnectionsController connectionsController;
+	@FXML
+	private LogController logController;
 
 	@FXML
 	private void initialize() {
@@ -90,6 +95,7 @@ public class MainController {
 	public void coapDiscover() {
 		String uri = targetController.getURI();
 		useCase.coapDiscover(uri, new MessageObserverImpl("DISCOVERY", uri) {
+
 			@Override
 			public void onResponse(Response response) {
 				super.onResponse(response);
@@ -98,8 +104,8 @@ public class MainController {
 					TreeItem<GuiCoapResource> rootItem = TreeUtils.parseResources(response);
 					dashboardController.populateTree(rootItem);
 					advancedController.populateTree(rootItem);
-					// TODO Define this resource type globally.
-					if (response.getPayloadString().contains("core.rd")) {
+					if (response.getPayloadString().contains(RdResourceType.CORE_RD.getType())) {
+						// Observer /rd resource.
 						coapObserve("coap://" + response.getSource().getHostAddress() + ":" + response.getSourcePort()
 								+ "/rd");
 					}
@@ -112,19 +118,115 @@ public class MainController {
 
 	public void coapPing() {
 		String uri = targetController.getURI();
-		useCase.coapPing(uri, new MessageObserverImpl("Ping", uri));
+		useCase.coapPing(uri, new MessageObserverImpl("Ping", uri) {
+
+			@Override
+			public void onResponse(Response response) {
+				super.onResponse(response);
+				Platform.runLater(() -> {
+					notificationController.success("notification.ping.success");
+				});
+
+			}
+		});
+		Platform.runLater(() -> notificationController.spinnerInfo("notification.ping.requestSent"));
+	}
+
+	private String getFullUri() {
+		String path = "";
+		String query = "";
+		if (!advancedController.getPath().isEmpty()) {
+			path = "/" + advancedController.getPath();
+		}
+		if (!advancedController.getQuery().isEmpty()) {
+			query = "?" + advancedController.getQuery();
+		}
+		return targetController.getURI() + path + query;
 	}
 
 	public void coapGET() {
-		String uri = targetController.getURI();
+		String uri = getFullUri();
 		LOGGER.log(Level.INFO, "Sending GET request to \"{0}\"...", uri);
-		useCase.coapGET(uri, new MessageObserverImpl(Code.GET.name(), uri));
+		useCase.coapGET(uri, new MessageObserverImpl(Code.GET.name(), uri) {
+
+			@Override
+			public void onResponse(Response response) {
+				super.onResponse(response);
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						notificationController.success("request.get.responded", response.getCode());
+						advancedController.setResponse("Code: " + response.getCode().toString());
+						advancedController.setResponsePayload(response.getPayloadString());
+					}
+				});
+			}
+		});
+		advancedController.setRequest("GET " + uri);
 	}
 
 	public void coapPOST() {
-		String uri = targetController.getURI();
-		LOGGER.log(Level.INFO, "Sending POST request to \"{0}\"...", uri);
-		useCase.coapPOST(uri, "", new MessageObserverImpl(Code.GET.name(), uri), MediaTypeRegistry.TEXT_PLAIN);
+		String uri = getFullUri();
+		useCase.coapPOST(uri, advancedController.getRequestPayload(), new MessageObserverImpl(Code.POST.name(), uri) {
+
+			@Override
+			public void onResponse(Response response) {
+				super.onResponse(response);
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						notificationController.success("request.post.responded", response.getCode());
+						advancedController.setResponse("Code: " + response.getCode().toString());
+						advancedController.setResponsePayload(response.getPayloadString());
+					}
+				});
+			}
+		}, MediaTypeRegistry.TEXT_PLAIN);
+		advancedController.setRequest("POST " + uri);
+	}
+
+	public void coapPUT() {
+		String uri = getFullUri();
+		useCase.coapPUT(uri, advancedController.getRequestPayload(), new MessageObserverImpl(Code.POST.name(), uri) {
+
+			@Override
+			public void onResponse(Response response) {
+				super.onResponse(response);
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						notificationController.success("request.put.responded", response.getCode());
+						advancedController.setResponse("Code: " + response.getCode().toString());
+						advancedController.setResponsePayload(response.getPayloadString());
+					}
+				});
+			}
+		}, MediaTypeRegistry.TEXT_PLAIN);
+		advancedController.setRequest("PUT " + uri);
+	}
+
+	public void coapDELETE() {
+		String uri = getFullUri();
+		useCase.coapDELETE(uri, new MessageObserverImpl(Code.POST.name(), uri) {
+
+			@Override
+			public void onResponse(Response response) {
+				super.onResponse(response);
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						notificationController.success("request.delete.responded", response.getCode());
+						advancedController.setResponse("Code: " + response.getCode().toString());
+						advancedController.setResponsePayload(response.getPayloadString());
+					}
+				});
+			}
+		});
+		advancedController.setRequest("DELETE " + uri);
 	}
 
 	public void coapObserve(String uri) {
@@ -154,8 +256,6 @@ public class MainController {
 									.graphic(new ImageView(Icon.INFO_BLUE.getImage(IconSize.MEDIUM))) //
 									.position(Pos.BOTTOM_RIGHT).hideAfter(Duration.seconds(5)).show();
 
-							// TODO Update only rd resource instead of doing
-							// full discovery request.
 							useCase.coapDiscover(uri, new MessageObserverImpl("DISCOVERY", uri) {
 								@Override
 								public void onResponse(Response response) {
@@ -177,7 +277,6 @@ public class MainController {
 
 			@Override
 			public void onError() {
-				// TODO Cancel observation, show notification, reset GUI.
 			}
 		});
 	}
@@ -263,12 +362,12 @@ public class MainController {
 
 		@Override
 		public void onAcknowledgement() {
-			// TODO Auto-generated method stub
+			LOGGER.log(Level.INFO, "{0} request to {1} has been acknowledged.", new Object[] { code, uri });
 		}
 
 		@Override
 		public void onReject() {
-			// TODO Auto-generated method stub
+			LOGGER.log(Level.WARNING, "{0} request to {1} has been rejected.", new Object[] { code, uri });
 		}
 
 		@Override
@@ -279,7 +378,23 @@ public class MainController {
 
 		@Override
 		public void onCancel() {
-			// TODO Auto-generated method stub
+			LOGGER.log(Level.WARNING, "{0} request to {1} has been canceled.", new Object[] { code, uri });
 		}
+	}
+
+	public OutputStream getLogStream() {
+		return new OutputStream() {
+
+			@Override
+			public void write(int b) throws IOException {
+				throw new IOException("Not implemented");
+			}
+
+			@Override
+			public void write(byte[] b, int off, int len) throws IOException {
+				String line = new String(b, off, len);
+				Platform.runLater(() -> logController.appendText(line));
+			}
+		};
 	}
 }

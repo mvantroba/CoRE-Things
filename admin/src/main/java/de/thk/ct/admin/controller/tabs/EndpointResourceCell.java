@@ -42,7 +42,7 @@ public abstract class EndpointResourceCell extends ListCell<GuiCoapResource> {
 		state.setStyle("-fx-font-weight: bold;");
 		state.setTextFill(Color.GREY);
 		root.getChildren().addAll(hBox, state, button);
-		root.setStyle("-fx-padding: 4.0px 0.0px;");
+		root.setStyle("-fx-padding: 7.5px 0.0px;");
 	}
 
 	public abstract void onToggle(GuiCoapResource item);
@@ -53,11 +53,12 @@ public abstract class EndpointResourceCell extends ListCell<GuiCoapResource> {
 	protected void updateItem(GuiCoapResource item, boolean empty) {
 		super.updateItem(item, empty);
 		setText(null);
-		// TODO Define "rt" globally.
 		if (item == null || empty || !item.getAttributes().containsAttribute("rt")
 				|| (!ActuatorType.containsTypes(item.getAttributes().getAttributeValues("rt"))
 						&& !SensorType.containsTypes(item.getAttributes().getAttributeValues("rt")))) {
 			setGraphic(null);
+			setGraphic(root);
+			button.setVisible(false);
 		} else {
 			if (ActuatorType.containsTypes(item.getAttributes().getAttributeValues("rt"))) {
 				button.setVisible(true);
@@ -66,7 +67,13 @@ public abstract class EndpointResourceCell extends ListCell<GuiCoapResource> {
 			}
 			imageView.setImage(item.getImage(IconSize.MEDIUM));
 			path.setText(item.getRelativePath());
-			type.setText("Type: " + item.getName());
+
+			String rt = item.getAttributeValues("rt");
+			if (rt.split("\\.").length == 3) {
+				rt = rt.split("\\.")[2];
+			}
+
+			type.setText("Type: ." + rt);
 			setGraphic(root);
 			setStyle("-fx-border-width: 0px 0px 2.0px 0px; -fx-border-color: #e0e0e0;");
 			if (!observing) {
@@ -91,7 +98,6 @@ public abstract class EndpointResourceCell extends ListCell<GuiCoapResource> {
 
 					@Override
 					public void onError() {
-						// TODO Auto-generated method stub
 					}
 				});
 			}

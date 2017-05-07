@@ -97,6 +97,18 @@ public class MainUseCaseImpl implements MainUseCase {
 	}
 
 	@Override
+	public void coapPUT(String uri, String payload, MessageObserver observer, int format) {
+		extendedCoapClient.setURI(uri);
+		extendedCoapClient.put(observer, payload, format);
+	}
+
+	@Override
+	public void coapDELETE(String uri, MessageObserver observer) {
+		extendedCoapClient.setURI(uri);
+		extendedCoapClient.delete(observer);
+	}
+
+	@Override
 	public void cleanUp() {
 		PersistenceManager.getInstance().close();
 		extendedCoapClient.shutdown();
@@ -109,4 +121,5 @@ public class MainUseCaseImpl implements MainUseCase {
 		coapConnectionDao.create(coapConnection);
 		coapConnectionDao.commitTransaction();
 	}
+
 }

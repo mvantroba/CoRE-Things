@@ -63,7 +63,6 @@ public class EndpointPanelController implements Initializable {
 		endpointName.setText(guiCoapResource.getName());
 		Icon icon = EndpointTypeIcon.get(guiCoapResource.getAttributes().getAttributeValues("et"));
 		endpointImage.setImage(icon.getImage(IconSize.LARGE));
-		// TODO Define attribute names globally.
 		domain.setText(guiCoapResource.getAttributeValues("d"));
 		endpointType.setText(guiCoapResource.getAttributeValues("et"));
 		lifetime.setText(guiCoapResource.getAttributeValues("lt"));
@@ -79,7 +78,6 @@ public class EndpointPanelController implements Initializable {
 
 			@Override
 			public void onToggle(GuiCoapResource item) {
-				// TODO Use CoapClient class to send requests.
 				Request request = new Request(CoAP.Code.POST);
 				String uri = String.format("%s%s", item.getEndpointUri(), item.getRelativePath());
 				request.setURI(uri);
@@ -99,5 +97,9 @@ public class EndpointPanelController implements Initializable {
 				return mainController.getUseCase();
 			}
 		});
+	}
+
+	public MainController getMainController() {
+		return mainController;
 	}
 }

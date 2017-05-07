@@ -1,23 +1,14 @@
 package de.thk.ct.admin.controller.tabs;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
-public class PlaceholderPanelController implements Initializable {
+public class PlaceholderPanelController {
 
 	@FXML
 	private Label title;
 	@FXML
 	private Label description;
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-	}
 
 	public void setTitle(String value) {
 		title.setText(value);

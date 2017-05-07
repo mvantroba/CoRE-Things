@@ -31,5 +31,9 @@ public interface MainUseCase {
 
 	void coapPOST(String uri, String payload, MessageObserver observer, int format);
 
+	void coapPUT(String uri, String payload, MessageObserver observer, int format);
+
+	void coapDELETE(String uri, MessageObserver observer);
+
 	void cleanUp();
 }

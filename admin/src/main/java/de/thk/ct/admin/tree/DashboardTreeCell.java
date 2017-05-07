@@ -37,7 +37,7 @@ public abstract class DashboardTreeCell extends TreeCell<GuiCoapResource> {
 			setGraphic(null);
 		} else {
 			if (item.isEndpoint()) {
-				setText(String.format("%s [%s]", item.getName(), resources.getString("tree.endpoint")));
+				setText(String.format("%s", item.getName()));
 				setStyle("-fx-font-weight: bold;");
 				setContextMenu(menu);
 			} else {

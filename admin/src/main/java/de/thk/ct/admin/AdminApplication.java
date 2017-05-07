@@ -17,6 +17,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Main class of this application.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public class AdminApplication extends Application {
 
 	private static final Logger LOGGER = Logger.getLogger(AdminApplication.class.getName());

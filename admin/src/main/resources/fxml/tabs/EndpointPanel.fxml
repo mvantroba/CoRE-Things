@@ -27,20 +27,6 @@
 						<Font name="System Bold" size="12.0" />
 					</font>
 				</Label>
-				<Button alignment="CENTER_RIGHT" mnemonicParsing="false"
-					StackPane.alignment="CENTER_RIGHT">
-					<graphic>
-						<ImageView fitHeight="16.0" fitWidth="16.0"
-							pickOnBounds="true" preserveRatio="true">
-							<image>
-								<Image url="@../../img/ic_public_blue_16px.png" />
-							</image>
-						</ImageView>
-					</graphic>
-					<StackPane.margin>
-						<Insets right="36.0" />
-					</StackPane.margin>
-				</Button>
 				<Button fx:id="close" mnemonicParsing="false"
 					StackPane.alignment="CENTER_RIGHT">
 					<graphic>

@@ -104,7 +104,9 @@ public class EndpointServer extends CoapServer {
 		this.deviceService = null;
 
 		// Clear all sensors and actuators.
-		getRoot().getChildren().clear();
+		sensorsResource.getChildren().clear();
+		actuatorsResource.getChildren().clear();
+
 		sensors.clear();
 		actuators.clear();
 	}

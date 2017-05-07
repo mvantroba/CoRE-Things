@@ -1,6 +1,5 @@
 package de.thk.ct.rd.resources;
 
-import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
@@ -13,8 +12,6 @@ import org.eclipse.californium.core.coap.CoAP.ResponseCode;
 import org.eclipse.californium.core.coap.LinkFormat;
 import org.eclipse.californium.core.coap.Request;
 import org.eclipse.californium.core.coap.Response;
-import org.eclipse.californium.core.observe.ObserveRelation;
-import org.eclipse.californium.core.observe.ObservingEndpoint;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.core.server.resources.Resource;
 
@@ -55,14 +52,6 @@ public class RdResource extends CoapResource {
 		Response response = new Response(ResponseCode.CONTENT);
 		response.setPayload(LinkFormat.serializeTree(this));
 		exchange.respond(response);
-		if (exchange.getRequestOptions().hasObserve()) {
-			ObservingEndpoint observingEndpoint = new ObservingEndpoint(
-					new InetSocketAddress(exchange.getSourceAddress(), exchange.getSourcePort()));
-			// TODO This will cause endpoint to be added to observers multiple
-			// times, because it hasObserve() will return true.
-			addObserveRelation(new ObserveRelation(observingEndpoint, this, exchange.advanced()));
-			RD_LOGGER.log(Level.INFO, "Added endpoint to observers: {0}", observingEndpoint.getAddress().toString());
-		}
 	}
 
 	@Override
@@ -70,7 +59,6 @@ public class RdResource extends CoapResource {
 		RD_LOGGER.log(Level.INFO, "Registration request from {0}:{1}.",
 				new Object[] { exchange.getSourceAddress().getHostAddress(), exchange.getSourcePort() });
 		exchange.respond(preparePostResponse(exchange));
-		changed();
 	}
 
 	/**
@@ -119,7 +107,15 @@ public class RdResource extends CoapResource {
 		Response response;
 		// Check if query contains mandatory variable endpoint name.
 		if (variables.containsKey(UriVariable.END_POINT)) {
-			newEndpoint = new EndpointResource(variables);
+			newEndpoint = new EndpointResource(variables) {
+
+				@Override
+				protected void onDeleted() {
+					// Notify observers of /rd resource that endpoint has been
+					// deleted.
+					RdResource.this.changed();
+				}
+			};
 			existingEndpoint = findChildEndpointResource(newEndpoint);
 			// Check if the endpoint is already registered.
 			if (existingEndpoint == null) {
@@ -128,6 +124,7 @@ public class RdResource extends CoapResource {
 				response = new Response(ResponseCode.CREATED);
 				exchange.setLocationPath(newEndpoint.getURI());
 				RD_LOGGER.log(Level.INFO, "Added new endpoint: {0}.", new Object[] { newEndpoint.toString() });
+				changed();
 			} else {
 				existingEndpoint.updateVariables(variables.get(UriVariable.LIFE_TIME),
 						variables.get(UriVariable.CONTEXT));
@@ -135,6 +132,7 @@ public class RdResource extends CoapResource {
 				response = new Response(ResponseCode.CHANGED);
 				exchange.setLocationPath(existingEndpoint.getURI());
 				RD_LOGGER.log(Level.INFO, "Updated endpoint: {0}.", new Object[] { existingEndpoint.toString() });
+				changed();
 			}
 		} else {
 			response = new Response(ResponseCode.BAD_REQUEST);

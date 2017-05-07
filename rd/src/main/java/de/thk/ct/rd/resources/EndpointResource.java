@@ -92,6 +92,12 @@ public class EndpointResource extends CoapResource {
 	}
 
 	/**
+	 * Callback method which is called after this endpoint has been deleted.
+	 */
+	protected void onDeleted() {
+	};
+
+	/**
 	 * Constructs a {@link EndpointResource} with set of registration variables.
 	 * These variables are represented by a {@link Map} of variables of type
 	 * {@link UriVariable}. Such map can be obtained by calling the
@@ -137,6 +143,7 @@ public class EndpointResource extends CoapResource {
 	public void handleDELETE(CoapExchange exchange) {
 		delete();
 		exchange.respond(ResponseCode.DELETED);
+		onDeleted();
 	}
 
 	@Override

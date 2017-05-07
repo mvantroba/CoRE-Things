@@ -1,12 +1,7 @@
 package de.thk.ct.endpoint.server.osgi.resource;
 
-import java.net.InetSocketAddress;
-import java.util.logging.Level;
-
 import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.coap.CoAP.ResponseCode;
-import org.eclipse.californium.core.observe.ObserveRelation;
-import org.eclipse.californium.core.observe.ObservingEndpoint;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 
 import de.thk.ct.base.ActuatorType;
@@ -62,14 +57,6 @@ public abstract class ActuatorCoapResource extends CoapResource {
 	@Override
 	public void handleGET(CoapExchange exchange) {
 		exchange.respond(value);
-
-		if (exchange.getRequestOptions().hasObserve()) {
-			ObservingEndpoint observingEndpoint = new ObservingEndpoint(
-					new InetSocketAddress(exchange.getSourceAddress(), exchange.getSourcePort()));
-
-			addObserveRelation(new ObserveRelation(observingEndpoint, this, exchange.advanced()));
-			LOGGER.log(Level.INFO, "Added endpoint to observers: {0}", observingEndpoint.getAddress().toString());
-		}
 	}
 
 	@Override
@@ -77,6 +64,7 @@ public abstract class ActuatorCoapResource extends CoapResource {
 		ResponseCode responseCode;
 		try {
 			responseCode = onToggle();
+			changed();
 		} catch (DeviceServiceNotInitializedException e) {
 			responseCode = ResponseCode.SERVICE_UNAVAILABLE;
 		}
@@ -88,6 +76,7 @@ public abstract class ActuatorCoapResource extends CoapResource {
 		ResponseCode responseCode;
 		try {
 			responseCode = onSetValue(exchange.getRequestText());
+			changed();
 		} catch (DeviceServiceNotInitializedException e) {
 			responseCode = ResponseCode.SERVICE_UNAVAILABLE;
 		}

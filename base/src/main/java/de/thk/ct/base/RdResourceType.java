@@ -1,5 +1,11 @@
 package de.thk.ct.base;
 
+/**
+ * Definitions of main resources available in the resource directory.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public enum RdResourceType {
 
 	CORE_RD("rd", "core.rd"), //

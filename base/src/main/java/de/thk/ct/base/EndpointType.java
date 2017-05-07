@@ -1,5 +1,11 @@
 package de.thk.ct.base;
 
+/**
+ * Definitions for all supported endpoint types.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public enum EndpointType {
 
 	RASPBERRY_PI("raspberrypi"), //
@@ -16,6 +22,13 @@ public enum EndpointType {
 		return type;
 	}
 
+	/**
+	 * Searches a defined endpoint type by the given type.
+	 * 
+	 * @param type
+	 *            endpoint type
+	 * @return defined endpoint type if found
+	 */
 	public EndpointType get(String type) {
 		EndpointType result = null;
 		for (EndpointType endpointType : values()) {

@@ -14,7 +14,7 @@
 	<packaging>jar</packaging>
 
 	<name>CoRE Things Base</name>
-	<description>Common resources</description>
+	<description>Global definitions of resources</description>
 
 	<dependencies>
 		<!-- CALIFORNIUM-CORE -->

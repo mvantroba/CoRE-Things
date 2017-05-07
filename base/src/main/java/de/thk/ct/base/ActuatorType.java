@@ -2,6 +2,12 @@ package de.thk.ct.base;
 
 import java.util.List;
 
+/**
+ * Definitions of all supported actuators.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public enum ActuatorType {
 
 	LED("led");
@@ -17,6 +23,13 @@ public enum ActuatorType {
 		return type;
 	}
 
+	/**
+	 * Searches a defined actuator type by the given type.
+	 * 
+	 * @param type
+	 *            actuator type
+	 * @return defined actuator type if found
+	 */
 	public static ActuatorType get(String type) {
 		ActuatorType result = null;
 		for (ActuatorType actuatorType : values()) {
@@ -28,13 +41,27 @@ public enum ActuatorType {
 		return result;
 	}
 
+	/**
+	 * Checks if the given actuator type is defined.
+	 * 
+	 * @param type
+	 *            actuator type
+	 * @return true if found
+	 */
 	public static boolean containsType(String type) {
 		return get(type) != null;
 	}
 
-	public static boolean containsTypes(List<String> resourceTypes) {
+	/**
+	 * Checks if one of the given actuator types is defined.
+	 * 
+	 * @param types
+	 *            list of actuator types
+	 * @return true if one of the given types was found
+	 */
+	public static boolean containsTypes(List<String> types) {
 		boolean result = false;
-		for (String type : resourceTypes) {
+		for (String type : types) {
 			if (containsType(type)) {
 				result = true;
 				break;

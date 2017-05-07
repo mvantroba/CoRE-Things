@@ -3,7 +3,7 @@ package de.thk.ct.base;
 import org.eclipse.californium.core.coap.LinkFormat;
 
 /**
- * https://tools.ietf.org/html/draft-ietf-core-resource-directory-08#section-8
+ * Definitions of lookup resources supported by the resource directory.
  * 
  * @author Martin Vantroba
  *

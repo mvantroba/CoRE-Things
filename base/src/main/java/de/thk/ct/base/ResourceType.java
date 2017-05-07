@@ -1,5 +1,11 @@
 package de.thk.ct.base;
 
+/**
+ * Definitions used to categorize sensors and actuators.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public enum ResourceType {
 
 	SENSOR("s", "sen"), //

@@ -2,6 +2,12 @@ package de.thk.ct.base;
 
 import java.util.List;
 
+/**
+ * Definitions of all supported sensors.
+ * 
+ * @author Martin Vantroba
+ *
+ */
 public enum SensorType {
 
 	MERCURY_SWITCH("mercurySwitch"), //
@@ -19,6 +25,13 @@ public enum SensorType {
 		return type;
 	}
 
+	/**
+	 * Searches a defined sensor type by the given type.
+	 * 
+	 * @param type
+	 *            sensor type
+	 * @return defined sensor type if found
+	 */
 	public static SensorType get(String type) {
 		SensorType result = null;
 		for (SensorType sensorType : values()) {
@@ -30,13 +43,27 @@ public enum SensorType {
 		return result;
 	}
 
+	/**
+	 * Checks if the given sensor type is defined.
+	 * 
+	 * @param type
+	 *            sensor type
+	 * @return true if found
+	 */
 	public static boolean containsType(String type) {
 		return get(type) != null;
 	}
 
-	public static boolean containsTypes(List<String> resourceTypes) {
+	/**
+	 * Checks if one of the given sensor types is defined.
+	 * 
+	 * @param types
+	 *            list of sensor types
+	 * @return true if one of the given types was found
+	 */
+	public static boolean containsTypes(List<String> types) {
 		boolean result = false;
-		for (String type : resourceTypes) {
+		for (String type : types) {
 			if (containsType(type)) {
 				result = true;
 				break;

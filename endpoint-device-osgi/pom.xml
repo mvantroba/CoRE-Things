@@ -14,7 +14,7 @@
 	<packaging>bundle</packaging>
 
 	<name>CoRE Things Endpoint Device OSGi</name>
-	<description>API for a driver that operates sensors and actuators on a device</description>
+	<description>Interfaces for a driver that operates sensors and actuators on a device</description>
 
 	<build>
 		<plugins>
@@ -22,16 +22,6 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<configuration>
-					<instructions>
-						<Embed-Dependency>base</Embed-Dependency>
-					</instructions>
-				</configuration>
-			</plugin>
-			<!-- MAVEN-DEPENDENCY-PLUGIN -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

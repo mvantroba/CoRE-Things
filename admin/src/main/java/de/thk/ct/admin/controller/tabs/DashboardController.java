@@ -70,7 +70,7 @@ public class DashboardController {
 		placeholderPanelBController.setDescription(resources.getString("placeholder.panelB.description"));
 	}
 
-	private void initEndpointPanels() {
+	private void initEndpointPanelA() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource(ENDPOINT_PANEL_FXML));
@@ -82,6 +82,9 @@ public class DashboardController {
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, e.getMessage(), e);
 		}
+	}
+
+	private void initEndpointPanelB() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource(ENDPOINT_PANEL_FXML));
@@ -120,6 +123,7 @@ public class DashboardController {
 
 					@Override
 					protected void onShowOnPanelA(GuiCoapResource guiCoapResource) {
+						initEndpointPanelA();
 						endpointPanelA.setOpacity(0.0);
 						endpointPanelAController.setGuiCoapResource(guiCoapResource);
 						setPanelA(endpointPanelA);
@@ -129,6 +133,7 @@ public class DashboardController {
 
 					@Override
 					protected void onShowOnPanelB(GuiCoapResource guiCoapResource) {
+						initEndpointPanelB();
 						endpointPanelB.setOpacity(0.0);
 						endpointPanelBController.setGuiCoapResource(guiCoapResource);
 						setPanelB(endpointPanelB);
@@ -143,6 +148,5 @@ public class DashboardController {
 
 	public void setMainController(MainController mainController) {
 		this.mainController = mainController;
-		initEndpointPanels();
 	}
 }

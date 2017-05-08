@@ -104,6 +104,10 @@ public class MainController {
 				super.onResponse(response);
 				Platform.runLater(() -> {
 					notificationController.success("notification.discovery.success");
+
+					// Reset displayed panels on dashboard.
+					dashboardController.resetPanels();
+
 					TreeItem<GuiCoapResource> rootItem = TreeUtils.parseResources(response);
 					dashboardController.populateTree(rootItem);
 					advancedController.populateTree(rootItem);

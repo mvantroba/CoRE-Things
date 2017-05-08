@@ -56,7 +56,11 @@ public class DashboardController {
 		fadeIn.setFromValue(0.0);
 		fadeIn.setToValue(1.0);
 		initPlaceholderPanels();
+	}
 
+	public void resetPanels() {
+		onClosePanelA();
+		onClosePanelB();
 	}
 
 	private void initPlaceholderPanels() {
@@ -74,7 +78,7 @@ public class DashboardController {
 			endpointPanelA = loader.load();
 			endpointPanelAController = loader.getController();
 			endpointPanelAController.setMainController(mainController);
-			endpointPanelAController.setOnCloseEventHandler(event -> setPanelA(placeholderPanelA));
+			endpointPanelAController.setOnCloseEventHandler(event -> onClosePanelA());
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -85,7 +89,7 @@ public class DashboardController {
 			endpointPanelB = loader.load();
 			endpointPanelBController = loader.getController();
 			endpointPanelBController.setMainController(mainController);
-			endpointPanelBController.setOnCloseEventHandler(event -> setPanelB(placeholderPanelB));
+			endpointPanelBController.setOnCloseEventHandler(event -> onClosePanelB());
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -97,6 +101,14 @@ public class DashboardController {
 
 	private void setPanelB(VBox panel) {
 		root.getChildren().set(PANEL_B_INDEX, panel);
+	}
+
+	private void onClosePanelA() {
+		setPanelA(placeholderPanelA);
+	}
+
+	private void onClosePanelB() {
+		setPanelB(placeholderPanelB);
 	}
 
 	public void populateTree(TreeItem<GuiCoapResource> rootItem) {

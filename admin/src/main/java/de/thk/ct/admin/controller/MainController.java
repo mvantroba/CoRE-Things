@@ -256,14 +256,14 @@ public class MainController {
 						LOGGER.log(Level.INFO, "Received update from {0}: \"{1}\"", new Object[] {
 								response.advanced().getSource().toString(), response.advanced().toString() });
 						Integer currentObserveFlag = response.advanced().getOptions().getObserve();
-						// Only show notification and update tree if the
+						// Only show toast and update tree if the
 						// resource was updated (observe flag has been
-						// incremented) and it is not the first observer
+						// incremented) and it is not the first observe
 						// response.
 						if (currentObserveFlag > observeFlag && receivedFirstResponse) {
 							observeFlag = currentObserveFlag;
-							Notifications.create().title("Resource Directory") //
-									.text("Endpoint list has been updated.") //
+							Notifications.create().title(resources.getString("toast.resourceDirectory")) //
+									.text(resources.getString("toast.endpointsUpdated")) //
 									.graphic(new ImageView(Icon.INFO_BLUE.getImage(IconSize.MEDIUM))) //
 									.position(Pos.BOTTOM_RIGHT).hideAfter(Duration.seconds(5)).show();
 
@@ -272,6 +272,8 @@ public class MainController {
 								public void onResponse(Response response) {
 									super.onResponse(response);
 									Platform.runLater(() -> {
+										// Send new discovery request and create
+										// new tree.
 										TreeItem<GuiCoapResource> rootItem = TreeUtils.parseResources(response);
 										dashboardController.populateTree(rootItem);
 										advancedController.populateTree(rootItem);
@@ -288,6 +290,7 @@ public class MainController {
 
 			@Override
 			public void onError() {
+				LOGGER.log(Level.WARNING, "Observe request to {1} has failed.", new Object[] { uri });
 			}
 		});
 	}

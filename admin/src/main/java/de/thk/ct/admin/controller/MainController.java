@@ -172,6 +172,7 @@ public class MainController {
 
 	public void coapPOST() {
 		String uri = getFullUri();
+		LOGGER.log(Level.INFO, "Sending POST request to \"{0}\"...", uri);
 		useCase.coapPOST(uri, advancedController.getRequestPayload(), new MessageObserverImpl(Code.POST.name(), uri) {
 
 			@Override
@@ -193,7 +194,8 @@ public class MainController {
 
 	public void coapPUT() {
 		String uri = getFullUri();
-		useCase.coapPUT(uri, advancedController.getRequestPayload(), new MessageObserverImpl(Code.POST.name(), uri) {
+		LOGGER.log(Level.INFO, "Sending PUT request to \"{0}\"...", uri);
+		useCase.coapPUT(uri, advancedController.getRequestPayload(), new MessageObserverImpl(Code.PUT.name(), uri) {
 
 			@Override
 			public void onResponse(Response response) {
@@ -214,7 +216,8 @@ public class MainController {
 
 	public void coapDELETE() {
 		String uri = getFullUri();
-		useCase.coapDELETE(uri, new MessageObserverImpl(Code.POST.name(), uri) {
+		LOGGER.log(Level.INFO, "Sending DELETE request to \"{0}\"...", uri);
+		useCase.coapDELETE(uri, new MessageObserverImpl(Code.DELETE.name(), uri) {
 
 			@Override
 			public void onResponse(Response response) {
@@ -362,10 +365,10 @@ public class MainController {
 
 		@Override
 		public void onResponse(Response response) {
-			LOGGER.log(Level.INFO, "Received response from {0}. Code: {1}, Payload: {2}.",
+			LOGGER.log(Level.INFO, "Received response from {0}: {1}",
 					new Object[] {
 							String.format("%s:%s", response.getSource().getHostAddress(), response.getSourcePort()),
-							response.getCode(), response.getPayloadString() });
+							response.toString() });
 		}
 
 		@Override

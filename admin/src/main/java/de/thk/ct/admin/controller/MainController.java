@@ -9,7 +9,9 @@ import java.util.logging.Logger;
 import org.controlsfx.control.Notifications;
 import org.controlsfx.validation.ValidationSupport;
 import org.eclipse.californium.core.CoapHandler;
+import org.eclipse.californium.core.CoapObserveRelation;
 import org.eclipse.californium.core.CoapResponse;
+import org.eclipse.californium.core.coap.CoAP;
 import org.eclipse.californium.core.coap.CoAP.Code;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.coap.MessageObserver;
@@ -49,6 +51,7 @@ public class MainController {
 	private MainUseCase useCase;
 	private Stage primaryStage;
 	private ObservableList<CoapConnection> coapConnections;
+	private CoapObserveRelation rdObserveRelation = null;
 
 	@FXML
 	private ResourceBundle resources;
@@ -105,9 +108,11 @@ public class MainController {
 					dashboardController.populateTree(rootItem);
 					advancedController.populateTree(rootItem);
 					if (response.getPayloadString().contains(RdResourceType.CORE_RD.getType())) {
-						// Observer /rd resource.
-						coapObserve("coap://" + response.getSource().getHostAddress() + ":" + response.getSourcePort()
-								+ "/rd");
+						// Observe /rd resource.
+						String observerUri = String.format("%s://%s:%d/%s", CoAP.COAP_URI_SCHEME,
+								response.getSource().getHostAddress(), response.getSourcePort(),
+								RdResourceType.CORE_RD.getName());
+						coapObserve(observerUri);
 					}
 				});
 			}
@@ -126,7 +131,6 @@ public class MainController {
 				Platform.runLater(() -> {
 					notificationController.success("notification.ping.success");
 				});
-
 			}
 		});
 		Platform.runLater(() -> notificationController.spinnerInfo("notification.ping.requestSent"));
@@ -230,8 +234,12 @@ public class MainController {
 	}
 
 	public void coapObserve(String uri) {
+		if (rdObserveRelation != null) {
+			LOGGER.log(Level.INFO, "Sending OBSERVE CANCEL request...");
+			rdObserveRelation.proactiveCancel();
+		}
 		LOGGER.log(Level.INFO, "Sending OBSERVE request to \"{0}\"...", uri);
-		useCase.coapObserve(uri, new CoapHandler() {
+		rdObserveRelation = useCase.coapObserve(uri, new CoapHandler() {
 
 			private boolean receivedFirstResponse = false;
 			private int observeFlag = 0;

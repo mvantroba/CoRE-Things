@@ -3,6 +3,7 @@ package de.thk.ct.admin.usecase;
 import java.util.List;
 
 import org.eclipse.californium.core.CoapHandler;
+import org.eclipse.californium.core.CoapObserveRelation;
 import org.eclipse.californium.core.coap.MessageObserver;
 
 import de.thk.ct.admin.model.CoapConnection;
@@ -23,7 +24,7 @@ public interface MainUseCase {
 
 	void coapDiscover(String uri, MessageObserver observer);
 
-	void coapObserve(String uri, CoapHandler coapHandler);
+	CoapObserveRelation coapObserve(String uri, CoapHandler coapHandler);
 
 	void coapPing(String uri, MessageObserver observer);
 

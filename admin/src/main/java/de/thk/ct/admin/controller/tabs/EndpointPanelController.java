@@ -1,7 +1,5 @@
 package de.thk.ct.admin.controller.tabs;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,13 +19,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 
-public class EndpointPanelController implements Initializable {
+public class EndpointPanelController {
 
 	private static final Logger LOGGER = Logger.getLogger(EndpointPanelController.class.getName());
 
@@ -49,11 +46,6 @@ public class EndpointPanelController implements Initializable {
 	private Button close;
 	@FXML
 	private ListView<GuiCoapResource> endpointResources;
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-
-	}
 
 	public void setOnCloseEventHandler(EventHandler<ActionEvent> eventHandler) {
 		close.setOnAction(eventHandler);

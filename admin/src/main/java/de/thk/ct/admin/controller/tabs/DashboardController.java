@@ -56,7 +56,11 @@ public class DashboardController {
 		fadeIn.setFromValue(0.0);
 		fadeIn.setToValue(1.0);
 		initPlaceholderPanels();
+	}
 
+	public void resetPanels() {
+		onClosePanelA();
+		onClosePanelB();
 	}
 
 	private void initPlaceholderPanels() {
@@ -66,7 +70,7 @@ public class DashboardController {
 		placeholderPanelBController.setDescription(resources.getString("placeholder.panelB.description"));
 	}
 
-	private void initEndpointPanels() {
+	private void initEndpointPanelA() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource(ENDPOINT_PANEL_FXML));
@@ -74,10 +78,13 @@ public class DashboardController {
 			endpointPanelA = loader.load();
 			endpointPanelAController = loader.getController();
 			endpointPanelAController.setMainController(mainController);
-			endpointPanelAController.setOnCloseEventHandler(event -> setPanelA(placeholderPanelA));
+			endpointPanelAController.setOnCloseEventHandler(event -> onClosePanelA());
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, e.getMessage(), e);
 		}
+	}
+
+	private void initEndpointPanelB() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource(ENDPOINT_PANEL_FXML));
@@ -85,7 +92,7 @@ public class DashboardController {
 			endpointPanelB = loader.load();
 			endpointPanelBController = loader.getController();
 			endpointPanelBController.setMainController(mainController);
-			endpointPanelBController.setOnCloseEventHandler(event -> setPanelB(placeholderPanelB));
+			endpointPanelBController.setOnCloseEventHandler(event -> onClosePanelB());
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -99,6 +106,14 @@ public class DashboardController {
 		root.getChildren().set(PANEL_B_INDEX, panel);
 	}
 
+	private void onClosePanelA() {
+		setPanelA(placeholderPanelA);
+	}
+
+	private void onClosePanelB() {
+		setPanelB(placeholderPanelB);
+	}
+
 	public void populateTree(TreeItem<GuiCoapResource> rootItem) {
 		resourceTree.setCellFactory(new Callback<TreeView<GuiCoapResource>, TreeCell<GuiCoapResource>>() {
 
@@ -108,6 +123,7 @@ public class DashboardController {
 
 					@Override
 					protected void onShowOnPanelA(GuiCoapResource guiCoapResource) {
+						initEndpointPanelA();
 						endpointPanelA.setOpacity(0.0);
 						endpointPanelAController.setGuiCoapResource(guiCoapResource);
 						setPanelA(endpointPanelA);
@@ -117,6 +133,7 @@ public class DashboardController {
 
 					@Override
 					protected void onShowOnPanelB(GuiCoapResource guiCoapResource) {
+						initEndpointPanelB();
 						endpointPanelB.setOpacity(0.0);
 						endpointPanelBController.setGuiCoapResource(guiCoapResource);
 						setPanelB(endpointPanelB);
@@ -131,6 +148,5 @@ public class DashboardController {
 
 	public void setMainController(MainController mainController) {
 		this.mainController = mainController;
-		initEndpointPanels();
 	}
 }

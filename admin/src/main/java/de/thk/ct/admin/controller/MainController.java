@@ -9,7 +9,9 @@ import java.util.logging.Logger;
 import org.controlsfx.control.Notifications;
 import org.controlsfx.validation.ValidationSupport;
 import org.eclipse.californium.core.CoapHandler;
+import org.eclipse.californium.core.CoapObserveRelation;
 import org.eclipse.californium.core.CoapResponse;
+import org.eclipse.californium.core.coap.CoAP;
 import org.eclipse.californium.core.coap.CoAP.Code;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.coap.MessageObserver;
@@ -49,6 +51,7 @@ public class MainController {
 	private MainUseCase useCase;
 	private Stage primaryStage;
 	private ObservableList<CoapConnection> coapConnections;
+	private CoapObserveRelation rdObserveRelation = null;
 
 	@FXML
 	private ResourceBundle resources;
@@ -101,13 +104,19 @@ public class MainController {
 				super.onResponse(response);
 				Platform.runLater(() -> {
 					notificationController.success("notification.discovery.success");
+
+					// Reset displayed panels on dashboard.
+					dashboardController.resetPanels();
+
 					TreeItem<GuiCoapResource> rootItem = TreeUtils.parseResources(response);
 					dashboardController.populateTree(rootItem);
 					advancedController.populateTree(rootItem);
 					if (response.getPayloadString().contains(RdResourceType.CORE_RD.getType())) {
-						// Observer /rd resource.
-						coapObserve("coap://" + response.getSource().getHostAddress() + ":" + response.getSourcePort()
-								+ "/rd");
+						// Observe /rd resource.
+						String observerUri = String.format("%s://%s:%d/%s", CoAP.COAP_URI_SCHEME,
+								response.getSource().getHostAddress(), response.getSourcePort(),
+								RdResourceType.CORE_RD.getName());
+						coapObserve(observerUri);
 					}
 				});
 			}
@@ -126,7 +135,6 @@ public class MainController {
 				Platform.runLater(() -> {
 					notificationController.success("notification.ping.success");
 				});
-
 			}
 		});
 		Platform.runLater(() -> notificationController.spinnerInfo("notification.ping.requestSent"));
@@ -168,6 +176,7 @@ public class MainController {
 
 	public void coapPOST() {
 		String uri = getFullUri();
+		LOGGER.log(Level.INFO, "Sending POST request to \"{0}\"...", uri);
 		useCase.coapPOST(uri, advancedController.getRequestPayload(), new MessageObserverImpl(Code.POST.name(), uri) {
 
 			@Override
@@ -189,7 +198,8 @@ public class MainController {
 
 	public void coapPUT() {
 		String uri = getFullUri();
-		useCase.coapPUT(uri, advancedController.getRequestPayload(), new MessageObserverImpl(Code.POST.name(), uri) {
+		LOGGER.log(Level.INFO, "Sending PUT request to \"{0}\"...", uri);
+		useCase.coapPUT(uri, advancedController.getRequestPayload(), new MessageObserverImpl(Code.PUT.name(), uri) {
 
 			@Override
 			public void onResponse(Response response) {
@@ -210,7 +220,8 @@ public class MainController {
 
 	public void coapDELETE() {
 		String uri = getFullUri();
-		useCase.coapDELETE(uri, new MessageObserverImpl(Code.POST.name(), uri) {
+		LOGGER.log(Level.INFO, "Sending DELETE request to \"{0}\"...", uri);
+		useCase.coapDELETE(uri, new MessageObserverImpl(Code.DELETE.name(), uri) {
 
 			@Override
 			public void onResponse(Response response) {
@@ -230,8 +241,12 @@ public class MainController {
 	}
 
 	public void coapObserve(String uri) {
+		if (rdObserveRelation != null) {
+			LOGGER.log(Level.INFO, "Sending OBSERVE CANCEL request...");
+			rdObserveRelation.proactiveCancel();
+		}
 		LOGGER.log(Level.INFO, "Sending OBSERVE request to \"{0}\"...", uri);
-		useCase.coapObserve(uri, new CoapHandler() {
+		rdObserveRelation = useCase.coapObserve(uri, new CoapHandler() {
 
 			private boolean receivedFirstResponse = false;
 			private int observeFlag = 0;
@@ -245,14 +260,14 @@ public class MainController {
 						LOGGER.log(Level.INFO, "Received update from {0}: \"{1}\"", new Object[] {
 								response.advanced().getSource().toString(), response.advanced().toString() });
 						Integer currentObserveFlag = response.advanced().getOptions().getObserve();
-						// Only show notification and update tree if the
+						// Only show toast and update tree if the
 						// resource was updated (observe flag has been
-						// incremented) and it is not the first observer
+						// incremented) and it is not the first observe
 						// response.
 						if (currentObserveFlag > observeFlag && receivedFirstResponse) {
 							observeFlag = currentObserveFlag;
-							Notifications.create().title("Resource Directory") //
-									.text("Endpoint list has been updated.") //
+							Notifications.create().title(resources.getString("toast.resourceDirectory")) //
+									.text(resources.getString("toast.endpointsUpdated")) //
 									.graphic(new ImageView(Icon.INFO_BLUE.getImage(IconSize.MEDIUM))) //
 									.position(Pos.BOTTOM_RIGHT).hideAfter(Duration.seconds(5)).show();
 
@@ -261,6 +276,8 @@ public class MainController {
 								public void onResponse(Response response) {
 									super.onResponse(response);
 									Platform.runLater(() -> {
+										// Send new discovery request and create
+										// new tree.
 										TreeItem<GuiCoapResource> rootItem = TreeUtils.parseResources(response);
 										dashboardController.populateTree(rootItem);
 										advancedController.populateTree(rootItem);
@@ -277,6 +294,7 @@ public class MainController {
 
 			@Override
 			public void onError() {
+				LOGGER.log(Level.WARNING, "Observe request to {1} has failed.", new Object[] { uri });
 			}
 		});
 	}
@@ -354,10 +372,10 @@ public class MainController {
 
 		@Override
 		public void onResponse(Response response) {
-			LOGGER.log(Level.INFO, "Received response from {0}. Code: {1}, Payload: {2}.",
+			LOGGER.log(Level.INFO, "Received response from {0}: {1}",
 					new Object[] {
 							String.format("%s:%s", response.getSource().getHostAddress(), response.getSourcePort()),
-							response.getCode(), response.getPayloadString() });
+							response.toString() });
 		}
 
 		@Override

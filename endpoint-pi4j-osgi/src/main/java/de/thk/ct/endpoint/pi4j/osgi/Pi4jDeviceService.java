@@ -213,6 +213,9 @@ public class Pi4jDeviceService implements DeviceService {
 		case PIR_SENSOR:
 			sensorResource = DeviceResourceFactory.createPirSensor(name, listener, gpioController, arguments[2]);
 			break;
+		case DS18B20:
+			sensorResource = DeviceResourceFactory.createDS18B20(name, listener, arguments[2], arguments[3]);
+			break;
 		default:
 			break;
 		}

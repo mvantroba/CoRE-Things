@@ -12,7 +12,8 @@ public enum SensorType {
 
 	MERCURY_SWITCH("mercurySwitch"), //
 	TACTILE_SWITCH("tactileSwitch"), //
-	PIR_SENSOR("pirSensor");
+	PIR_SENSOR("pirSensor"), //
+	DS18B20("ds18b20");
 
 	private String type;
 

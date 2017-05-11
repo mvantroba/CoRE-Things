@@ -117,6 +117,41 @@ public class DeviceResourceFactory {
 		return result;
 	}
 
+	/**
+	 * Constructs {@link DS18B20Resource} if all arguments are valid, otherwise
+	 * it returns null.
+	 * 
+	 * @param name
+	 *            resource name
+	 * @param listener
+	 *            resource listener
+	 * @param filename
+	 *            file where temperature value is stored
+	 * @param threshold
+	 *            value threshold for listener
+	 * @return created resource
+	 */
+	public static SensorResource createDS18B20(String name, DeviceResourceListener listener, String filename,
+			String threshold) {
+
+		SensorResource result = null;
+		double thresholdNumber;
+		try {
+			validateFileParameters(name, filename);
+			thresholdNumber = parseThreshold(threshold);
+			if (thresholdNumber > 0) {
+				result = new DS18B20Resource(name, listener, filename, thresholdNumber);
+			} else {
+				result = new DS18B20Resource(name, listener, filename);
+			}
+		} catch (IllegalArgumentException e) {
+			LOGGER.log(Level.WARNING, "Could not create file resource [name={0},filename={1}]. {2}",
+					new Object[] { name, filename, e.getMessage() });
+		}
+
+		return result;
+	}
+
 	// ####################
 	// ACTUATORS
 	// ####################
@@ -152,7 +187,7 @@ public class DeviceResourceFactory {
 
 	private static void validateGpioParameters(String name, GpioController gpioController, Pin pin) {
 		if (name == null || name.isEmpty()) {
-			throw new IllegalArgumentException("Sensor name is null or empty.");
+			throw new IllegalArgumentException("Resource name is null or empty.");
 		}
 		if (gpioController == null) {
 			throw new IllegalArgumentException("GPIO controller is null.");
@@ -160,6 +195,25 @@ public class DeviceResourceFactory {
 		if (pin == null) {
 			throw new IllegalArgumentException("Pin is invalid.");
 		}
+	}
+
+	private static void validateFileParameters(String name, String filename) {
+		if (name == null || name.isEmpty()) {
+			throw new IllegalArgumentException("Resource name is null or empty.");
+		}
+		if (filename == null || filename.isEmpty()) {
+			throw new IllegalArgumentException("Filename name is null or empty.");
+		}
+	}
+
+	private static double parseThreshold(String threshold) {
+		double result = -1;
+		try {
+			result = Double.parseDouble(threshold);
+		} catch (NumberFormatException e) {
+			LOGGER.log(Level.WARNING, "Could not parse threshold value \"{0}\" to double.", new Object[] { threshold });
+		}
+		return result;
 	}
 
 	private static Pin parsePin(String pin) {

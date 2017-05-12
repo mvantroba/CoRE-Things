@@ -1,5 +1,6 @@
 package de.thk.ct.endpoint.pi4j.osgi;
 
+import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,9 @@ import java.util.logging.Logger;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.i2c.I2CBus;
+import com.pi4j.io.i2c.I2CFactory;
+import com.pi4j.io.i2c.I2CFactory.UnsupportedBusNumberException;
 
 import de.thk.ct.base.ActuatorType;
 import de.thk.ct.base.ResourceType;
@@ -43,6 +47,7 @@ public class Pi4jDeviceService implements DeviceService {
 	private static final Logger LOGGER = Logger.getLogger(Pi4jDeviceService.class.getName());
 
 	private GpioController gpioController;
+	private I2CBus i2cBus1;
 
 	private NavigableMap<Integer, SensorResource> sensors = new TreeMap<>();
 	private NavigableMap<Integer, ActuatorResource> actuators = new TreeMap<>();
@@ -57,6 +62,15 @@ public class Pi4jDeviceService implements DeviceService {
 	 */
 	public Pi4jDeviceService() {
 		gpioController = GpioFactory.getInstance();
+
+		try {
+			i2cBus1 = I2CFactory.getInstance(I2CBus.BUS_1);
+		} catch (UnsupportedBusNumberException e) {
+			LOGGER.log(Level.SEVERE, e.getMessage());
+		} catch (IOException e) {
+			LOGGER.log(Level.SEVERE, e.getMessage());
+		}
+
 		for (String[] sensorArguments : CsvReader.readResources(ResourceType.SENSOR)) {
 			addSensor(sensorArguments);
 		}
@@ -182,6 +196,11 @@ public class Pi4jDeviceService implements DeviceService {
 		}
 		LOGGER.log(Level.INFO, "{0} actuators have been destroyed.", new Object[] { counter });
 
+		try {
+			i2cBus1.close();
+		} catch (IOException e) {
+			LOGGER.log(Level.SEVERE, e.getMessage());
+		}
 		// Calling GpioController.shutdown() causes RejectedExecutionException
 		// in listeners after bundle is started again.
 	}
@@ -246,6 +265,9 @@ public class Pi4jDeviceService implements DeviceService {
 		switch (ActuatorType.get(type)) {
 		case LED:
 			actuatorResource = DeviceResourceFactory.createLed(name, listener, gpioController, arguments[2]);
+			break;
+		case LCD16X2:
+			actuatorResource = DeviceResourceFactory.createLcd16x2(name, listener, i2cBus1, arguments[2]);
 			break;
 		default:
 			break;

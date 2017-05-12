@@ -1,11 +1,14 @@
 package de.thk.ct.endpoint.pi4j.osgi.resources;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.RaspiPin;
+import com.pi4j.io.i2c.I2CBus;
+import com.pi4j.io.i2c.I2CDevice;
 
 import de.thk.ct.endpoint.pi4j.osgi.resources.gpio.LedResource;
 import de.thk.ct.endpoint.pi4j.osgi.resources.gpio.MercurySwitchResource;
@@ -181,6 +184,40 @@ public class DeviceResourceFactory {
 		} catch (IllegalArgumentException e) {
 			LOGGER.log(Level.WARNING, "Could not create GPIO resource [name={0},pin={1}]. {2}",
 					new Object[] { name, pinString, e.getMessage() });
+		}
+		return result;
+	}
+
+	/**
+	 * Constructs {@link Lcd16x2Resource} if all arguments are valid, otherwise
+	 * it returns null.
+	 * 
+	 * @param name
+	 *            resource name
+	 * @param listener
+	 *            resource listener
+	 * @param bus
+	 *            assigned I2C bus
+	 * @param deviceAddress
+	 *            hexadecimal device address as string
+	 * @return created resource
+	 */
+	public static ActuatorResource createLcd16x2(String name, DeviceResourceListener listener, I2CBus bus,
+			String deviceAddress) {
+
+		ActuatorResource result = null;
+		try {
+			byte deviceAddressBits = Byte.decode(deviceAddress);
+			if (bus != null) {
+				I2CDevice device = bus.getDevice(deviceAddressBits);
+				result = new Lcd16x2Resource(name, listener, device);
+			} else {
+				LOGGER.log(Level.WARNING, "Could not create GPIO resource [name={0},deviceAddress={1}]. {2} is null.",
+						new Object[] { name, deviceAddress, I2CBus.class.getName() });
+			}
+		} catch (NumberFormatException | IOException e) {
+			LOGGER.log(Level.WARNING, "Could not create GPIO resource [name={0},deviceAddress={1}]. {2}.",
+					new Object[] { name, deviceAddress, e.getMessage() });
 		}
 		return result;
 	}

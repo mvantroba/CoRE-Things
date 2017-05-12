@@ -10,7 +10,8 @@ import java.util.List;
  */
 public enum ActuatorType {
 
-	LED("led");
+	LED("led"), //
+	LCD16X2("lcd16x2");
 
 	private String type;
 

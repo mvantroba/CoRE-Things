@@ -64,6 +64,9 @@ public abstract class ActuatorCoapResource extends CoapResource {
 		ResponseCode responseCode;
 		try {
 			responseCode = onToggle();
+			if (responseCode.equals(ResponseCode.CHANGED)) {
+				value = exchange.getRequestText();
+			}
 			changed();
 		} catch (DeviceServiceNotInitializedException e) {
 			responseCode = ResponseCode.SERVICE_UNAVAILABLE;
@@ -76,6 +79,9 @@ public abstract class ActuatorCoapResource extends CoapResource {
 		ResponseCode responseCode;
 		try {
 			responseCode = onSetValue(exchange.getRequestText());
+			if (responseCode.equals(ResponseCode.CHANGED)) {
+				value = exchange.getRequestText();
+			}
 			changed();
 		} catch (DeviceServiceNotInitializedException e) {
 			responseCode = ResponseCode.SERVICE_UNAVAILABLE;

@@ -54,6 +54,9 @@ public class EndpointClient extends CoapClient {
 	public void startRegistration() {
 		// Contingency time.
 		long period = EndpointConfig.getInstance().getLong(EndpointConfig.Keys.ENDPOINT_LIFETIME) - 2;
+		if (scheduledFuture != null) {
+			scheduledFuture.cancel(true);
+		}
 		scheduledFuture = SCHEDULER.scheduleAtFixedRate(new Runnable() {
 
 			@Override
@@ -135,7 +138,7 @@ public class EndpointClient extends CoapClient {
 
 		@Override
 		public void onTimeout() {
-			LOGGER.log(Level.SEVERE, "{0} request to {1} timed out.", new Object[] { requestType, uri });
+			LOGGER.log(Level.WARNING, "{0} request to {1} timed out.", new Object[] { requestType, uri });
 		}
 
 		@Override
@@ -153,7 +156,7 @@ public class EndpointClient extends CoapClient {
 
 		@Override
 		public void onReject() {
-			LOGGER.log(Level.SEVERE, "{0} request to {1} has been rejected.", new Object[] { requestType, uri });
+			LOGGER.log(Level.WARNING, "{0} request to {1} has been rejected.", new Object[] { requestType, uri });
 		}
 
 		@Override

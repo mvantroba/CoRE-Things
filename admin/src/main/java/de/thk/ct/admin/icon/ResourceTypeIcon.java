@@ -15,13 +15,18 @@ public class ResourceTypeIcon {
 	private static final Map<String, Icon> RESOURCE_TYPE_ICONS = new TreeMap<>();
 
 	static {
+		// RD
 		RESOURCE_TYPE_ICONS.put(RdResourceType.CORE_RD.getType(), Icon.FOLDER_AMBER);
 		RESOURCE_TYPE_ICONS.put(RdResourceType.CORE_RD_GROUP.getType(), Icon.GROUP_WORK_GREY);
 		RESOURCE_TYPE_ICONS.put(RdResourceType.CORE_RD_LOOKUP.getType(), Icon.PAGEVIEW_GREY);
+		// Sensors
 		RESOURCE_TYPE_ICONS.put(SensorType.MERCURY_SWITCH.getType(), Icon.SCREEN_ROTATION);
 		RESOURCE_TYPE_ICONS.put(SensorType.TACTILE_SWITCH.getType(), Icon.PUSH_THE_BUTTON);
 		RESOURCE_TYPE_ICONS.put(SensorType.PIR_SENSOR.getType(), Icon.INDUSTRY_INFRARED_SENSOR);
+		RESOURCE_TYPE_ICONS.put(SensorType.DS18B20.getType(), Icon.THERMOMETER);
+		// Actuators
 		RESOURCE_TYPE_ICONS.put(ActuatorType.LED.getType(), Icon.LED_LIGHT_LAMP);
+		RESOURCE_TYPE_ICONS.put(ActuatorType.LCD16X2.getType(), Icon.LCD);
 	}
 
 	public static Icon get(String type) {

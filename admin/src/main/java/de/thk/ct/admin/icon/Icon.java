@@ -17,6 +17,7 @@ public enum Icon {
 	HOME_GREEN("ic_home_green"), //
 	INDUSTRY_INFRARED_SENSOR("ic_industry_infrared_sensor"), //
 	INFO_BLUE("ic_info_blue"), //
+	LCD("ic_lcd"), //
 	LED_LIGHT_LAMP("ic_led_light_lamp"), //
 	OPENHAB("ic_openhab"), //
 	PAGEVIEW_GREY("ic_pageview_grey"), //
@@ -25,7 +26,8 @@ public enum Icon {
 	PUSH_THE_BUTTON("ic_push_the_button"), //
 	RASPBERRY("ic_raspberry"), //
 	RESOURCE_GREY("ic_resource_grey"), //
-	SCREEN_ROTATION("ic_screen_rotation");
+	SCREEN_ROTATION("ic_screen_rotation"), //
+	THERMOMETER("ic_thermometer");
 
 	private static final Logger LOGGER = Logger.getLogger(Icon.class.getName());
 	private static final String DIRECTORY = "img";

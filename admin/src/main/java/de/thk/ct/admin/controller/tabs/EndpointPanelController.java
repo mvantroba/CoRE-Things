@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.californium.core.coap.CoAP;
+import org.eclipse.californium.core.coap.LinkFormat;
 import org.eclipse.californium.core.coap.MessageObserverAdapter;
 import org.eclipse.californium.core.coap.Request;
 import org.eclipse.californium.core.coap.Response;
@@ -53,12 +54,12 @@ public class EndpointPanelController {
 
 	public void setGuiCoapResource(GuiCoapResource guiCoapResource) {
 		endpointName.setText(guiCoapResource.getName());
-		Icon icon = EndpointTypeIcon.get(guiCoapResource.getAttributes().getAttributeValues("et"));
+		Icon icon = EndpointTypeIcon.get(guiCoapResource.getAttributes().getAttributeValues(LinkFormat.END_POINT_TYPE));
 		endpointImage.setImage(icon.getImage(IconSize.LARGE));
-		domain.setText(guiCoapResource.getAttributeValues("d"));
-		endpointType.setText(guiCoapResource.getAttributeValues("et"));
-		lifetime.setText(guiCoapResource.getAttributeValues("lt"));
-		context.setText(guiCoapResource.getAttributeValues("con"));
+		domain.setText(guiCoapResource.getAttributeValues(LinkFormat.DOMAIN));
+		endpointType.setText(guiCoapResource.getAttributeValues(LinkFormat.END_POINT_TYPE));
+		lifetime.setText(guiCoapResource.getAttributeValues(LinkFormat.LIFE_TIME));
+		context.setText(guiCoapResource.getAttributeValues(LinkFormat.CONTEXT));
 		ObservableList<GuiCoapResource> items = FXCollections.observableArrayList(guiCoapResource.getLeafNodes());
 		endpointResources.getItems().clear();
 		endpointResources.setItems(items);

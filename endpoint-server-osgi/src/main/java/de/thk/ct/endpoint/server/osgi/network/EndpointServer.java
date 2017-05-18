@@ -20,6 +20,7 @@ import de.thk.ct.base.ResourceType;
 import de.thk.ct.base.SensorType;
 import de.thk.ct.endpoint.device.osgi.DeviceService;
 import de.thk.ct.endpoint.device.osgi.NoSuchActuatorException;
+import de.thk.ct.endpoint.device.osgi.NoSuchSensorException;
 import de.thk.ct.endpoint.server.osgi.DeviceServiceNotInitializedException;
 import de.thk.ct.endpoint.server.osgi.resource.ActuatorCoapResource;
 import de.thk.ct.endpoint.server.osgi.resource.SensorCoapResource;
@@ -114,6 +115,15 @@ public class EndpointServer extends CoapServer {
 	private void addSensor(final int id, final SensorType sensorType, String name) {
 		SensorCoapResource sensorResource = new SensorCoapResource(name, sensorType);
 
+		// Obtain sensor value immediately after creation of the resource..
+		if (deviceService != null) {
+			try {
+				sensorResource.setValue(deviceService.getSensorValue(id));
+			} catch (NoSuchSensorException e) {
+				LOGGER.log(Level.WARNING, e.getMessage());
+			}
+		}
+
 		// Register sensor resource on path /{sensors}/{id}/{sensor}.
 		CoapResource idResource = new CoapResource(String.valueOf(id));
 		idResource.add(sensorResource);
@@ -160,6 +170,15 @@ public class EndpointServer extends CoapServer {
 				return result;
 			}
 		};
+
+		// Obtain actuator value immediately after creation of the resource..
+		if (deviceService != null) {
+			try {
+				actuatorResource.setValue(deviceService.getSensorValue(id));
+			} catch (NoSuchSensorException e) {
+				LOGGER.log(Level.WARNING, e.getMessage());
+			}
+		}
 
 		// Register resource on path /{actuators}/{id}/{actuator}.
 		CoapResource idResource = new CoapResource(String.valueOf(id));

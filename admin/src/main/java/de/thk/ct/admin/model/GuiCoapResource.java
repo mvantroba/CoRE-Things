@@ -18,6 +18,11 @@ public class GuiCoapResource extends CoapResource {
 		super(name);
 	}
 
+	@Override
+	public String toString() {
+		return getName();
+	}
+
 	public String getAttributeValues(String attr) {
 		StringBuilder result = new StringBuilder();
 		List<String> values = getAttributes().getAttributeValues(attr);

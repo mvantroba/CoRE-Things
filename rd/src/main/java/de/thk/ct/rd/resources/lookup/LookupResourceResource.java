@@ -7,7 +7,6 @@ import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.core.server.resources.Resource;
 
-import de.thk.ct.base.RdLookupType;
 import de.thk.ct.rd.resources.EndpointResource;
 import de.thk.ct.rd.resources.RdResource;
 

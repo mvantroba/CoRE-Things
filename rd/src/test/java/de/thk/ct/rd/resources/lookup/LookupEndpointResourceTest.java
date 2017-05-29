@@ -10,11 +10,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.thk.ct.base.RdLookupType;
-import de.thk.ct.base.RdResourceType;
 import de.thk.ct.rd.resources.EndpointResource;
 import de.thk.ct.rd.resources.RdLookupResource;
 import de.thk.ct.rd.resources.RdResource;
+import de.thk.ct.rd.resources.RdResourceType;
 
 public class LookupEndpointResourceTest {
 

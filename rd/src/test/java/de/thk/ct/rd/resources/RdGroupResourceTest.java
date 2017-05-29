@@ -15,7 +15,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.thk.ct.base.RdResourceType;
 import de.thk.ct.rd.uri.UriVariable;
 
 public class RdGroupResourceTest {

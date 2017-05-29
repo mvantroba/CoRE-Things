@@ -1,4 +1,4 @@
-package de.thk.ct.base;
+package de.thk.ct.rd.resources.lookup;
 
 import org.eclipse.californium.core.coap.LinkFormat;
 

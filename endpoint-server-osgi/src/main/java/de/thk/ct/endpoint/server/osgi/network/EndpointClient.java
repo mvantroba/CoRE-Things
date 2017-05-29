@@ -14,8 +14,6 @@ import org.eclipse.californium.core.coap.MessageObserver;
 import org.eclipse.californium.core.coap.Request;
 import org.eclipse.californium.core.coap.Response;
 
-import de.thk.ct.base.RdResourceType;
-
 /**
  * {@link CoapClient} which sends continuous registration, update and removal
  * requests to a resource directory. Registration URI and query are obtained

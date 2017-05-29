@@ -3,7 +3,6 @@ package de.thk.ct.rd.resources;
 import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.CoapServer;
 
-import de.thk.ct.base.RdResourceType;
 import de.thk.ct.rd.resources.lookup.LookupDomainResource;
 import de.thk.ct.rd.resources.lookup.LookupEndpointResource;
 import de.thk.ct.rd.resources.lookup.LookupGroupResource;

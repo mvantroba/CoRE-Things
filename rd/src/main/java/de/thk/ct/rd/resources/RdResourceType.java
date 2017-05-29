@@ -1,4 +1,4 @@
-package de.thk.ct.base;
+package de.thk.ct.rd.resources;
 
 /**
  * Definitions of main resources available in the resource directory.

@@ -15,8 +15,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.thk.ct.base.RdResourceType;
-
 public class RdResourceTest {
 
 	private CoapServer server;

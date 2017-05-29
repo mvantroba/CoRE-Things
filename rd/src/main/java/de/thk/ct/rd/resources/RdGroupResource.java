@@ -13,7 +13,6 @@ import org.eclipse.californium.core.coap.Response;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.core.server.resources.Resource;
 
-import de.thk.ct.base.RdResourceType;
 import de.thk.ct.rd.uri.UriUtils;
 import de.thk.ct.rd.uri.UriVariable;
 import de.thk.ct.rd.uri.UriVariableDefault;

@@ -1,15 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.thk.ct</groupId>
-	<artifactId>parent</artifactId>
+	<artifactId>rd-parent</artifactId>
 	<version>1.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>CoRE Things Parent</name>
-	<description>Common configuration for all CoRE Things modules</description>
+	<name>CoRE Things RD Parent</name>
+	<description>Common configuration for all CoRE Things RD modules</description>
 	<inceptionYear>2017</inceptionYear>
 	<organization>
 		<name>Technical University of Cologne</name>
@@ -25,10 +26,8 @@
 	</developers>
 
 	<modules>
-		<module>admin</module>
-		<module>endpoint-device-osgi</module>
-		<module>endpoint-pi4j-osgi</module>
-		<module>endpoint-server-osgi</module>
+		<module>rd</module>
+		<module>rd-osgi</module>
 	</modules>
 
 	<scm>
@@ -45,12 +44,7 @@
 		<!-- DEPENDENCY VERSIONS -->
 		<californium.version>1.0.5</californium.version>
 		<org.eclipse.osgi.version>3.9.1.v20140110-1610</org.eclipse.osgi.version>
-		<pi4j.version>1.1</pi4j.version>
-		<eclipselink.version>2.6.4</eclipselink.version>
-		<h2.version>1.4.194</h2.version>
-		<controlsfx.version>8.40.12</controlsfx.version>
 		<junit.version>4.12</junit.version>
-		<mockito.version>1.10.19</mockito.version>
 		<!-- PLUGIN VERSIONS -->
 		<maven-assembly-plugin.version>3.0.0</maven-assembly-plugin.version>
 		<maven-dependency-plugin.version>3.0.0</maven-dependency-plugin.version>
@@ -67,12 +61,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- ENDPOINT-DEVICE-OSGI -->
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>endpoint-device-osgi</artifactId>
-				<version>${project.version}</version>
-			</dependency>
 			<!-- RD -->
 			<dependency>
 				<groupId>${project.groupId}</groupId>
@@ -97,42 +85,11 @@
 				<artifactId>org.eclipse.osgi</artifactId>
 				<version>${org.eclipse.osgi.version}</version>
 			</dependency>
-			<!-- PI4J-CORE -->
-			<dependency>
-				<groupId>com.pi4j</groupId>
-				<artifactId>pi4j-core</artifactId>
-				<version>${pi4j.version}</version>
-			</dependency>
-			<!-- ECLIPSELINK -->
-			<dependency>
-				<groupId>org.eclipse.persistence</groupId>
-				<artifactId>eclipselink</artifactId>
-				<version>${eclipselink.version}</version>
-			</dependency>
-			<!-- H2 -->
-			<dependency>
-				<groupId>com.h2database</groupId>
-				<artifactId>h2</artifactId>
-				<version>${h2.version}</version>
-			</dependency>
-			<!-- CONTROLSFX -->
-			<dependency>
-				<groupId>org.controlsfx</groupId>
-				<artifactId>controlsfx</artifactId>
-				<version>${controlsfx.version}</version>
-			</dependency>
 			<!-- JUNIT -->
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>${junit.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<!-- MOCKITO-ALL -->
-			<dependency>
-				<groupId>org.mockito</groupId>
-				<artifactId>mockito-all</artifactId>
-				<version>${mockito.version}</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>

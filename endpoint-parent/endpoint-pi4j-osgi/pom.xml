@@ -6,18 +6,18 @@
 
 	<parent>
 		<groupId>de.thk.ct</groupId>
-		<artifactId>parent</artifactId>
+		<artifactId>endpoint-parent</artifactId>
 		<version>1.1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>endpoint-server-osgi</artifactId>
+	<artifactId>endpoint-pi4j-osgi</artifactId>
 	<packaging>bundle</packaging>
 
-	<name>CoRE Things Endpoint Server OSGi</name>
-	<description>Server that registers device resources in a resource directory and provides access to the device driver</description>
+	<name>CoRE Things Endpoint Pi4J OSGi</name>
+	<description>Driver that operates sensors and actuators on a Raspberry Pi using Pi4J</description>
 
 	<properties>
-		<bundle.activator>de.thk.ct.endpoint.server.osgi.EndpointServerActivator</bundle.activator>
+		<bundle.activator>de.thk.ct.endpoint.pi4j.osgi.EndpointPi4jActivator</bundle.activator>
 	</properties>
 
 	<dependencies>
@@ -26,31 +26,20 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>endpoint-device-osgi</artifactId>
 		</dependency>
-		<!-- CALIFORNIUM-CORE -->
-		<dependency>
-			<groupId>org.eclipse.californium</groupId>
-			<artifactId>californium-core</artifactId>
-		</dependency>
-		<!-- CALIFORNIUM-OSGI -->
-		<dependency>
-			<groupId>org.eclipse.californium</groupId>
-			<artifactId>californium-osgi</artifactId>
-		</dependency>
 		<!-- ORG.ECLIPSE.OSGI -->
 		<dependency>
 			<groupId>org.eclipse.osgi</groupId>
 			<artifactId>org.eclipse.osgi</artifactId>
 		</dependency>
+		<!-- PI4J-CORE -->
+		<dependency>
+			<groupId>com.pi4j</groupId>
+			<artifactId>pi4j-core</artifactId>
+		</dependency>
 		<!-- JUNIT -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-		</dependency>
-		<!-- MOCKITO-ALL -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

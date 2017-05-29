@@ -8,10 +8,10 @@ import org.eclipse.californium.core.coap.LinkFormat;
 
 import de.thk.ct.admin.icon.Icon;
 import de.thk.ct.admin.icon.IconSize;
+import de.thk.ct.admin.model.ActuatorType;
 import de.thk.ct.admin.model.GuiCoapResource;
+import de.thk.ct.admin.model.SensorType;
 import de.thk.ct.admin.usecase.MainUseCase;
-import de.thk.ct.base.ActuatorType;
-import de.thk.ct.base.SensorType;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

@@ -4,7 +4,7 @@ import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.coap.CoAP.ResponseCode;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 
-import de.thk.ct.base.SensorType;
+import de.thk.ct.endpoint.device.osgi.resources.SensorType;
 
 /**
  * REST interface which models a sensor resource on a device.

@@ -26,7 +26,6 @@
 
 	<modules>
 		<module>admin</module>
-		<module>base</module>
 		<module>endpoint-device-osgi</module>
 		<module>endpoint-pi4j-osgi</module>
 		<module>endpoint-server-osgi</module>
@@ -70,12 +69,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- BASE -->
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>base</artifactId>
-				<version>${project.version}</version>
-			</dependency>
 			<!-- ENDPOINT-DEVICE-OSGI -->
 			<dependency>
 				<groupId>${project.groupId}</groupId>

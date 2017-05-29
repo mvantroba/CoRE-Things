@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.thk.ct.base.SensorType;
+import de.thk.ct.endpoint.device.osgi.resources.SensorType;
 
 /**
  * Implementation of DS18B20 temperature sensor which reads temperature value

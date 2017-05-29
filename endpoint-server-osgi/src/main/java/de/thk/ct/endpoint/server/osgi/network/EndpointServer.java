@@ -15,12 +15,12 @@ import org.eclipse.californium.core.coap.CoAP.ResponseCode;
 import org.eclipse.californium.core.network.CoapEndpoint;
 import org.eclipse.californium.core.network.EndpointManager;
 
-import de.thk.ct.base.ActuatorType;
-import de.thk.ct.base.ResourceType;
-import de.thk.ct.base.SensorType;
 import de.thk.ct.endpoint.device.osgi.DeviceService;
 import de.thk.ct.endpoint.device.osgi.NoSuchActuatorException;
 import de.thk.ct.endpoint.device.osgi.NoSuchSensorException;
+import de.thk.ct.endpoint.device.osgi.resources.ActuatorType;
+import de.thk.ct.endpoint.device.osgi.resources.ResourceType;
+import de.thk.ct.endpoint.device.osgi.resources.SensorType;
 import de.thk.ct.endpoint.server.osgi.DeviceServiceNotInitializedException;
 import de.thk.ct.endpoint.server.osgi.resource.ActuatorCoapResource;
 import de.thk.ct.endpoint.server.osgi.resource.SensorCoapResource;

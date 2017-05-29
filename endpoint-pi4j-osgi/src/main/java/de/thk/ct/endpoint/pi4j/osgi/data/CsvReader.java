@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.thk.ct.base.ActuatorType;
-import de.thk.ct.base.ResourceType;
-import de.thk.ct.base.SensorType;
+import de.thk.ct.endpoint.device.osgi.resources.ActuatorType;
+import de.thk.ct.endpoint.device.osgi.resources.ResourceType;
+import de.thk.ct.endpoint.device.osgi.resources.SensorType;
 
 /**
  * Helper class which can be used to read sensor and actuator lists from a CSV

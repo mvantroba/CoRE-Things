@@ -3,10 +3,9 @@ package de.thk.ct.endpoint.pi4j.osgi.data;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.thk.ct.base.ActuatorType;
-import de.thk.ct.base.ResourceType;
-import de.thk.ct.base.SensorType;
-import de.thk.ct.endpoint.pi4j.osgi.data.CsvReader;
+import de.thk.ct.endpoint.device.osgi.resources.ActuatorType;
+import de.thk.ct.endpoint.device.osgi.resources.ResourceType;
+import de.thk.ct.endpoint.device.osgi.resources.SensorType;
 
 public class CsvReaderTest {
 

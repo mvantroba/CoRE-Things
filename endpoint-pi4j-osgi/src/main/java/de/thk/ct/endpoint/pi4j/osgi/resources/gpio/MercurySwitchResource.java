@@ -4,7 +4,7 @@ import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.Pin;
 
-import de.thk.ct.base.SensorType;
+import de.thk.ct.endpoint.device.osgi.resources.SensorType;
 import de.thk.ct.endpoint.pi4j.osgi.resources.DeviceResourceListener;
 
 /**

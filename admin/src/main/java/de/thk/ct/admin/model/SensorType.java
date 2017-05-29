@@ -1,4 +1,4 @@
-package de.thk.ct.base;
+package de.thk.ct.admin.model;
 
 import java.util.List;
 

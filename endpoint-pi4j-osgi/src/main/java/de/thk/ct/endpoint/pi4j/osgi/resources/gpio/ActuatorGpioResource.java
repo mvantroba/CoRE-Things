@@ -11,7 +11,7 @@ import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListener;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
-import de.thk.ct.base.ActuatorType;
+import de.thk.ct.endpoint.device.osgi.resources.ActuatorType;
 import de.thk.ct.endpoint.pi4j.osgi.resources.ActuatorResource;
 import de.thk.ct.endpoint.pi4j.osgi.resources.DeviceResourceListener;
 

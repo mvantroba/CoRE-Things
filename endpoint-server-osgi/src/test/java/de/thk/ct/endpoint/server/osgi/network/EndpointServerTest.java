@@ -1,5 +1,8 @@
 package de.thk.ct.endpoint.server.osgi.network;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.util.AbstractMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -14,12 +17,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Mockito.*;
 
-import de.thk.ct.base.ActuatorType;
-import de.thk.ct.base.ResourceType;
-import de.thk.ct.base.SensorType;
 import de.thk.ct.endpoint.device.osgi.DeviceService;
+import de.thk.ct.endpoint.device.osgi.resources.ActuatorType;
+import de.thk.ct.endpoint.device.osgi.resources.ResourceType;
+import de.thk.ct.endpoint.device.osgi.resources.SensorType;
 
 public class EndpointServerTest {
 

@@ -4,7 +4,7 @@ import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.coap.CoAP.ResponseCode;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 
-import de.thk.ct.base.ActuatorType;
+import de.thk.ct.endpoint.device.osgi.resources.ActuatorType;
 import de.thk.ct.endpoint.server.osgi.DeviceServiceNotInitializedException;
 
 /**

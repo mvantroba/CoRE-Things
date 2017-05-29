@@ -1,6 +1,6 @@
 package de.thk.ct.endpoint.pi4j.osgi.resources;
 
-import de.thk.ct.base.SensorType;
+import de.thk.ct.endpoint.device.osgi.resources.SensorType;
 
 /**
  * Superclass for all sensors in this application. Every sensor has to be type

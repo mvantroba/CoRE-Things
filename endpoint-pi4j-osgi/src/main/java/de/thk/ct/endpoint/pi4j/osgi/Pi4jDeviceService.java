@@ -17,13 +17,13 @@ import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CFactory;
 import com.pi4j.io.i2c.I2CFactory.UnsupportedBusNumberException;
 
-import de.thk.ct.base.ActuatorType;
-import de.thk.ct.base.ResourceType;
-import de.thk.ct.base.SensorType;
 import de.thk.ct.endpoint.device.osgi.DeviceListener;
 import de.thk.ct.endpoint.device.osgi.DeviceService;
 import de.thk.ct.endpoint.device.osgi.NoSuchActuatorException;
 import de.thk.ct.endpoint.device.osgi.NoSuchSensorException;
+import de.thk.ct.endpoint.device.osgi.resources.ActuatorType;
+import de.thk.ct.endpoint.device.osgi.resources.ResourceType;
+import de.thk.ct.endpoint.device.osgi.resources.SensorType;
 import de.thk.ct.endpoint.pi4j.osgi.data.CsvReader;
 import de.thk.ct.endpoint.pi4j.osgi.resources.ActuatorResource;
 import de.thk.ct.endpoint.pi4j.osgi.resources.DeviceResourceFactory;

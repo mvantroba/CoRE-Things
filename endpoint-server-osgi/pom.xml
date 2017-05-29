@@ -21,15 +21,15 @@
 	</properties>
 
 	<dependencies>
-		<!-- BASE -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>base</artifactId>
-		</dependency>
 		<!-- ENDPOINT-DEVICE-OSGI -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>endpoint-device-osgi</artifactId>
+		</dependency>
+		<!-- CALIFORNIUM-CORE -->
+		<dependency>
+			<groupId>org.eclipse.californium</groupId>
+			<artifactId>californium-core</artifactId>
 		</dependency>
 		<!-- CALIFORNIUM-OSGI -->
 		<dependency>

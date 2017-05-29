@@ -10,7 +10,7 @@ import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListener;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
-import de.thk.ct.base.SensorType;
+import de.thk.ct.endpoint.device.osgi.resources.SensorType;
 import de.thk.ct.endpoint.pi4j.osgi.resources.DeviceResourceListener;
 import de.thk.ct.endpoint.pi4j.osgi.resources.SensorResource;
 

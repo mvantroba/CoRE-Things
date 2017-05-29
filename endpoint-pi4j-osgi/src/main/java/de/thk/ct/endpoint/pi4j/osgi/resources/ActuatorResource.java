@@ -1,6 +1,6 @@
 package de.thk.ct.endpoint.pi4j.osgi.resources;
 
-import de.thk.ct.base.ActuatorType;
+import de.thk.ct.endpoint.device.osgi.resources.ActuatorType;
 
 /**
  * Superclass for all actuators in this application. Every actuator has to be

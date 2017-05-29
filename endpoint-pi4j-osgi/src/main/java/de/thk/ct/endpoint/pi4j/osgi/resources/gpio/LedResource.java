@@ -5,7 +5,7 @@ import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinState;
 
-import de.thk.ct.base.ActuatorType;
+import de.thk.ct.endpoint.device.osgi.resources.ActuatorType;
 import de.thk.ct.endpoint.pi4j.osgi.resources.DeviceResourceListener;
 
 /**

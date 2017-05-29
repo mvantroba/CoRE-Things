@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 import com.pi4j.io.i2c.I2CDevice;
 
-import de.thk.ct.base.ActuatorType;
+import de.thk.ct.endpoint.device.osgi.resources.ActuatorType;
 
 /**
  * The type of {@link ActuatorResource} that represents an LCD display with 16 x

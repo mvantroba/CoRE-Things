@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import de.thk.ct.admin.model.ActuatorType;
 import de.thk.ct.admin.model.RdResourceType;
-import de.thk.ct.base.ActuatorType;
-import de.thk.ct.base.SensorType;
+import de.thk.ct.admin.model.SensorType;
 
 public class ResourceTypeIcon {
 

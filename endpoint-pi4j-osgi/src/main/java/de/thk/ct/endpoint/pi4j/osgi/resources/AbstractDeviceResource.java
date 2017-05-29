@@ -1,7 +1,7 @@
 package de.thk.ct.endpoint.pi4j.osgi.resources;
 
-import de.thk.ct.base.ActuatorType;
-import de.thk.ct.base.SensorType;
+import de.thk.ct.endpoint.device.osgi.resources.ActuatorType;
+import de.thk.ct.endpoint.device.osgi.resources.SensorType;
 
 /**
  * Superclass for all sensors and actuators in this application. It defines

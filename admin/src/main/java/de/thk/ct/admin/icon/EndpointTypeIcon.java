@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import de.thk.ct.base.EndpointType;
+import de.thk.ct.admin.model.EndpointType;
 
 public class EndpointTypeIcon {
 

@@ -1,4 +1,4 @@
-package de.thk.ct.base;
+package de.thk.ct.admin.model;
 
 /**
  * Definitions for all supported endpoint types.

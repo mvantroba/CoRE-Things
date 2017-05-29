@@ -25,7 +25,6 @@
 	</developers>
 
 	<modules>
-		<module>admin</module>
 		<module>endpoint-device-osgi</module>
 		<module>endpoint-pi4j-osgi</module>
 		<module>endpoint-server-osgi</module>
@@ -71,12 +70,6 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>endpoint-device-osgi</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<!-- RD -->
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>rd</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- CALIFORNIUM-CORE -->

@@ -4,22 +4,33 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>de.thk.ct</groupId>
-		<artifactId>parent</artifactId>
-		<version>1.1.0-SNAPSHOT</version>
-	</parent>
-
+	<groupId>de.thk.ct</groupId>
 	<artifactId>admin</artifactId>
+	<version>1.1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>CoRE Things Admin</name>
 	<description>GUI for managing resource directory</description>
 
 	<properties>
+		<!-- MAVEN PROPERTIES -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<!-- GENERAL PROPERTIES -->
+		<build.finalName>${project.groupId}.${project.artifactId}-${project.version}</build.finalName>
 		<assembly.mainClass>de.thk.ct.admin.AdminApplication</assembly.mainClass>
+		<!-- DEPENDENCY VERSIONS -->
+		<californium.version>1.0.5</californium.version>
+		<org.eclipse.osgi.version>3.9.1.v20140110-1610</org.eclipse.osgi.version>
+		<pi4j.version>1.1</pi4j.version>
+		<eclipselink.version>2.6.4</eclipselink.version>
+		<h2.version>1.4.194</h2.version>
+		<controlsfx.version>8.40.12</controlsfx.version>
+		<junit.version>4.12</junit.version>
+		<mockito.version>1.10.19</mockito.version>
+		<!-- PLUGIN VERSIONS -->
+		<maven-assembly-plugin.version>3.0.0</maven-assembly-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -27,26 +38,32 @@
 		<dependency>
 			<groupId>org.eclipse.californium</groupId>
 			<artifactId>californium-core</artifactId>
+			<version>${californium.version}</version>
 		</dependency>
 		<!-- ECLIPSELINK -->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>eclipselink</artifactId>
+			<version>${eclipselink.version}</version>
 		</dependency>
 		<!-- H2 -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
+			<version>${h2.version}</version>
 		</dependency>
 		<!-- CONTROLSFX -->
 		<dependency>
 			<groupId>org.controlsfx</groupId>
 			<artifactId>controlsfx</artifactId>
+			<version>${controlsfx.version}</version>
 		</dependency>
 		<!-- JUNIT -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -56,13 +73,27 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven-assembly-plugin.version}</version>
 				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
 					<archive>
 						<manifest>
 							<mainClass>${assembly.mainClass}</mainClass>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 						</manifest>
 					</archive>
 				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

@@ -39,8 +39,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
-		<!-- GENERAL PROPERTIES -->
-		<build.finalName>${project.groupId}.${project.artifactId}-${project.version}</build.finalName>
 		<!-- DEPENDENCY VERSIONS -->
 		<californium.version>1.0.5</californium.version>
 		<org.eclipse.osgi.version>3.9.1.v20140110-1610</org.eclipse.osgi.version>
@@ -111,34 +109,8 @@
 	</dependencyManagement>
 
 	<build>
-		<finalName>${build.finalName}</finalName>
 		<pluginManagement>
 			<plugins>
-				<!-- MAVEN-ASSEMBLY-PLUGIN -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-assembly-plugin</artifactId>
-					<version>${maven-assembly-plugin.version}</version>
-					<configuration>
-						<descriptorRefs>
-							<descriptorRef>jar-with-dependencies</descriptorRef>
-						</descriptorRefs>
-						<archive>
-							<manifest>
-								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-							</manifest>
-						</archive>
-					</configuration>
-					<executions>
-						<execution>
-							<id>make-assembly</id>
-							<phase>package</phase>
-							<goals>
-								<goal>single</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
 				<!-- MAVEN-DEPENDENCY-PLUGIN -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>

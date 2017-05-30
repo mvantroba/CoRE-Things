@@ -63,7 +63,6 @@
 				<configuration>
 					<instructions>
 						<Bundle-Activator>${bundle.activator}</Bundle-Activator>
-						<Embed-Dependency>base</Embed-Dependency>
 					</instructions>
 				</configuration>
 			</plugin>

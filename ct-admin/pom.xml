@@ -5,12 +5,29 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.thk.ct</groupId>
-	<artifactId>admin</artifactId>
+	<artifactId>ct-admin</artifactId>
 	<version>1.1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>CoRE Things Admin</name>
-	<description>GUI for managing resource directory</description>
+	<description>GUI for management of a CoRE resource directory</description>
+	<inceptionYear>2017</inceptionYear>
+	<organization>
+		<name>Technical University of Cologne</name>
+		<url>https://www.th-koeln.de</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>mvantroba</id>
+			<name>Martin Vantroba</name>
+			<email>martinvantroba@hotmail.com</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<url>https://github.com/mvantroba/CoRE-Things</url>
+	</scm>
 
 	<properties>
 		<!-- MAVEN PROPERTIES -->
@@ -18,17 +35,13 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<!-- GENERAL PROPERTIES -->
-		<build.finalName>${project.groupId}.${project.artifactId}-${project.version}</build.finalName>
 		<assembly.mainClass>de.thk.ct.admin.AdminApplication</assembly.mainClass>
 		<!-- DEPENDENCY VERSIONS -->
 		<californium.version>1.0.5</californium.version>
-		<org.eclipse.osgi.version>3.9.1.v20140110-1610</org.eclipse.osgi.version>
-		<pi4j.version>1.1</pi4j.version>
 		<eclipselink.version>2.6.4</eclipselink.version>
 		<h2.version>1.4.194</h2.version>
 		<controlsfx.version>8.40.12</controlsfx.version>
 		<junit.version>4.12</junit.version>
-		<mockito.version>1.10.19</mockito.version>
 		<!-- PLUGIN VERSIONS -->
 		<maven-assembly-plugin.version>3.0.0</maven-assembly-plugin.version>
 	</properties>

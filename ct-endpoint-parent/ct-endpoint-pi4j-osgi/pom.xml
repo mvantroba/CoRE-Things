@@ -24,7 +24,7 @@
 		<!-- ENDPOINT-DEVICE-OSGI -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>endpoint-device-osgi</artifactId>
+			<artifactId>ct-endpoint-device-osgi</artifactId>
 		</dependency>
 		<!-- ORG.ECLIPSE.OSGI -->
 		<dependency>

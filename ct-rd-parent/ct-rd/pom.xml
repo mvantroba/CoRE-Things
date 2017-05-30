@@ -13,7 +13,7 @@
 	<artifactId>ct-rd</artifactId>
 	<packaging>jar</packaging>
 
-	<name>CoRE Things Resource Directory</name>
+	<name>CoRE Things RD</name>
 	<description>Web server that stores informations about web resources</description>
 
 	<properties>

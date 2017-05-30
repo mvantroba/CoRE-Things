@@ -13,7 +13,7 @@
 	<artifactId>ct-rd-osgi</artifactId>
 	<packaging>bundle</packaging>
 
-	<name>CoRE Things Resource Directory OSGi</name>
+	<name>CoRE Things RD OSGi</name>
 	<description>OSGi wrapper</description>
 
 	<properties>
@@ -52,7 +52,7 @@
 				<configuration>
 					<instructions>
 						<Bundle-Activator>${bundle.activator}</Bundle-Activator>
-						<Embed-Dependency>rd</Embed-Dependency>
+						<Embed-Dependency>ct-rd</Embed-Dependency>
 					</instructions>
 				</configuration>
 			</plugin>

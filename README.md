@@ -7,7 +7,8 @@ Implementation of CoRE Resource Directory (Internet-Draft).
     2. Resource Directory
     3. Endpoint
     4. Admin
-2. About
+2. Implementing new sensors and actuators
+3. About
 
 ## 1. Installation
 ### i. Eclipse Kura™
@@ -18,9 +19,9 @@ Following page provides Eclipse Kura™ quick installation procedures for the Ra
 Eclipse plugin **mToolkit** enables to manage bundles remotely from Eclipse. Installation guide for this plugin can also be found in the official documentation: http://eclipse.github.io/kura/dev/kura-setup.html#installing-mtoolkit
 
 ### ii. Resource Directory
-Resource Directory can be started either as a conventional Java application (module **ct-rd**) or as an OSGi bundle inside a container (module **ct-rd-osgi**). CoAP properties can be configured in the **Californium.properties** file which is automatically created and filled with default values by the Californium framework if it doesn't exists.
+Resource Directory can be started either as a conventional Java application (module **ct-rd**) or as an OSGi bundle inside a container (module **ct-rd-osgi**). CoAP properties can be configured in the **Californium.properties** file which is automatically created and filled with default values by the Californium framework if it doesn't exist.
 
-The **ct-rd-osgi** bundle requires the **californium-osgi** bundle which is downloaded automatically after the artefact is build. It can be found into the **/target/dependency/** directory of the project after maven build process is finished.
+The **ct-rd-osgi** bundle requires the **californium-osgi** bundle which is downloaded automatically after the artefact is build. It can be found in the **/target/dependency/** directory of the project after maven build process is finished.
 
 ### iii. Endpoint
 Following three modules need to be deployed to an OSGi container:
@@ -33,7 +34,7 @@ Required bundles are automatically downloaded by maven into the **/target/depend
 
 All configuration files will be automatically created if they do not exist and can be found in following directory:
 
-- **/opt/eclipse/kura_2.1.0_raspberry-pi-2/**
+    **/opt/eclipse/kura_2.1.0_raspberry-pi-2/**
 
 CoAP properties can be configured in the **Californium.properties** and the endpoint properties can be configured in the **Endpoint.properties** file.
 
@@ -64,7 +65,18 @@ Following page contains lot of useful information about sensors and actuators on
 ### iv. Admin
 Admin GUI can be started on a console as a conventional Java application.
 
-## 2. About
+## 2. Implementing new sensors and actuators
+To implement new sensor, following steps have to be taken. Same steps need to be done for new actuators as well.
+
+1. Add new sensor type to the enumeration *de.thk.ct.endpoint.device.osgi.resources.SensorType* which can be found in the **ct-endpoint-device-osgi** module.
+2. Create corresponding sensor implementation which is a class that extends either the *de.thk.ct.endpoint.pi4j.osgi.resources.SensorResource* or the *de.thk.ct.endpoint.pi4j.osgi.resources.gpio.SensorGpioResource* class which are located in the **ct-endpoint-pi4j-osgi** module.
+3. Create factory method for the new sensor in the class *de.thk.ct.endpoint.pi4j.osgi.resources.DeviceResourceFactory* which is located in the **ct-endpoint-pi4j-osgi** module.
+4. Extend the switch-case block in the method *addSensor(String[])* of the class *de.thk.ct.endpoint.pi4j.osgi.Pi4jDeviceService* which is located in the **ct-endpoint-pi4j-osgi** module.
+
+To use the newly created sensor, connect it to the Raspberry Pi and add corresponding entry to the **EndpointSensors.csv** file.
+If you want to define icon for the new sensor, add icon type to the *de.thk.ct.admin.icon.ResourceTypeIcon* class in the **ct-admin** module. If you want to display sensor value in a certain way, adjust the *de.thk.ct.admin.controller.tabs.EndpointResourceCell* class in the **ct-admin** module.
+
+## 3. About
 This Software was developed by Martin Vantroba as part of bachelor thesis at the Technical University of Cologne in spring 2017.
 
 Supervisors: Prof. Dr. Hans W. Nissen, Prof. Dr. Gregor Büchel

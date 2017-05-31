@@ -34,7 +34,7 @@ Required bundles are automatically downloaded by maven into the **/target/depend
 
 All configuration files will be automatically created if they do not exist and can be found in following directory:
 
-    **/opt/eclipse/kura_2.1.0_raspberry-pi-2/**
+    /opt/eclipse/kura_2.1.0_raspberry-pi-2/
 
 CoAP properties can be configured in the **Californium.properties** and the endpoint properties can be configured in the **Endpoint.properties** file.
 

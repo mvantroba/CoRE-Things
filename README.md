@@ -23,6 +23,16 @@ Resource Directory can be started either as a conventional Java application (mod
 
 The **ct-rd-osgi** bundle requires the **californium-osgi** bundle which is downloaded automatically after the artefact is build. It can be found in the **/target/dependency/** directory of the project after maven build process is finished.
 
+**Copper (Cu)** is a Firefox plugin which allows to communicate with a CoAP application. See chapters 7 and 8 in the CoAP tutorial: http://cs.iupui.edu/~xiaozhon/course_tutorials/Coap_tutorial_Arduino_Eclipse
+
+Discover all resources on any CoAP server:
+
+    GET coap://<host>:5683/.well-known/core
+
+Register an endpoint "node1" in a resource directory:
+
+    POST coap://<host>:5683/rd?ep=node1
+
 ### iii. Endpoint
 Following three modules need to be deployed to an OSGi container:
 
